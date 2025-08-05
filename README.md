@@ -12,6 +12,8 @@
 </div>
 <hr>
 
+**[English]** [[简体中文]](README-CN.md)
+
 # Win11Debloat
 
 [![GitHub Release](https://img.shields.io/github/v/release/Raphire/Win11Debloat?style=for-the-badge&label=Latest%20release)](https://github.com/Raphire/Win11Debloat/releases/latest)
