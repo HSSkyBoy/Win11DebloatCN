@@ -1,4 +1,4 @@
-#Requires -RunAsAdministrator
+﻿#Requires -RunAsAdministrator
 
 [CmdletBinding(SupportsShouldProcess)]
 param (
@@ -70,7 +70,7 @@ param (
 
 # Show error if current powershell environment is limited by security policies
 if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage") {
-    Write-Host "Error: Win11Debloat is unable to run on your system, powershell execution is restricted by security policies" -ForegroundColor Red
+    Write-Host "错误：Win11Debloat 无法在您的系统上运行，PowerShell 执行受到安全策略的限制。" -ForegroundColor Red
     AwaitKeyToExit
 }
 
@@ -104,7 +104,7 @@ function ShowAppSelectionForm {
     $handler_saveButton_Click= 
     {
         if ($selectionBox.CheckedItems -contains "Microsoft.WindowsStore" -and -not $Silent) {
-            $warningSelection = [System.Windows.Forms.Messagebox]::Show('Are you sure you wish to uninstall the Microsoft Store? This app cannot easily be reinstalled.', 'Are you sure?', 'YesNo', 'Warning')
+            $warningSelection = [System.Windows.Forms.Messagebox]::Show('您确定要卸载 Microsoft Store 吗？此应用不易重新安装', '你确定吗?', 'YesNo', 'Warning')
         
             if ($warningSelection -eq 'No') {
                 return
@@ -194,7 +194,7 @@ function ShowAppSelectionForm {
 
             if (-not $jobDone) {
                 # Show error that the script was unable to get list of apps from winget
-                [System.Windows.MessageBox]::Show('Unable to load list of installed apps via winget, some apps may not be displayed in the list.', 'Error', 'Ok', 'Error')
+                [System.Windows.MessageBox]::Show('无法通过 winget 加载已安装应用程序列表，某些应用程序可能不会显示在列表中', 'Error', 'Ok', 'Error')
             }
             else {
                 # Add output of job (list of apps) to $listOfApps
@@ -257,7 +257,7 @@ function ShowAppSelectionForm {
     $button1.TabIndex = 4
     $button1.Name = "saveButton"
     $button1.UseVisualStyleBackColor = $True
-    $button1.Text = "Confirm"
+    $button1.Text = "确定"
     $button1.Location = New-Object System.Drawing.Point(27,472)
     $button1.Size = New-Object System.Drawing.Size(75,23)
     $button1.DataBindings.DefaultDataSourceUpdateMode = 0
@@ -269,7 +269,7 @@ function ShowAppSelectionForm {
     $button2.Name = "cancelButton"
     $button2.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
     $button2.UseVisualStyleBackColor = $True
-    $button2.Text = "Cancel"
+    $button2.Text = "取消"
     $button2.Location = New-Object System.Drawing.Point(129,472)
     $button2.Size = New-Object System.Drawing.Size(75,23)
     $button2.DataBindings.DefaultDataSourceUpdateMode = 0
@@ -280,13 +280,13 @@ function ShowAppSelectionForm {
     $label.Location = New-Object System.Drawing.Point(13,5)
     $label.Size = New-Object System.Drawing.Size(400,14)
     $Label.Font = 'Microsoft Sans Serif,8'
-    $label.Text = 'Check apps that you wish to remove, uncheck apps that you wish to keep'
+    $label.Text = '在下面选择你想要卸载的程序，要保留的程序不选择'
 
     $form.Controls.Add($label)
 
     $loadingLabel.Location = New-Object System.Drawing.Point(16,46)
     $loadingLabel.Size = New-Object System.Drawing.Size(300,418)
-    $loadingLabel.Text = 'Loading apps...'
+    $loadingLabel.Text = '加载程序中...'
     $loadingLabel.BackColor = "White"
     $loadingLabel.Visible = $false
 
@@ -295,7 +295,7 @@ function ShowAppSelectionForm {
     $onlyInstalledCheckBox.TabIndex = 6
     $onlyInstalledCheckBox.Location = New-Object System.Drawing.Point(230,474)
     $onlyInstalledCheckBox.Size = New-Object System.Drawing.Size(150,20)
-    $onlyInstalledCheckBox.Text = 'Only show installed apps'
+    $onlyInstalledCheckBox.Text = '只显示已安装了的应用'
     $onlyInstalledCheckBox.add_CheckedChanged($load_Apps)
 
     $form.Controls.Add($onlyInstalledCheckBox)
@@ -303,7 +303,7 @@ function ShowAppSelectionForm {
     $checkUncheckCheckBox.TabIndex = 7
     $checkUncheckCheckBox.Location = New-Object System.Drawing.Point(16,22)
     $checkUncheckCheckBox.Size = New-Object System.Drawing.Size(150,20)
-    $checkUncheckCheckBox.Text = 'Check/Uncheck all'
+    $checkUncheckCheckBox.Text = '全选/全不选'
     $checkUncheckCheckBox.add_CheckedChanged($check_All)
 
     $form.Controls.Add($checkUncheckCheckBox)
@@ -366,22 +366,22 @@ function RemoveApps {
     )
 
     Foreach ($app in $appsList) { 
-        Write-Output "Attempting to remove $app..."
+        Write-Output "正在尝试移除 $app..."
 
         if (($app -eq "Microsoft.OneDrive") -or ($app -eq "Microsoft.Edge")) {
             # Use winget to remove OneDrive and Edge
             if ($script:wingetInstalled -eq $false) {
-                Write-Host "Error: WinGet is either not installed or is outdated, $app could not be removed" -ForegroundColor Red
+                Write-Host "错误：WinGet 未安装或已过时，无法移除 $app" -ForegroundColor Red
             }
             else {
                 # Uninstall app via winget
                 Strip-Progress -ScriptBlock { winget uninstall --accept-source-agreements --disable-interactivity --id $app } | Tee-Object -Variable wingetOutput 
 
                 If (($app -eq "Microsoft.Edge") -and (Select-String -InputObject $wingetOutput -Pattern "Uninstall failed with exit code")) {
-                    Write-Host "Unable to uninstall Microsoft Edge via Winget" -ForegroundColor Red
+                    Write-Host "无法通过 Winget 卸载 Microsoft Edge。" -ForegroundColor Red
                     Write-Output ""
 
-                    if ($( Read-Host -Prompt "Would you like to forcefully uninstall Edge? NOT RECOMMENDED! (y/n)" ) -eq 'y') {
+                    if ($( Read-Host -Prompt "您想强制卸载 Edge 吗？强烈不推荐！(y/n)" ) -eq 'y') {
                         Write-Output ""
                         ForceRemoveEdge
                     }
@@ -458,7 +458,7 @@ function RemoveApps {
 # Forcefully removes Microsoft Edge using it's uninstaller
 function ForceRemoveEdge {
     # Based on work from loadstring1 & ave9858
-    Write-Output "> Forcefully uninstalling Microsoft Edge..."
+    Write-Output "> 正在强制卸载 Microsoft Edge..."
 
     $regView = [Microsoft.Win32.RegistryView]::Registry32
     $hklm = [Microsoft.Win32.RegistryKey]::OpenBaseKey([Microsoft.Win32.RegistryHive]::LocalMachine, $regView)
@@ -472,11 +472,11 @@ function ForceRemoveEdge {
     # Remove edge
     $uninstallRegKey = $hklm.OpenSubKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft Edge')
     if ($null -ne $uninstallRegKey) {
-        Write-Output "Running uninstaller..."
+        Write-Output "正在运行卸载程序..."
         $uninstallString = $uninstallRegKey.GetValue('UninstallString') + ' --force-uninstall'
         Start-Process cmd.exe "/c $uninstallString" -WindowStyle Hidden -Wait
 
-        Write-Output "Removing leftover files..."
+        Write-Output "正在移除残留文件..."
 
         $edgePaths = @(
             "$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk",
@@ -495,7 +495,7 @@ function ForceRemoveEdge {
             }
         }
 
-        Write-Output "Cleaning up registry..."
+        Write-Output "正在清理注册表..."
 
         # Remove ms edge from autostart
         reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run" /v "MicrosoftEdgeAutoLaunch_A9F6DCE4ABADF4F51CF45CD7129E3C6C" /f *>$null
@@ -503,11 +503,11 @@ function ForceRemoveEdge {
         reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v "MicrosoftEdgeAutoLaunch_A9F6DCE4ABADF4F51CF45CD7129E3C6C" /f *>$null
         reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v "Microsoft Edge Update" /f *>$null
 
-        Write-Output "Microsoft Edge was uninstalled"
+        Write-Output "Microsoft Edge 已卸载"
     }
     else {
         Write-Output ""
-        Write-Host "Error: Unable to forcefully uninstall Microsoft Edge, uninstaller could not be found" -ForegroundColor Red
+        Write-Host "错误：无法强制卸载 Microsoft Edge，未找到卸载程序" -ForegroundColor Red
     }
     
     Write-Output ""
@@ -577,18 +577,18 @@ function RestartExplorer {
         return
     }
 
-    Write-Output "> Restarting Windows Explorer process to apply all changes... (This may cause some flickering)"
+    Write-Output "> R正在重启 Windows 资源管理器进程以应用所有更改... (这可能会导致屏幕闪烁)"
 
     if ($script:Params.ContainsKey("DisableMouseAcceleration")) {
-        Write-Host "Warning: The Enhance Pointer Precision setting changes will only take effect after a reboot" -ForegroundColor Yellow
+        Write-Host "更改 增强指针精度 设置后，需要重启电脑才能生效。" -ForegroundColor Yellow
     }
 
     if ($script:Params.ContainsKey("DisableStickyKeys")) {
-        Write-Host "Warning: The Sticky Keys setting changes will only take effect after a reboot" -ForegroundColor Yellow
+        Write-Host "警告：粘滞键设置的更改只有在重启后才会生效。" -ForegroundColor Yellow
     }
 
     if ($script:Params.ContainsKey("DisableAnimations")) {
-        Write-Host "Warning: Animations will only be disabled after a reboot" -ForegroundColor Yellow
+        Write-Host "警告：动画效果将在重启后才会禁用。" -ForegroundColor Yellow
     }
 
     # Only restart if the powershell process matches the OS architecture.
@@ -597,7 +597,7 @@ function RestartExplorer {
         Stop-Process -processName: Explorer -Force
     }
     else {
-        Write-Warning "Unable to restart Windows Explorer process, please manually reboot your PC to apply all changes."
+        Write-Warning "无法重启 Windows 资源管理器进程，请手动重启您的电脑以应用所有更改。"
     }
 }
 
@@ -609,11 +609,11 @@ function ReplaceStartMenuForAllUsers {
         $startMenuTemplate = "$PSScriptRoot/Assets/Start/start2.bin"
     )
 
-    Write-Output "> Removing all pinned apps from the start menu for all users..."
+    Write-Output "> 正在为所有用户移除开始菜单中所有已固定的应用程序..."
 
     # Check if template bin file exists, return early if it doesn't
     if (-not (Test-Path $startMenuTemplate)) {
-        Write-Host "Error: Unable to clear start menu, start2.bin file missing from script folder" -ForegroundColor Red
+        Write-Host "错误：无法清除开始菜单，脚本文件夹中缺少 start2.bin 文件。" -ForegroundColor Red
         Write-Output ""
         return
     }
@@ -633,12 +633,12 @@ function ReplaceStartMenuForAllUsers {
     # Create folder if it doesn't exist
     if (-not (Test-Path $defaultStartMenuPath)) {
         new-item $defaultStartMenuPath -ItemType Directory -Force | Out-Null
-        Write-Output "Created LocalState folder for default user profile"
+        Write-Output "已为默认用户配置文件创建 LocalState 文件夹"
     }
 
     # Copy template to default profile
     Copy-Item -Path $startMenuTemplate -Destination $defaultStartMenuPath -Force
-    Write-Output "Replaced start menu for the default user profile"
+    Write-Output "已替换默认用户配置文件的开始菜单"
     Write-Output ""
 }
 
@@ -658,18 +658,18 @@ function ReplaceStartMenu {
 
     # Check if template bin file exists, return early if it doesn't
     if (-not (Test-Path $startMenuTemplate)) {
-        Write-Host "Error: Unable to replace start menu, template file not found" -ForegroundColor Red
+        Write-Host "错误：无法替换开始菜单，未找到模板文件" -ForegroundColor Red
         return
     }
 
     if ([IO.Path]::GetExtension($startMenuTemplate) -ne ".bin" ) {
-        Write-Host "Error: Unable to replace start menu, template file is not a valid .bin file" -ForegroundColor Red
+        Write-Host "错误：无法替换开始菜单，模板文件不是一个有效的 .bin 文件" -ForegroundColor Red
         return
     }
 
     # Check if bin file exists, return early if it doesn't
     if (-not (Test-Path $startMenuBinFile)) {
-        Write-Host "Error: Unable to replace start menu for user $(GetUserName), original start2.bin file not found" -ForegroundColor Red
+        Write-Host "错误：无法为用户 $(GetUserName) 替换开始菜单，未找到原始的 start2.bin 文件" -ForegroundColor Red
         return
     }
 
@@ -681,7 +681,7 @@ function ReplaceStartMenu {
     # Copy template file
     Copy-Item -Path $startMenuTemplate -Destination $startMenuBinFile -Force
 
-    Write-Output "Replaced start menu for user $(GetUserName)"
+    Write-Output "已替换用户 $(GetUserName) 的开始菜单"
 }
 
 
@@ -718,13 +718,13 @@ function PrintHeader {
         $title
     )
 
-    $fullTitle = " Win11Debloat Script - $title"
+    $fullTitle = " Win11Debloat脚本 - $title"
 
     if ($script:Params.ContainsKey("Sysprep")) {
         $fullTitle = "$fullTitle (Sysprep mode)"
     }
     else {
-        $fullTitle = "$fullTitle (User: $(GetUserName))"
+        $fullTitle = "$fullTitle (用户: $(GetUserName))"
     }
 
     Clear-Host
@@ -774,16 +774,16 @@ function GetUserName {
 
 
 function CreateSystemRestorePoint {
-    Write-Output "> Attempting to create a system restore point..."
+    Write-Output "> 正在尝试创建系统还原点..."
 
     $SysRestore = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" -Name "RPSessionInterval"
 
     if ($SysRestore.RPSessionInterval -eq 0) {
-        if ($Silent -or $( Read-Host -Prompt "System restore is disabled, would you like to enable it and create a restore point? (y/n)") -eq 'y') {
+        if ($Silent -or $( Read-Host -Prompt "系统还原已禁用，您想启用它并创建还原点吗？ (y/n)") -eq 'y') {
             try {
                 Enable-ComputerRestore -Drive "$env:SystemDrive"
             } catch {
-                Write-Host "Error: Failed to enable System Restore: $_" -ForegroundColor Red
+                Write-Host "错误：未能启用系统还原： $_" -ForegroundColor Red
                 Write-Output ""
                 return
             }
@@ -797,7 +797,7 @@ function CreateSystemRestorePoint {
     try {
         $recentRestorePoints = Get-ComputerRestorePoint | Where-Object { (Get-Date) - [System.Management.ManagementDateTimeConverter]::ToDateTime($_.CreationTime) -le (New-TimeSpan -Hours 24) }
     } catch {
-        Write-Host "Error: Unable to retrieve existing restore points: $_" -ForegroundColor Red
+        Write-Host "错误：无法检索现有还原点： $_" -ForegroundColor Red
         Write-Output ""
         return
     }
@@ -821,18 +821,18 @@ function DisplayCustomModeOptions {
     # Get current Windows build version to compare against features
     $WinVersion = Get-ItemPropertyValue 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' CurrentBuild
             
-    PrintHeader 'Custom Mode'
+    PrintHeader '自定义模式'
 
-    AddParameter 'CreateRestorePoint' 'Create a system restore point'
+    AddParameter 'CreateRestorePoint' '创建系统还原点'
 
     # Show options for removing apps, only continue on valid input
     Do {
-        Write-Host "Options:" -ForegroundColor Yellow
-        Write-Host " (n) Don't remove any apps" -ForegroundColor Yellow
-        Write-Host " (1) Only remove the default selection of bloatware apps from 'Appslist.txt'" -ForegroundColor Yellow
-        Write-Host " (2) Remove default selection of bloatware apps, as well as mail & calendar apps, developer apps and gaming apps"  -ForegroundColor Yellow
-        Write-Host " (3) Manually select which apps to remove" -ForegroundColor Yellow
-        $RemoveAppsInput = Read-Host "Do you want to remove any apps? Apps will be removed for all users (n/1/2/3)"
+        Write-Host "选项:" -ForegroundColor Yellow
+        Write-Host " (n) 不移除任何应用" -ForegroundColor Yellow
+        Write-Host " (1) 仅移除 Appslist.txt 中默认选择的臃肿应用（bloatware apps）" -ForegroundColor Yellow
+        Write-Host " (2) 移除默认选择的臃肿应用，以及邮件和日历应用、开发者应用和游戏应用"  -ForegroundColor Yellow
+        Write-Host " (3) 手动选择要移除的应用" -ForegroundColor Yellow
+        $RemoveAppsInput = Read-Host "是否要移除应用？请根据上方选项输入对应编号进行选择，所选应用将会为所有用户移除（n/1/2/3）"
 
         # Show app selection form if user entered option 3
         if ($RemoveAppsInput -eq '3') {
@@ -841,7 +841,7 @@ function DisplayCustomModeOptions {
             if ($result -ne [System.Windows.Forms.DialogResult]::OK) {
                 # User cancelled or closed app selection, show error and change RemoveAppsInput so the menu will be shown again
                 Write-Output ""
-                Write-Host "Cancelled application selection, please try again" -ForegroundColor Red
+                Write-Host "C已取消应用选择，请重试" -ForegroundColor Red
 
                 $RemoveAppsInput = 'c'
             }
@@ -879,13 +879,13 @@ function DisplayCustomModeOptions {
 
     Write-Output ""
 
-    if ($( Read-Host -Prompt "Disable telemetry, diagnostic data, activity history, app-launch tracking and targeted ads? (y/n)" ) -eq 'y') {
+    if ($( Read-Host -Prompt "禁用遥测（telemetry）、诊断数据（diagnostic data）、活动历史记录（activity history）、应用启动追踪（app-launch tracking）和定向广告（targeted ads）? (y/n)" ) -eq 'y') {
         AddParameter 'DisableTelemetry' 'Disable telemetry, diagnostic data, activity history, app-launch tracking & targeted ads'
     }
 
     Write-Output ""
 
-    if ($( Read-Host -Prompt "Disable tips, tricks, suggestions and ads in start, settings, notifications, explorer and lockscreen? (y/n)" ) -eq 'y') {
+    if ($( Read-Host -Prompt "是否在开始菜单、设置、通知、资源管理器和锁屏界面中禁用提示（tips）、技巧（tricks）、建议（suggestions）和广告（ads）? (y/n)" ) -eq 'y') {
         AddParameter 'DisableSuggestions' 'Disable tips, tricks, suggestions and ads in start, settings, notifications and File Explorer'
         AddParameter 'DisableSettings365Ads' 'Disable Microsoft 365 ads in Settings Home'
         AddParameter 'DisableLockscreenTips' 'Disable tips & tricks on the lockscreen'
@@ -893,7 +893,7 @@ function DisplayCustomModeOptions {
 
     Write-Output ""
 
-    if ($( Read-Host -Prompt "Disable & remove Bing web search, Bing AI and Cortana from Windows search? (y/n)" ) -eq 'y') {
+    if ($( Read-Host -Prompt "是否禁用并移除 Windows 搜索中的必应网页搜索（Bing web search）、必应 AI（Bing AI）和 Cortana？? (y/n)" ) -eq 'y') {
         AddParameter 'DisableBing' 'Disable & remove Bing web search, Bing AI and Cortana from Windows search'
     }
 
@@ -903,11 +903,11 @@ function DisplayCustomModeOptions {
 
         # Show options for disabling/removing AI features, only continue on valid input
         Do {
-            Write-Host "Options:" -ForegroundColor Yellow
-            Write-Host " (n) Don't disable any AI features" -ForegroundColor Yellow
-            Write-Host " (1) Disable Microsoft Copilot and Windows Recall snapshots" -ForegroundColor Yellow
-            Write-Host " (2) Disable Microsoft Copilot, Windows Recall snapshots and AI features in Paint and Notepad"  -ForegroundColor Yellow
-            $DisableAIInput = Read-Host "Do you want to disable any AI features? This applies to all users (n/1/2)"
+            Write-Host "选项:" -ForegroundColor Yellow
+            Write-Host " (n) 不禁用任何 AI 功能" -ForegroundColor Yellow
+            Write-Host " (1) 禁用 Microsoft Copilot 和 Windows Recall 快照" -ForegroundColor Yellow
+            Write-Host " (2) 禁用 Microsoft Copilot、Windows Recall 快照以及画图（Paint）和记事本（Notepad）中的 AI 功能"  -ForegroundColor Yellow
+            $DisableAIInput = Read-Host "是否要禁用所选 AI 功能？请根据上方选项输入对应编号进行选择，此设置将会为所有用户移除。 (n/1/2)"
         }
         while ($DisableAIInput -ne 'n' -and $DisableAIInput -ne '0' -and $DisableAIInput -ne '1' -and $DisableAIInput -ne '2') 
 
@@ -928,19 +928,19 @@ function DisplayCustomModeOptions {
 
     Write-Output ""
 
-    if ($( Read-Host -Prompt "Disable Windows Spotlight background on desktop? (y/n)" ) -eq 'y') {
+    if ($( Read-Host -Prompt "禁用桌面上的 Windows 聚焦（Windows Spotlight）背景? (y/n)" ) -eq 'y') {
         AddParameter 'DisableDesktopSpotlight' 'Disable the Windows Spotlight desktop background option.'
     }
 
     Write-Output ""
 
-    if ($( Read-Host -Prompt "Enable dark mode for system and apps? (y/n)" ) -eq 'y') {
+    if ($( Read-Host -Prompt "启用系统与应用的深色模式（dark mode）? (y/n)" ) -eq 'y') {
         AddParameter 'EnableDarkMode' 'Enable dark mode for system and apps'
     }
 
     Write-Output ""
 
-    if ($( Read-Host -Prompt "Disable transparency, animations and visual effects? (y/n)" ) -eq 'y') {
+    if ($( Read-Host -Prompt "禁用透明效果（transparency）、动画（animations）和视觉效果（visual effects）? (y/n)" ) -eq 'y') {
         AddParameter 'DisableTransparency' 'Disable transparency effects'
         AddParameter 'DisableAnimations' 'Disable animations and visual effects'
     }
@@ -949,14 +949,14 @@ function DisplayCustomModeOptions {
     if ($WinVersion -ge 22000) {
         Write-Output ""
 
-        if ($( Read-Host -Prompt "Restore the old Windows 10 style context menu? (y/n)" ) -eq 'y') {
+        if ($( Read-Host -Prompt "恢复旧版 Windows 10 样式的右键菜单。（仅适用于 Windows 11）? (y/n)" ) -eq 'y') {
             AddParameter 'RevertContextMenu' 'Restore the old Windows 10 style context menu'
         }
     }
 
     Write-Output ""
 
-    if ($( Read-Host -Prompt "Turn off Enhance Pointer Precision, also known as mouse acceleration? (y/n)" ) -eq 'y') {
+    if ($( Read-Host -Prompt "关闭 增强指针精度 （Enhance Pointer Precision，又称鼠标加速）? (y/n)" ) -eq 'y') {
         AddParameter 'DisableMouseAcceleration' 'Turn off Enhance Pointer Precision (mouse acceleration)'
     }
 
@@ -964,14 +964,14 @@ function DisplayCustomModeOptions {
     if ($WinVersion -ge 26100) {
         Write-Output ""
 
-        if ($( Read-Host -Prompt "Disable the Sticky Keys keyboard shortcut? (y/n)" ) -eq 'y') {
+        if ($( Read-Host -Prompt "禁用粘滞键（Sticky Keys）快捷键。（仅适用于 Windows 11）? (y/n)" ) -eq 'y') {
             AddParameter 'DisableStickyKeys' 'Disable the Sticky Keys keyboard shortcut'
         }
     }
 
     Write-Output ""
 
-    if ($( Read-Host -Prompt "Disable Fast Start-up? This applies to all users (y/n)" ) -eq 'y') {
+    if ($( Read-Host -Prompt "是否禁用快速启动（Fast Start-up） (y/n)" ) -eq 'y') {
         AddParameter 'DisableFastStartup' 'Disable Fast Start-up'
     }
 
@@ -979,22 +979,22 @@ function DisplayCustomModeOptions {
     if ((get-ciminstance -query "select caption from win32_operatingsystem where caption like '%Windows 10%'") -or $script:Params.ContainsKey('RevertContextMenu')) {
         Write-Output ""
 
-        if ($( Read-Host -Prompt "Do you want to disable any context menu options? (y/n)" ) -eq 'y') {
+        if ($( Read-Host -Prompt "是否要禁用一些右键菜单选项? (y/n)" ) -eq 'y') {
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Hide the 'Include in library' option in the context menu? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   在右键菜单中隐藏'包含到库 Include in library '选项? (y/n)" ) -eq 'y') {
                 AddParameter 'HideIncludeInLibrary' "Hide the 'Include in library' option in the context menu"
             }
 
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Hide the 'Give access to' option in the context menu? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   在右键菜单中隐藏'授予访问权限'选项? (y/n)" ) -eq 'y') {
                 AddParameter 'HideGiveAccessTo' "Hide the 'Give access to' option in the context menu"
             }
 
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Hide the 'Share' option in the context menu? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   在右键菜单中隐藏'共享'选项? (y/n)" ) -eq 'y') {
                 AddParameter 'HideShare' "Hide the 'Share' option in the context menu"
             }
         }
@@ -1004,21 +1004,21 @@ function DisplayCustomModeOptions {
     if ($WinVersion -ge 22621) {
         Write-Output ""
 
-        if ($( Read-Host -Prompt "Do you want to make any changes to the start menu? (y/n)" ) -eq 'y') {
+        if ($( Read-Host -Prompt "是否要对开始菜单进行一些更改? (y/n)" ) -eq 'y') {
             Write-Output ""
 
             if ($script:Params.ContainsKey("Sysprep")) {
-                if ($( Read-Host -Prompt "Remove all pinned apps from the start menu for all existing and new users? (y/n)" ) -eq 'y') {
+                if ($( Read-Host -Prompt "要为所有现有和新用户移除开始菜单中固定的所有应用吗? (y/n)" ) -eq 'y') {
                     AddParameter 'ClearStartAllUsers' 'Remove all pinned apps from the start menu for existing and new users'
                 }
             }
             else {
                 Do {
                     Write-Host "   Options:" -ForegroundColor Yellow
-                    Write-Host "    (n) Don't remove any pinned apps from the start menu" -ForegroundColor Yellow
-                    Write-Host "    (1) Remove all pinned apps from the start menu for this user only ($(GetUserName))" -ForegroundColor Yellow
-                    Write-Host "    (2) Remove all pinned apps from the start menu for all existing and new users"  -ForegroundColor Yellow
-                    $ClearStartInput = Read-Host "   Remove all pinned apps from the start menu? (n/1/2)" 
+                    Write-Host "    (n) 不要移除开始菜单中固定的任何应用" -ForegroundColor Yellow
+                    Write-Host "    (1) 仅为当前用户 ($(GetUserName)) 移除开始菜单中固定的所有应用 " -ForegroundColor Yellow
+                    Write-Host "    (2) 为所有现有用户和新用户移除开始菜单中固定的所有应用"  -ForegroundColor Yellow
+                    $ClearStartInput = Read-Host "   移除开始菜单中固定的所有应用? (n/1/2)" 
                 }
                 while ($ClearStartInput -ne 'n' -and $ClearStartInput -ne '0' -and $ClearStartInput -ne '1' -and $ClearStartInput -ne '2') 
 
@@ -1035,13 +1035,13 @@ function DisplayCustomModeOptions {
 
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Disable the recommended section in the start menu? This applies to all users (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   是否禁用开始菜单中的推荐部分？此设置将应用于所有用户。 (y/n)" ) -eq 'y') {
                 AddParameter 'DisableStartRecommended' 'Disable the recommended section in the start menu.'
             }
 
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Disable the Phone Link mobile devices integration in the start menu? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   禁用开始菜单中的手机链接（Phone Link）移动设备集成功能? (y/n)" ) -eq 'y') {
                 AddParameter 'DisableStartPhoneLink' 'Disable the Phone Link mobile devices integration in the start menu.'
             }
         }
@@ -1049,24 +1049,24 @@ function DisplayCustomModeOptions {
 
     Write-Output ""
 
-    if ($( Read-Host -Prompt "Do you want to make any changes to the taskbar and related services? (y/n)" ) -eq 'y') {
+    if ($( Read-Host -Prompt "是否要对任务栏及相关服务进行一些更改？ (y/n)" ) -eq 'y') {
         # Only show these specific options for Windows 11 users running build 22000 or later
         if ($WinVersion -ge 22000) {
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Align taskbar buttons to the left side? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   将任务栏按钮靠左对齐? (y/n)" ) -eq 'y') {
                 AddParameter 'TaskbarAlignLeft' 'Align taskbar icons to the left'
             }
 
             # Show options for search icon on taskbar, only continue on valid input
             Do {
                 Write-Output ""
-                Write-Host "   Options:" -ForegroundColor Yellow
-                Write-Host "    (n) No change" -ForegroundColor Yellow
-                Write-Host "    (1) Hide search icon from the taskbar" -ForegroundColor Yellow
-                Write-Host "    (2) Show search icon on the taskbar" -ForegroundColor Yellow
-                Write-Host "    (3) Show search icon with label on the taskbar" -ForegroundColor Yellow
-                Write-Host "    (4) Show search box on the taskbar" -ForegroundColor Yellow
+                Write-Host "   选项:" -ForegroundColor Yellow
+                Write-Host "    (n) 不要改变" -ForegroundColor Yellow
+                Write-Host "    (1) 隐藏任务栏上的搜索图标" -ForegroundColor Yellow
+                Write-Host "    (2) 在任务栏上展示搜索图标" -ForegroundColor Yellow
+                Write-Host "    (3) 在任务栏上显示带标签的搜索图标" -ForegroundColor Yellow
+                Write-Host "    (4) 在任务栏上显示搜索框" -ForegroundColor Yellow
                 $TbSearchInput = Read-Host "   Hide or change the search icon on the taskbar? (n/1/2/3/4)" 
             }
             while ($TbSearchInput -ne 'n' -and $TbSearchInput -ne '0' -and $TbSearchInput -ne '1' -and $TbSearchInput -ne '2' -and $TbSearchInput -ne '3' -and $TbSearchInput -ne '4') 
@@ -1089,14 +1089,14 @@ function DisplayCustomModeOptions {
 
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Hide the taskview button from the taskbar? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   隐藏任务栏上的任务视图按钮? (y/n)" ) -eq 'y') {
                 AddParameter 'HideTaskview' 'Hide the taskview button from the taskbar'
             }
         }
 
         Write-Output ""
 
-        if ($( Read-Host -Prompt "   Disable the widgets service and hide the icon from the taskbar? (y/n)" ) -eq 'y') {
+        if ($( Read-Host -Prompt "   禁用小组件（widgets）服务并隐藏其任务栏图标? (y/n)" ) -eq 'y') {
             AddParameter 'DisableWidgets' 'Disable the widget service & hide the widget (news and interests) icon from the taskbar'
         }
 
@@ -1104,7 +1104,7 @@ function DisplayCustomModeOptions {
         if ($WinVersion -le 22621) {
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Hide the chat (meet now) icon from the taskbar? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   隐藏任务栏上的聊天（Meet Now）图标? (y/n)" ) -eq 'y') {
                 AddParameter 'HideChat' 'Hide the chat (meet now) icon from the taskbar'
             }
         }
@@ -1113,30 +1113,30 @@ function DisplayCustomModeOptions {
         if ($WinVersion -ge 22631) {
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Enable the 'End Task' option in the taskbar right click menu? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   是否启用任务栏右键菜单中的‘结束任务’选项？ (y/n)" ) -eq 'y') {
                 AddParameter 'EnableEndTask' "Enable the 'End Task' option in the taskbar right click menu"
             }
         }
         
         Write-Output ""
-        if ($( Read-Host -Prompt "   Enable the 'Last Active Click' behavior in the taskbar app area? (y/n)" ) -eq 'y') {
+        if ($( Read-Host -Prompt "   启用任务栏应用区域的'最后活动点击'（Last Active Click）行为? (y/n)" ) -eq 'y') {
             AddParameter 'EnableLastActiveClick' "Enable the 'Last Active Click' behavior in the taskbar app area"
         }
     }
 
     Write-Output ""
 
-    if ($( Read-Host -Prompt "Do you want to make any changes to File Explorer? (y/n)" ) -eq 'y') {
+    if ($( Read-Host -Prompt "你想要对资源管理器进行更改吗? (y/n)" ) -eq 'y') {
         # Show options for changing the File Explorer default location
         Do {
             Write-Output ""
-            Write-Host "   Options:" -ForegroundColor Yellow
-            Write-Host "    (n) No change" -ForegroundColor Yellow
-            Write-Host "    (1) Open File Explorer to 'Home'" -ForegroundColor Yellow
-            Write-Host "    (2) Open File Explorer to 'This PC'" -ForegroundColor Yellow
-            Write-Host "    (3) Open File Explorer to 'Downloads'" -ForegroundColor Yellow
-            Write-Host "    (4) Open File Explorer to 'OneDrive'" -ForegroundColor Yellow
-            $ExplSearchInput = Read-Host "   Change the default location that File Explorer opens to? (n/1/2/3/4)" 
+            Write-Host "   选项:" -ForegroundColor Yellow
+            Write-Host "    (n) 不要改变 " -ForegroundColor Yellow
+            Write-Host "    (1) 将文件资源管理器默认打开位置设置为“主页”（Home）" -ForegroundColor Yellow
+            Write-Host "    (2) 将文件资源管理器默认打开位置设置为“此电脑”（This PC）" -ForegroundColor Yellow
+            Write-Host "    (3) 将文件资源管理器默认打开位置设置为“下载”（Downloads）" -ForegroundColor Yellow
+            Write-Host "    (4) 将文件资源管理器默认打开位置设置为 OneDrive " -ForegroundColor Yellow
+            $ExplSearchInput = Read-Host "   将文件资源管理器默认打开位置设置为? (n/1/2/3/4)" 
         }
         while ($ExplSearchInput -ne 'n' -and $ExplSearchInput -ne '0' -and $ExplSearchInput -ne '1' -and $ExplSearchInput -ne '2' -and $ExplSearchInput -ne '3' -and $ExplSearchInput -ne '4') 
 
@@ -1158,13 +1158,13 @@ function DisplayCustomModeOptions {
 
         Write-Output ""
 
-        if ($( Read-Host -Prompt "   Show hidden files, folders and drives? (y/n)" ) -eq 'y') {
+        if ($( Read-Host -Prompt "   显示隐藏的文件、文件夹和驱动器? (y/n)" ) -eq 'y') {
             AddParameter 'ShowHiddenFolders' 'Show hidden files, folders and drives'
         }
 
         Write-Output ""
 
-        if ($( Read-Host -Prompt "   Show file extensions for known file types? (y/n)" ) -eq 'y') {
+        if ($( Read-Host -Prompt "   显示已知文件类型的文件扩展名? (y/n)" ) -eq 'y') {
             AddParameter 'ShowKnownFileExt' 'Show file extensions for known file types'
         }
 
@@ -1172,20 +1172,20 @@ function DisplayCustomModeOptions {
         if ($WinVersion -ge 22000) {
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Hide the Home section from the File Explorer sidepanel? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   隐藏文件资源管理器侧边栏中的 主页 部分? (y/n)" ) -eq 'y') {
                 AddParameter 'HideHome' 'Hide the Home section from the File Explorer sidepanel'
             }
 
             Write-Output ""
 
-            if ($( Read-Host -Prompt "   Hide the Gallery section from the File Explorer sidepanel? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "   隐藏文件资源管理器侧边栏中的 图库 部分？? (y/n)" ) -eq 'y') {
                 AddParameter 'HideGallery' 'Hide the Gallery section from the File Explorer sidepanel'
             }
         }
 
         Write-Output ""
 
-        if ($( Read-Host -Prompt "   Hide duplicate removable drive entries from the File Explorer sidepanel so they only show under This PC? (y/n)" ) -eq 'y') {
+        if ($( Read-Host -Prompt "   隐藏文件资源管理器侧边栏中重复的可移动驱动器条目，使其仅在 此电脑 下显示？ (y/n)" ) -eq 'y') {
             AddParameter 'HideDupliDrive' 'Hide duplicate removable drive entries from the File Explorer sidepanel'
         }
 
@@ -1193,22 +1193,22 @@ function DisplayCustomModeOptions {
         if (get-ciminstance -query "select caption from win32_operatingsystem where caption like '%Windows 10%'") {
             Write-Output ""
 
-            if ($( Read-Host -Prompt "Do you want to hide any folders from the File Explorer sidepanel? (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "是否要隐藏文件资源管理器侧边栏中的某些文件夹? (y/n)" ) -eq 'y') {
                 Write-Output ""
 
-                if ($( Read-Host -Prompt "   Hide the OneDrive folder from the File Explorer sidepanel? (y/n)" ) -eq 'y') {
+                if ($( Read-Host -Prompt "   隐藏文件资源管理器侧边栏中的 OneDrive 文件夹? (y/n)" ) -eq 'y') {
                     AddParameter 'HideOnedrive' 'Hide the OneDrive folder in the File Explorer sidepanel'
                 }
 
                 Write-Output ""
                 
-                if ($( Read-Host -Prompt "   Hide the 3D objects folder from the File Explorer sidepanel? (y/n)" ) -eq 'y') {
+                if ($( Read-Host -Prompt "   隐藏文件资源管理器侧边栏中的 3D 对象文件夹? (y/n)" ) -eq 'y') {
                     AddParameter 'Hide3dObjects' "Hide the 3D objects folder under 'This pc' in File Explorer" 
                 }
                 
                 Write-Output ""
 
-                if ($( Read-Host -Prompt "   Hide the music folder from the File Explorer sidepanel? (y/n)" ) -eq 'y') {
+                if ($( Read-Host -Prompt "   隐藏文件资源管理器侧边栏中的音乐文件夹? (y/n)" ) -eq 'y') {
                     AddParameter 'HideMusic' "Hide the music folder under 'This pc' in File Explorer"
                 }
             }
@@ -1220,11 +1220,11 @@ function DisplayCustomModeOptions {
         Write-Output ""
         Write-Output ""
         Write-Output ""
-        Write-Output "Press enter to confirm your choices and execute the script or press CTRL+C to quit..."
+        Write-Output "按 Enter 键确认你的选择并执行脚本，或按 CTRL+C 退出…"
         Read-Host | Out-Null
     }
 
-    PrintHeader 'Custom Mode'
+    PrintHeader '自定义模式'
 }
 
 
@@ -1246,9 +1246,9 @@ else {
 
     # Show warning that requires user confirmation, Suppress confirmation if Silent parameter was passed
     if (-not $Silent) {
-        Write-Warning "Winget is not installed or outdated. This may prevent Win11Debloat from removing certain apps."
+        Write-Warning "Winget 未安装或版本过旧，可能导致 Win11Debloat 无法移除某些应用。"
         Write-Output ""
-        Write-Output "Press any key to continue anyway..."
+        Write-Output "按任意键继续..."
         $null = [System.Console]::ReadKey()
     }
 }
@@ -1274,9 +1274,9 @@ if (-not ($script:Params.ContainsKey("Verbose"))) {
     $ProgressPreference = 'SilentlyContinue'
 }
 else {
-    Write-Host "Verbose mode is enabled"
+    Write-Host "详细模式已启用"
     Write-Output ""
-    Write-Output "Press any key to continue..."
+    Write-Output "按任意键继续..."
     $null = [System.Console]::ReadKey()
 
     $ProgressPreference = 'Continue'
@@ -1288,12 +1288,12 @@ if ($script:Params.ContainsKey("Sysprep")) {
 
     # Exit script if default user directory or NTUSER.DAT file cannot be found
     if (-not (Test-Path "$defaultUserPath")) {
-        Write-Host "Error: Unable to start Win11Debloat in Sysprep mode, cannot find default user folder at '$defaultUserPath'" -ForegroundColor Red
+        Write-Host "错误：无法以 Sysprep 模式启动 Win11Debloat，未能找到默认用户文件夹，路径为 '$defaultUserPath'" -ForegroundColor Red
         AwaitKeyToExit
     }
     # Exit script if run in Sysprep mode on Windows 10
     if ($WinVersion -lt 22000) {
-        Write-Host "Error: Win11Debloat Sysprep mode is not supported on Windows 10" -ForegroundColor Red
+        Write-Host "错误：Win11Debloat 的 Sysprep 模式不支持 Windows 10。" -ForegroundColor Red
         AwaitKeyToExit
     }
 }
@@ -1304,7 +1304,7 @@ if ($script:Params.ContainsKey("User")) {
 
     # Exit script if user directory or NTUSER.DAT file cannot be found
     if (-not (Test-Path "$userPath")) {
-        Write-Host "Error: Unable to run Win11Debloat for user $($script:Params.Item("User")), cannot find user data at '$userPath'" -ForegroundColor Red
+        Write-Host "错误：无法为用户 $($script:Params.Item("User")) 运行 Win11Debloat，未能找到用户数据，路径为 '$userPath'。" -ForegroundColor Red
         AwaitKeyToExit
     }
 }
@@ -1316,16 +1316,16 @@ if ((Test-Path "$PSScriptRoot/SavedSettings") -and ([String]::IsNullOrWhiteSpace
 
 # Only run the app selection form if the 'RunAppsListGenerator' parameter was passed to the script
 if ($RunAppConfigurator -or $RunAppsListGenerator) {
-    PrintHeader "Custom Apps List Generator"
+    PrintHeader "自定义应用程序生成器"
 
     $result = ShowAppSelectionForm
 
     # Show different message based on whether the app selection was saved or cancelled
     if ($result -ne [System.Windows.Forms.DialogResult]::OK) {
-        Write-Host "Application selection window was closed without saving." -ForegroundColor Red
+        Write-Host "应用选择窗口已关闭，未保存。" -ForegroundColor Red
     }
     else {
-        Write-Output "Your app selection was saved to the 'CustomAppsList' file, found at:"
+        Write-Output "你的应用选择已保存到“CustomAppsList”文件，位置为："
         Write-Host "$PSScriptRoot" -ForegroundColor Yellow
     }
 
@@ -1339,8 +1339,8 @@ if ((-not $script:Params.Count) -or $RunDefaults -or $RunWin11Defaults -or $RunS
     }
     elseif ($RunSavedSettings) {
         if (-not (Test-Path "$PSScriptRoot/SavedSettings")) {
-            PrintHeader 'Custom Mode'
-            Write-Host "Error: No saved settings found, no changes were made" -ForegroundColor Red
+            PrintHeader '自定义模式'
+            Write-Host "错误：未找到已保存的设置，未进行任何更改。" -ForegroundColor Red
             AwaitKeyToExit
         }
 
@@ -1349,23 +1349,23 @@ if ((-not $script:Params.Count) -or $RunDefaults -or $RunWin11Defaults -or $RunS
     else {
         # Show menu and wait for user input, loops until valid input is provided
         Do { 
-            $ModeSelectionMessage = "Please select an option (1/2/3/0)" 
+            $ModeSelectionMessage = "请选择一个选项，输入 (1/2/3/0)" 
 
-            PrintHeader 'Menu'
+            PrintHeader '菜单'
 
-            Write-Output "(1) Default mode: Quickly apply the recommended changes"
-            Write-Output "(2) Custom mode: Manually select what changes to make"
-            Write-Output "(3) App removal mode: Select & remove apps, without making other changes"
+            Write-Output "(1) 默认模式：快速应用推荐的更改"
+            Write-Output "(2) 自定义模式：手动选择要进行的更改"
+            Write-Output "(3) 应用移除模式：选择并移除应用程序，而不进行其他更改"
 
             # Only show this option if SavedSettings file exists
             if (Test-Path "$PSScriptRoot/SavedSettings") {
-                Write-Output "(4) Apply saved custom settings from last time"
+                Write-Output "(4) 应用上次保存的自定义设置"
                 
-                $ModeSelectionMessage = "Please select an option (1/2/3/4/0)" 
+                $ModeSelectionMessage = "请选择一个选项，输入 (1/2/3/4/0)" 
             }
 
             Write-Output ""
-            Write-Output "(0) Show more information"
+            Write-Output "(0) 显示更多信息"
             Write-Output ""
             Write-Output ""
 
@@ -1375,7 +1375,7 @@ if ((-not $script:Params.Count) -or $RunDefaults -or $RunWin11Defaults -or $RunS
                 # Print information screen from file
                 PrintFromFile "$PSScriptRoot/Assets/Menus/Info" "Information"
 
-                Write-Output "Press any key to go back..."
+                Write-Output "按任意键返回..."
                 $null = [System.Console]::ReadKey()
             }
             elseif (($Mode -eq '4') -and -not (Test-Path "$PSScriptRoot/SavedSettings")) {
@@ -1393,13 +1393,13 @@ if ((-not $script:Params.Count) -or $RunDefaults -or $RunWin11Defaults -or $RunS
             if (-not $Silent) {
                 PrintFromFile "$PSScriptRoot/Assets/Menus/DefaultSettings" "Default Mode"
 
-                Write-Output "Press enter to execute the script or press CTRL+C to quit..."
+                Write-Output "按 Enter 键执行，或按 CTRL+C 退出..."
                 Read-Host | Out-Null
             }
 
             $DefaultParameterNames = 'CreateRestorePoint','RemoveApps','DisableTelemetry','DisableBing','DisableLockscreenTips','DisableSuggestions','ShowKnownFileExt','DisableWidgets','HideChat','DisableCopilot','DisableFastStartup'
 
-            PrintHeader 'Default Mode'
+            PrintHeader '默认模式'
 
             # Add default parameters, if they don't already exist
             foreach ($ParameterName in $DefaultParameterNames) {
@@ -1421,33 +1421,33 @@ if ((-not $script:Params.Count) -or $RunDefaults -or $RunWin11Defaults -or $RunS
 
         # App removal, remove apps based on user selection
         '3' {
-            PrintHeader "App Removal"
+            PrintHeader "应用移除"
 
             $result = ShowAppSelectionForm
 
             if ($result -eq [System.Windows.Forms.DialogResult]::OK) {
-                Write-Output "You have selected $($script:SelectedApps.Count) apps for removal"
+                Write-Output "你已选择移除 $($script:SelectedApps.Count) 个应用。"
                 AddParameter 'RemoveAppsCustom' "Remove $($script:SelectedApps.Count) apps:"
 
                 # Suppress prompt if Silent parameter was passed
                 if (-not $Silent) {
                     Write-Output ""
                     Write-Output ""
-                    Write-Output "Press enter to remove the selected apps or press CTRL+C to quit..."
+                    Write-Output "按 Enter 键移除所选应用，或按 **CTRL+C** 退出…"
                     Read-Host | Out-Null
-                    PrintHeader "App Removal"
+                    PrintHeader "应用移除"
                 }
             }
             else {
-                Write-Host "Selection was cancelled, no apps have been removed" -ForegroundColor Red
+                Write-Host "已取消选择，未移除任何应用。" -ForegroundColor Red
                 Write-Output ""
             }
         }
 
         # Load custom options from the "SavedSettings" file
         '4' {
-            PrintHeader 'Custom Mode'
-            Write-Output "Win11Debloat will make the following changes:"
+            PrintHeader '自定义模式'
+            Write-Output "Win11Debloat 将会执行下列更改:"
 
             # Print the saved settings info from file
             Foreach ($line in (Get-Content -Path "$PSScriptRoot/SavedSettings" )) { 
@@ -1482,22 +1482,22 @@ if ((-not $script:Params.Count) -or $RunDefaults -or $RunWin11Defaults -or $RunS
             if (-not $Silent) {
                 Write-Output ""
                 Write-Output ""
-                Write-Output "Press enter to execute the script or press CTRL+C to quit..."
+                Write-Output "按 Enter 键执行脚本，或按 CTRL+C 退出…"
                 Read-Host | Out-Null
             }
 
-            PrintHeader 'Custom Mode'
+            PrintHeader '自定义模式'
         }
     }
 }
 else {
-    PrintHeader 'Custom Mode'
+    PrintHeader '自定义模式'
 }
 
 # If the number of keys in SPParams equals the number of keys in Params then no modifications/changes were selected
 #  or added by the user, and the script can exit without making any changes.
 if ($SPParamCount -eq $script:Params.Keys.Count) {
-    Write-Output "The script completed without making any changes."
+    Write-Output "脚本已完成执行，但未进行任何更改。"
 
     AwaitKeyToExit
 }
@@ -1510,49 +1510,49 @@ switch ($script:Params.Keys) {
     }
     'RemoveApps' {
         $appsList = ReadAppslistFromFile "$PSScriptRoot/Appslist.txt" 
-        Write-Output "> Removing default selection of $($appsList.Count) apps..."
+        Write-Output "> 正在移除默认选择的 $($appsList.Count) 个应用…"
         RemoveApps $appsList
         continue
     }
     'RemoveAppsCustom' {
         if (-not (Test-Path "$PSScriptRoot/CustomAppsList")) {
-            Write-Host "> Error: Could not load custom apps list from file, no apps were removed" -ForegroundColor Red
+            Write-Host "> 错误：无法从文件加载自定义应用列表，未移除任何应用。" -ForegroundColor Red
             Write-Output ""
             continue
         }
         
         $appsList = ReadAppslistFromFile "$PSScriptRoot/CustomAppsList"
-        Write-Output "> Removing $($appsList.Count) apps..."
+        Write-Output "> 正在移除 $($appsList.Count) 个应用..."
         RemoveApps $appsList
         continue
     }
     'RemoveCommApps' {
         $appsList = 'Microsoft.windowscommunicationsapps', 'Microsoft.People'
-        Write-Output "> Removing Mail, Calendar and People apps..."
+        Write-Output "> 正在移除邮件、日历和联系人应用..."
         RemoveApps $appsList
         continue
     }
     'RemoveW11Outlook' {
         $appsList = 'Microsoft.OutlookForWindows'
-        Write-Output "> Removing new Outlook for Windows app..."
+        Write-Output "> 正在移除新版 Windows Outlook 应用..."
         RemoveApps $appsList
         continue
     }
     'RemoveDevApps' {
         $appsList = 'Microsoft.PowerAutomateDesktop', 'Microsoft.RemoteDesktop', 'Windows.DevHome'
-        Write-Output "> Removing developer-related related apps..."
+        Write-Output "> 正在移除开发者相关应用..."
         RemoveApps $appsList
         continue
     }
     'RemoveGamingApps' {
         $appsList = 'Microsoft.GamingApp', 'Microsoft.XboxGameOverlay', 'Microsoft.XboxGamingOverlay'
-        Write-Output "> Removing gaming related apps..."
+        Write-Output "> 正在移除与游戏相关的应用..."
         RemoveApps $appsList
         continue
     }
     'RemoveHPApps' {
         $appsList = 'AD2F1837.HPAIExperienceCenter', 'AD2F1837.HPJumpStarts', 'AD2F1837.HPPCHardwareDiagnosticsWindows', 'AD2F1837.HPPowerManager', 'AD2F1837.HPPrivacySettings', 'AD2F1837.HPSupportAssistant', 'AD2F1837.HPSureShieldAI', 'AD2F1837.HPSystemInformation', 'AD2F1837.HPQuickDrop', 'AD2F1837.HPWorkWell', 'AD2F1837.myHP', 'AD2F1837.HPDesktopSupportUtilities', 'AD2F1837.HPQuickTouch', 'AD2F1837.HPEasyClean', 'AD2F1837.HPConnectedMusic', 'AD2F1837.HPFileViewer', 'AD2F1837.HPRegistration', 'AD2F1837.HPWelcome', 'AD2F1837.HPConnectedPhotopoweredbySnapfish', 'AD2F1837.HPPrinterControl'
-        Write-Output "> Removing HP apps..."
+        Write-Output "> 正在移除惠普（HP）应用..."
         RemoveApps $appsList
         continue
     }
@@ -1561,35 +1561,35 @@ switch ($script:Params.Keys) {
         continue
     }
     'DisableDVR' {
-        RegImport "> Disabling Xbox game/screen recording..." "Disable_DVR.reg"
+        RegImport "> 正在禁用 Xbox 游戏/屏幕录制功能..." "Disable_DVR.reg"
         continue
     }
     'DisableTelemetry' {
-        RegImport "> Disabling telemetry, diagnostic data, activity history, app-launch tracking and targeted ads..." "Disable_Telemetry.reg"
+        RegImport "> 正在禁用遥测（telemetry）、诊断数据（diagnostic data）、活动历史记录（activity history）、应用启动追踪（app-launch tracking）和定向广告（targeted ads）..." "Disable_Telemetry.reg"
         continue
     }
     {$_ -in "DisableSuggestions", "DisableWindowsSuggestions"} {
-        RegImport "> Disabling tips, tricks, suggestions and ads across Windows..." "Disable_Windows_Suggestions.reg"
+        RegImport "> 正在禁用 Windows 系统中的提示（tips）、技巧（tricks）、建议（suggestions）和广告（ads）..." "Disable_Windows_Suggestions.reg"
         continue
     }
     {$_ -in "DisableLockscrTips", "DisableLockscreenTips"} {
-        RegImport "> Disabling tips & tricks on the lockscreen..." "Disable_Lockscreen_Tips.reg"
+        RegImport "> 正在禁用锁屏界面的提示与技巧..." "Disable_Lockscreen_Tips.reg"
         continue
     }
     'DisableDesktopSpotlight' {
-        RegImport "> Disabling the 'Windows Spotlight' desktop background option..." "Disable_Desktop_Spotlight.reg"
+        RegImport "> 正在禁用“Windows 聚焦”（Windows Spotlight）桌面背景选项" "Disable_Desktop_Spotlight.reg"
         continue
     }
     'DisableSettings365Ads' {
-        RegImport "> Disabling Microsoft 365 ads in Settings Home..." "Disable_Settings_365_Ads.reg"
+        RegImport "> 正在禁用设置首页中的 Microsoft 365 广告..." "Disable_Settings_365_Ads.reg"
         continue
     }
     'DisableSettingsHome' {
-        RegImport "> Disabling the Settings Home page..." "Disable_Settings_Home.reg"
+        RegImport "> 正在禁用“设置”主页页面..." "Disable_Settings_Home.reg"
         continue
     }
     {$_ -in "DisableBingSearches", "DisableBing"} {
-        RegImport "> Disabling Bing web search, Bing AI and Cortana from Windows search..." "Disable_Bing_Cortana_In_Search.reg"
+        RegImport "> 正在禁用 Windows 搜索中的必应网页搜索（Bing web search）、必应 AI（Bing AI）和 Cortana..." "Disable_Bing_Cortana_In_Search.reg"
         
         # Also remove the app package for Bing search
         $appsList = 'Microsoft.BingSearch'
@@ -1597,7 +1597,7 @@ switch ($script:Params.Keys) {
         continue
     }
     'DisableCopilot' {
-        RegImport "> Disabling Microsoft Copilot..." "Disable_Copilot.reg"
+        RegImport "> 正在禁用 Microsoft Copilot..." "Disable_Copilot.reg"
 
         # Also remove the app package for Copilot
         $appsList = 'Microsoft.Copilot'
@@ -1605,41 +1605,41 @@ switch ($script:Params.Keys) {
         continue
     }
     'DisableRecall' {
-        RegImport "> Disabling Windows Recall snapshots..." "Disable_AI_Recall.reg"
+        RegImport "> 正在禁用 Windows Recall..." "Disable_AI_Recall.reg"
         continue
     }
     'DisablePaintAI' {
-        RegImport "> Disabling AI features in Paint..." "Disable_Paint_AI_Features.reg"
+        RegImport "> 正在禁用画图（Paint）中的 AI 功能。..." "Disable_Paint_AI_Features.reg"
         continue
     }
     'DisableNotepadAI' {
-        RegImport "> Disabling AI features in Notepad..." "Disable_Notepad_AI_Features.reg"
+        RegImport "> 正在禁用记事本（Notepad）中的 AI 功能..." "Disable_Notepad_AI_Features.reg"
         continue
     }
     'RevertContextMenu' {
-        RegImport "> Restoring the old Windows 10 style context menu..." "Disable_Show_More_Options_Context_Menu.reg"
+        RegImport "> 正在恢复旧版 Windows 10 样式的右键菜单..." "Disable_Show_More_Options_Context_Menu.reg"
         continue
     }
     'DisableMouseAcceleration' {
-        RegImport "> Turning off Enhanced Pointer Precision..." "Disable_Enhance_Pointer_Precision.reg"
+        RegImport "> 正在关闭增强指针精度（Enhanced Pointer Precision）" "Disable_Enhance_Pointer_Precision.reg"
         continue
     }
     'DisableStickyKeys' {
-        RegImport "> Disabling the Sticky Keys keyboard shortcut..." "Disable_Sticky_Keys_Shortcut.reg"
+        RegImport "> 正在禁用粘滞键（Sticky Keys）快捷键..." "Disable_Sticky_Keys_Shortcut.reg"
         continue
     }
     'DisableFastStartup' {
-        RegImport "> Disabling Fast Start-up..." "Disable_Fast_Startup.reg"
+        RegImport "> 正在禁用快速启动（Fast Start-up）..." "Disable_Fast_Startup.reg"
         continue
     }
     'ClearStart' {
-        Write-Output "> Removing all pinned apps from the start menu for user $(GetUserName)..."
+        Write-Output "> 正在为用户 $(GetUserName) 移除开始菜单中所有固定的应用。..."
         ReplaceStartMenu
         Write-Output ""
         continue
     }
     'ReplaceStart' {
-        Write-Output "> Replacing the start menu for user $(GetUserName)..."
+        Write-Output "> 正在为用户 $(GetUserName) 替换开始菜单。..."
         ReplaceStartMenu $script:Params.Item("ReplaceStart")
         Write-Output ""
         continue
@@ -1653,51 +1653,51 @@ switch ($script:Params.Keys) {
         continue
     }
     'DisableStartRecommended' {
-        RegImport "> Disabling the start menu recommended section..." "Disable_Start_Recommended.reg"
+        RegImport "> 正在禁用开始菜单中的推荐部分..." "Disable_Start_Recommended.reg"
         continue
     }
     'DisableStartPhoneLink' {
-        RegImport "> Disabling the Phone Link mobile devices integration in the start menu..." "Disable_Phone_Link_In_Start.reg"
+        RegImport "> 正在禁用开始菜单中的手机链接（Phone Link）移动设备集成功能..." "Disable_Phone_Link_In_Start.reg"
         continue
     }
     'EnableDarkMode' {
-        RegImport "> Enabling dark mode for system and apps..." "Enable_Dark_Mode.reg"
+        RegImport "> 正在为系统和应用启用深色模式..." "Enable_Dark_Mode.reg"
         continue
     }
     'DisableTransparency' {
-        RegImport "> Disabling transparency effects..." "Disable_Transparency.reg"
+        RegImport "> 正在禁用透明效果..." "Disable_Transparency.reg"
         continue
     }
     'DisableAnimations' {
-        RegImport "> Disabling animations and visual effects..." "Disable_Animations.reg"
+        RegImport "> 正在禁用动画和视觉效果..." "Disable_Animations.reg"
         continue
     }
     'TaskbarAlignLeft' {
-        RegImport "> Aligning taskbar buttons to the left..." "Align_Taskbar_Left.reg"
+        RegImport "> 正在将任务栏按钮左对齐..." "Align_Taskbar_Left.reg"
         continue
     }
     'HideSearchTb' {
-        RegImport "> Hiding the search icon from the taskbar..." "Hide_Search_Taskbar.reg"
+        RegImport "> 正在隐藏任务栏上的搜索图标..." "Hide_Search_Taskbar.reg"
         continue
     }
     'ShowSearchIconTb' {
-        RegImport "> Changing taskbar search to icon only..." "Show_Search_Icon.reg"
+        RegImport "> 正在将任务栏搜索更改为仅显示图标..." "Show_Search_Icon.reg"
         continue
     }
     'ShowSearchLabelTb' {
-        RegImport "> Changing taskbar search to icon with label..." "Show_Search_Icon_And_Label.reg"
+        RegImport "> 正在将任务栏搜索更改为带标签的图标..." "Show_Search_Icon_And_Label.reg"
         continue
     }
     'ShowSearchBoxTb' {
-        RegImport "> Changing taskbar search to search box..." "Show_Search_Box.reg"
+        RegImport "> 正在将任务栏搜索更改为搜索框..." "Show_Search_Box.reg"
         continue
     }
     'HideTaskview' {
-        RegImport "> Hiding the taskview button from the taskbar..." "Hide_Taskview_Taskbar.reg"
+        RegImport "> 正在隐藏任务栏上的任务视图按钮..." "Hide_Taskview_Taskbar.reg"
         continue
     }
     {$_ -in "HideWidgets", "DisableWidgets"} {
-        RegImport "> Disabling the widget service and hiding the widget icon from the taskbar..." "Disable_Widgets_Taskbar.reg"
+        RegImport "> 正在禁用小组件（widget）服务并隐藏任务栏上的小组件图标..." "Disable_Widgets_Taskbar.reg"
 
         # Also remove the app package for Widgets
         $appsList = 'Microsoft.StartExperiencesApp'
@@ -1705,75 +1705,75 @@ switch ($script:Params.Keys) {
         continue
     }
     {$_ -in "HideChat", "DisableChat"} {
-        RegImport "> Hiding the chat icon from the taskbar..." "Disable_Chat_Taskbar.reg"
+        RegImport "> 正在隐藏任务栏上的 Chat 图标..." "Disable_Chat_Taskbar.reg"
         continue
     }
     'EnableEndTask' {
-        RegImport "> Enabling the 'End Task' option in the taskbar right click menu..." "Enable_End_Task.reg"
+        RegImport "> 正在启用任务栏右键菜单中的 结束任务 选项..." "Enable_End_Task.reg"
         continue
     }
     'EnableLastActiveClick' {
-        RegImport "> Enabling the 'Last Active Click' behavior in the taskbar app area..." "Enable_Last_Active_Click.reg"
+        RegImport "> 正在启用任务栏应用区域的 最后活动点击 行为..." "Enable_Last_Active_Click.reg"
         continue
     }
     'ExplorerToHome' {
-        RegImport "> Changing the default location that File Explorer opens to `Home`..." "Launch_File_Explorer_To_Home.reg"
+        RegImport "> 正在将文件资源管理器的默认打开位置更改为 主页 ..." "Launch_File_Explorer_To_Home.reg"
         continue
     }
     'ExplorerToThisPC' {
-        RegImport "> Changing the default location that File Explorer opens to `This PC`..." "Launch_File_Explorer_To_This_PC.reg"
+        RegImport "> 正在将文件资源管理器的默认打开位置更改为 此电脑 ..." "Launch_File_Explorer_To_This_PC.reg"
         continue
     }
     'ExplorerToDownloads' {
-        RegImport "> Changing the default location that File Explorer opens to `Downloads`..." "Launch_File_Explorer_To_Downloads.reg"
+        RegImport "> 正在将文件资源管理器的默认打开位置更改为 下载 ..." "Launch_File_Explorer_To_Downloads.reg"
         continue
     }
     'ExplorerToOneDrive' {
-        RegImport "> Changing the default location that File Explorer opens to `OneDrive`..." "Launch_File_Explorer_To_OneDrive.reg"
+        RegImport "> 正在将文件资源管理器的默认打开位置更改为 OneDrive ..." "Launch_File_Explorer_To_OneDrive.reg"
         continue
     }
     'ShowHiddenFolders' {
-        RegImport "> Unhiding hidden files, folders and drives..." "Show_Hidden_Folders.reg"
+        RegImport "> 正在取消隐藏已隐藏的文件、文件夹和驱动器..." "Show_Hidden_Folders.reg"
         continue
     }
     'ShowKnownFileExt' {
-        RegImport "> Enabling file extensions for known file types..." "Show_Extensions_For_Known_File_Types.reg"
+        RegImport "> 正在启用已知文件类型的文件扩展名显示..." "Show_Extensions_For_Known_File_Types.reg"
         continue
     }
     'HideHome' {
-        RegImport "> Hiding the home section from the File Explorer navigation pane..." "Hide_Home_from_Explorer.reg"
+        RegImport "> 正在从文件资源管理器导航窗格中隐藏主页部分..." "Hide_Home_from_Explorer.reg"
         continue
     }
     'HideGallery' {
-        RegImport "> Hiding the gallery section from the File Explorer navigation pane..." "Hide_Gallery_from_Explorer.reg"
+        RegImport "> 正在从文件资源管理器导航窗格中隐藏图库部分..." "Hide_Gallery_from_Explorer.reg"
         continue
     }
     'HideDupliDrive' {
-        RegImport "> Hiding duplicate removable drive entries from the File Explorer navigation pane..." "Hide_duplicate_removable_drives_from_navigation_pane_of_File_Explorer.reg"
+        RegImport "> 正在从文件资源管理器导航窗格中隐藏重复的可移动驱动器条目..." "Hide_duplicate_removable_drives_from_navigation_pane_of_File_Explorer.reg"
         continue
     }
     {$_ -in "HideOnedrive", "DisableOnedrive"} {
-        RegImport "> Hiding the OneDrive folder from the File Explorer navigation pane..." "Hide_Onedrive_Folder.reg"
+        RegImport "> 正在从文件资源管理器导航窗格中隐藏 OneDrive 文件夹..." "Hide_Onedrive_Folder.reg"
         continue
     }
     {$_ -in "Hide3dObjects", "Disable3dObjects"} {
-        RegImport "> Hiding the 3D objects folder from the File Explorer navigation pane..." "Hide_3D_Objects_Folder.reg"
+        RegImport "> 正在从文件资源管理器导航窗格中隐藏 3D 对象文件夹..." "Hide_3D_Objects_Folder.reg"
         continue
     }
     {$_ -in "HideMusic", "DisableMusic"} {
-        RegImport "> Hiding the music folder from the File Explorer navigation pane..." "Hide_Music_folder.reg"
+        RegImport "> 在文件资源管理器导航窗格中隐藏音乐文件夹..." "Hide_Music_folder.reg"
         continue
     }
     {$_ -in "HideIncludeInLibrary", "DisableIncludeInLibrary"} {
-        RegImport "> Hiding 'Include in library' in the context menu..." "Disable_Include_in_library_from_context_menu.reg"
+        RegImport "> 正在隐藏右键菜单中的 包含到库 Include in library 选项..." "Disable_Include_in_library_from_context_menu.reg"
         continue
     }
     {$_ -in "HideGiveAccessTo", "DisableGiveAccessTo"} {
-        RegImport "> Hiding 'Give access to' in the context menu..." "Disable_Give_access_to_context_menu.reg"
+        RegImport "> 正在隐藏右键菜单中的“授予访问权限”选项..." "Disable_Give_access_to_context_menu.reg"
         continue
     }
     {$_ -in "HideShare", "DisableShare"} {
-        RegImport "> Hiding 'Share' in the context menu..." "Disable_Share_from_context_menu.reg"
+        RegImport "> 正在隐藏右键菜单中的“共享”选项..." "Disable_Share_from_context_menu.reg"
         continue
     }
 }
@@ -1783,6 +1783,6 @@ RestartExplorer
 Write-Output ""
 Write-Output ""
 Write-Output ""
-Write-Output "Script completed! Please check above for any errors."
+Write-Output "脚本执行完毕！请检查以上是否有任何错误"
 
 AwaitKeyToExit
