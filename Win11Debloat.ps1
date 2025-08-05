@@ -871,7 +871,7 @@ function DisplayCustomModeOptions {
 
             Write-Output ""
 
-            if ($( Read-Host -Prompt "Disable Xbox game/screen recording? This also stops gaming overlay popups (y/n)" ) -eq 'y') {
+            if ($( Read-Host -Prompt "确定禁用 Xbox game/screen recording? 这也将停止游戏叠加弹出窗口 (y/n)" ) -eq 'y') {
                 AddParameter 'DisableDVR' 'Disable Xbox game/screen recording'
             }
         }
