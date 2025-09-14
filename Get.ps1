@@ -5,10 +5,12 @@
     [string]$LogPath,
     [string]$User,
     [switch]$CreateRestorePoint,
-    [switch]$RunAppsListGenerator, [switch]$RunAppConfigurator,
-    [switch]$RunDefaults, [switch]$RunWin11Defaults,
+    [switch]$RunAppsListGenerator,
+    [switch]$RunAppConfigurator,
+    [switch]$RunDefaults,
+    [switch]$RunDefaultsLite,
     [switch]$RunSavedSettings,
-    [switch]$RemoveApps, 
+    [switch]$RemoveApps,
     [switch]$RemoveAppsCustom,
     [switch]$RemoveGamingApps,
     [switch]$RemoveCommApps,
@@ -20,10 +22,13 @@
     [switch]$DisableTelemetry,
     [switch]$DisableFastStartup,
     [switch]$DisableModernStandbyNetworking,
-    [switch]$DisableBingSearches, [switch]$DisableBing,
+    [switch]$DisableBingSearches,
+    [switch]$DisableBing,
     [switch]$DisableDesktopSpotlight,
-    [switch]$DisableLockscrTips, [switch]$DisableLockscreenTips,
-    [switch]$DisableWindowsSuggestions, [switch]$DisableSuggestions,
+    [switch]$DisableLockscrTips,
+    [switch]$DisableLockscreenTips,
+    [switch]$DisableWindowsSuggestions,
+    [switch]$DisableSuggestions,
     [switch]$DisableEdgeAds,
     [switch]$DisableSettings365Ads,
     [switch]$DisableSettingsHome,
@@ -34,7 +39,10 @@
     [switch]$DisableTransparency,
     [switch]$DisableAnimations,
     [switch]$TaskbarAlignLeft,
-    [switch]$HideSearchTb, [switch]$ShowSearchIconTb, [switch]$ShowSearchLabelTb, [switch]$ShowSearchBoxTb,
+    [switch]$HideSearchTb,
+    [switch]$ShowSearchIconTb,
+    [switch]$ShowSearchLabelTb,
+    [switch]$ShowSearchBoxTb,
     [switch]$HideTaskview,
     [switch]$DisableStartRecommended,
     [switch]$DisableStartPhoneLink,
@@ -43,8 +51,10 @@
     [switch]$DisablePaintAI,
     [switch]$DisableNotepadAI,
     [switch]$DisableEdgeAI,
-    [switch]$DisableWidgets, [switch]$HideWidgets,
-    [switch]$DisableChat, [switch]$HideChat,
+    [switch]$DisableWidgets,
+    [switch]$HideWidgets,
+    [switch]$DisableChat,
+    [switch]$HideChat,
     [switch]$EnableEndTask,
     [switch]$EnableLastActiveClick,
     [switch]$ClearStart,
@@ -60,12 +70,18 @@
     [switch]$ExplorerToThisPC,
     [switch]$ExplorerToDownloads,
     [switch]$ExplorerToOneDrive,
-    [switch]$DisableOnedrive, [switch]$HideOnedrive,
-    [switch]$Disable3dObjects, [switch]$Hide3dObjects,
-    [switch]$DisableMusic, [switch]$HideMusic,
-    [switch]$DisableIncludeInLibrary, [switch]$HideIncludeInLibrary,
-    [switch]$DisableGiveAccessTo, [switch]$HideGiveAccessTo,
-    [switch]$DisableShare, [switch]$HideShare
+    [switch]$DisableOnedrive,
+    [switch]$HideOnedrive,
+    [switch]$Disable3dObjects,
+    [switch]$Hide3dObjects,
+    [switch]$DisableMusic,
+    [switch]$HideMusic,
+    [switch]$DisableIncludeInLibrary,
+    [switch]$HideIncludeInLibrary,
+    [switch]$DisableGiveAccessTo,
+    [switch]$HideGiveAccessTo,
+    [switch]$DisableShare,
+    [switch]$HideShare
 )
 
 # 如果當前的 powershell 環境沒有將 LanguageMode 設定為 FullLanguage，則顯示錯誤
@@ -84,10 +100,10 @@ Write-Output "------------------------------------------------------------------
 
 Write-Output "> 正在下载 Win11Debloat..."
 
-# 從 github 下載最新版本的 Win11Debloat 為 zip 壓縮檔
-Invoke-RestMethod https://api.github.com/repos/Raphire/Win11Debloat/zipball/2025.08.16 -OutFile "$env:TEMP/win11debloat.zip"
+# 從 github 下載最新版本的 Win11Debloat 作為 zip 存檔
+Invoke-RestMethod https://api.github.com/repos/Raphire/Win11Debloat/zipball/2025.09.13 -OutFile "$env:TEMP/win11debloat.zip"
 
-# 如果舊的腳本資料夾存在，則移除，但保留 CustomAppsList 和 SavedSettings 檔案
+# 如果舊的腳本資料夾存在，則將其移除，但 CustomAppsList 和 SavedSettings 文件除外
 if (Test-Path "$env:TEMP/Win11Debloat") {
     Write-Output ""
     Write-Output "> 正在清理旧的 Win11Debloat 文件夹..."
@@ -97,27 +113,28 @@ if (Test-Path "$env:TEMP/Win11Debloat") {
 Write-Output ""
 Write-Output "> 正在解压..."
 
-# 將壓縮檔解壓縮到 Win11Debloat 資料夾
+# 將存檔解壓縮到 Win11Debloat 資料夾
 Expand-Archive "$env:TEMP/win11debloat.zip" "$env:TEMP/Win11Debloat"
 
-# 移除壓縮檔
+# 移除存檔
 Remove-Item "$env:TEMP/win11debloat.zip"
 
-# 移動檔案
+# 移動文件
 Get-ChildItem -Path "$env:TEMP/Win11Debloat/Raphire-Win11Debloat-*" -Recurse | Move-Item -Destination "$env:TEMP/Win11Debloat"
 
-# 製作要傳遞給腳本的參數清單
+# 製作要傳遞給腳本的參數列表
 $arguments = $($PSBoundParameters.GetEnumerator() | ForEach-Object {
     if ($_.Value -eq $true) {
         "-$($_.Key)"
-    } 
+    }
     else {
-         "-$($_.Key) ""$($_.Value)"""
+        "-$($_.Key) ""$($_.Value)"""
     }
 })
 
 Write-Output ""
 Write-Output "> 正在運行 Win11Debloat..."
+Write-Output "> 正在运行 Win11Debloat..."
 
 # 運行 Win11Debloat 腳本，並傳遞提供的參數
 $debloatProcess = Start-Process powershell.exe -PassThru -ArgumentList "-executionpolicy bypass -File $env:TEMP\Win11Debloat\Win11Debloat.ps1 $arguments" -Verb RunAs
