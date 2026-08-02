@@ -385,7 +385,7 @@ function New-DynamicTweakControls {
                 $feature = $item.Data
                 $opt = 'Apply'
                 if ($feature.FeatureId -match '^Disable') { $opt = '禁用' } elseif ($feature.FeatureId -match '^Enable') { $opt = '启用' }
-                $items = @('No Change', $opt)
+                $items = @('不更改', $opt)
                 $comboName = ("Feature_{0}_Combo" -f $feature.FeatureId) -replace '[^a-zA-Z0-9_]', ''
                 if (-not $panel) { $panel = Get-OrCreateCategoryCard -categoryObj $categoryObj }
                 $combo = New-LabeledCombo -parent $panel -labelText $feature.Label -comboName $comboName -items $items

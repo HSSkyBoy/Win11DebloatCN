@@ -97,7 +97,7 @@ function Show-MainWindow {
             Start-Process "explorer.exe" -ArgumentList $logsFolder
         }
         else {
-            Show-MessageBox -Message "在 $logsFolder 未找到日志文件夹" -Title "Logs" -Button 'OK' -Icon 'Information'
+            Show-MessageBox -Message "在 $logsFolder 未找到日志文件夹" -Title "日志" -Button 'OK' -Icon 'Information'
         }
     })
 
@@ -180,7 +180,7 @@ function Show-MainWindow {
                 $tabControl.SelectedIndex = 3
                 Update-NavigationButtons -Window $window -TabControl $tabControl
                 $window.Dispatcher.BeginInvoke([System.Windows.Threading.DispatcherPriority]::Loaded, [action]{
-                    Show-Bubble -TargetControl $reviewChangesBtn -Message 'View the selected changes here'
+                    Show-Bubble -TargetControl $reviewChangesBtn -Message '在此处查看所选更改'
                 }) | Out-Null
             }
         }
@@ -232,7 +232,7 @@ function Show-MainWindow {
         $checkbox.Content = $preset.Name
         $checkbox.IsThreeState = $true
         $checkbox.Style = $window.Resources['PresetCheckBoxStyle']
-        $checkbox.ToolTip = "Select $($preset.Name)"
+        $checkbox.ToolTip = "选择 $($preset.Name)"
         $checkbox.SetValue([System.Windows.Automation.AutomationProperties]::NameProperty, $preset.Name)
         Add-TriStateClickBehavior -CheckBox $checkbox
         Add-Member -InputObject $checkbox -MemberType NoteProperty -Name 'PresetAppIds' -Value $preset.AppIds
@@ -598,7 +598,7 @@ function Show-MainWindow {
                 $usernameValidationMessage.Text
             }
             else {
-                "Please enter a valid username."
+                "请输入有效的用户名。"
             }
             Show-MessageBox -Message $validationMessage -Title "无效的用户名" -Button 'OK' -Icon 'Warning' | Out-Null
             return $false
@@ -637,7 +637,7 @@ function Show-MainWindow {
         Invoke-NavigationUpdate
 
         $window.Dispatcher.BeginInvoke([System.Windows.Threading.DispatcherPriority]::Loaded, [action]{
-            Show-Bubble -TargetControl $reviewChangesBtn -Message 'View the selected changes here'
+            Show-Bubble -TargetControl $reviewChangesBtn -Message '在此处查看所选更改'
         }) | Out-Null
     })
 
@@ -765,7 +765,7 @@ function Show-MainWindow {
             if ($userSelectionCombo -and $userSelectionCombo.Items.Count -gt 0) {
                 $currentUserItem = $userSelectionCombo.Items[0]
                 if ($currentUserItem -is [System.Windows.Controls.ComboBoxItem]) {
-                    $currentUserItem.Content = "Current User ($(Get-UserName))"
+                    $currentUserItem.Content = "当前用户 ($(Get-UserName))"
                 }
             }
 

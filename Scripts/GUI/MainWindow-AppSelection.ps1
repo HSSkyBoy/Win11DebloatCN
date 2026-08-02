@@ -158,7 +158,7 @@ function Update-AppSelectionStatus {
             $selectedCount++
         }
     }
-    $AppSelectionStatus.Text = "$selectedCount app(s) selected for removal"
+    $AppSelectionStatus.Text = "已选择 $selectedCount 个应用进行移除"
 
     if ($AppRemovalScopeCombo -and $AppRemovalScopeSection -and $AppRemovalScopeDescription) {
         if ($selectedCount -gt 0) {
@@ -184,13 +184,13 @@ function Update-AppRemovalScopeDescription {
     if ($selectedItem) {
         switch ($selectedItem.Content) {
             "All users" {
-                $AppRemovalScopeDescription.Text = "Apps will be removed for all users and from the Windows image to prevent reinstallation for new users."
+                $AppRemovalScopeDescription.Text = "应用将从所有用户和 Windows 映像中移除，以防止新用户重新安装。"
             }
             "Current user only" {
-                $AppRemovalScopeDescription.Text = "Apps will only be removed for the current user."
+                $AppRemovalScopeDescription.Text = "应用将仅从当前用户中移除。"
             }
             "Target user only" {
-                $AppRemovalScopeDescription.Text = "Apps will only be removed for the specified target user."
+                $AppRemovalScopeDescription.Text = "应用将仅从指定的目标用户中移除。"
             }
         }
     }
@@ -404,9 +404,9 @@ function Add-AppsToMainWindow {
         $dot.Style = $Window.Resources['AppRecommendationDotStyle']
         $dot.Fill = switch ($app.Recommendation) { 'safe' { $brushSafe } 'unsafe' { $brushUnsafe } default { $brushDefault } }
         $dot.ToolTip = switch ($app.Recommendation) {
-            'safe'   { '[Recommended] Safe to remove for most users' }
-            'unsafe' { '[Not Recommended] Only remove if you know what you are doing' }
-            default  { "[Optional] Can be safely removed if you don't need this app" }
+            'safe'   { '[推荐] 对大多数用户来说移除是安全的' }
+            'unsafe' { '[不推荐] 仅当您清楚自己在做什么时才移除' }
+            default  { "[可选] 如果您不需要此应用，可以安全地移除" }
         }
         [System.Windows.Controls.Grid]::SetColumn($dot, 0)
 

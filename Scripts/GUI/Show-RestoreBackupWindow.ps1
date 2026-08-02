@@ -17,7 +17,7 @@ function Show-RestoreBackupWindow {
 
         $dialogResult = Show-RestoreBackupDialog -Owner $Owner
         if (-not $dialogResult -or $dialogResult.Result -eq 'Cancel') {
-            Write-Host '户户已取消恢复。'
+            Write-Host '用户已取消恢复。'
             return $restoreResult
         }
 
@@ -30,7 +30,7 @@ function Show-RestoreBackupWindow {
                 throw '请求恢复注册表备份，但未选择任何备份。'
             }
 
-            Write-Host "sser confirmed registry restore for $($backup.Target)."
+            Write-Host "用户确认恢复注册表备份：$($backup.Target)。"
             $restoreOpResult = Restore-RegistryBackupState -Backup $backup
             if ($restoreOpResult -and $restoreOpResult.Result) {
                 $restoreResult.RestoredRegistry = $true
@@ -44,7 +44,7 @@ function Show-RestoreBackupWindow {
         }
         elseif ($dialogResult.Result -eq 'Restore-StartMenu') {
             $scope = $dialogResult.StartMenuScope
-            $useManualBackupFile = ($dialogResult.sseManualBackupFile -eq $true)
+            $useManualBackupFile = ($dialogResult.UseManualBackupFile -eq $true)
             $backupFilePath = $null
             if ($dialogResult -is [hashtable] -and $dialogResult.ContainsKey('BackupFilePath')) {
                 $backupFilePath = $dialogResult['BackupFilePath']
@@ -57,8 +57,8 @@ function Show-RestoreBackupWindow {
                 throw '开始菜单恢复已取消：未选择备份文件。'
             }
 
-            $result = if ($scope -eq 'Allssers') {
-                Restore-StartMenuForAllssers -BackupFilePath $backupFilePath
+            $result = if ($scope -eq 'AllUsers') {
+                Restore-StartMenuForAllUsers -BackupFilePath $backupFilePath
             }
             else {
                 Restore-StartMenu -BackupFilePath $backupFilePath
@@ -75,17 +75,17 @@ function Show-RestoreBackupWindow {
 
             if ($failedEntries.Count -gt 0) {
                 $failureSummary = ($failedEntries | ForEach-Object { $_.Message }) -join [Environment]::NewLine
-                $warningMessage = "已成功为 $successCount 个户户恢复开始菜单备份。`n部分户户无法恢复：`n$failureSummary"
+                $warningMessage = "已成功为 $successCount 个用户恢复开始菜单备份。`n部分用户无法恢复：`n$failureSummary"
             }
             else {
                 if ($script:Params.ContainsKey("WhatIf")) {
                     $successMessage = '[WhatIf] 将恢复开始菜单备份（不会进行任何更改）。'
                 }
-                elseif ($scope -eq 'Allssers') {
-                    $successMessage = "已成功为所有户户恢复开始菜单备份。更改将在户户下次登录时生效。"
+                elseif ($scope -eq 'AllUsers') {
+                    $successMessage = "已成功为所有用户恢复开始菜单备份。更改将在用户下次登录时生效。"
                 }
                 else {
-                    $successMessage = "已成功为当前户户恢复开始菜单备份。更改将在您下次登录时生效。"
+                    $successMessage = "已成功为当前用户恢复开始菜单备份。更改将在您下次登录时生效。"
                 }
             }
 
