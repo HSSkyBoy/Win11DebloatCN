@@ -911,7 +911,7 @@
                                         <Border Grid.Row="0" BorderBrush="{DynamicResource AppBorderColor}" BorderThickness="1" CornerRadius="4" Background="{DynamicResource CardBgColor}" Padding="16,12" Margin="0,0,0,16">
                                             <StackPanel>
                                                 <TextBlock Text="更改将应用于" Style="{StaticResource CategoryHeaderTextBlock}"/>
-                                                <TextBlock x:Name="UserSelectionDescription" Text="当前登录的用户配置文件。 Foreground="{DynamicResource AppFgColor}" FontSize="13" TextWrapping="Wrap" Margin="0,-2,0,3"/>
+                                                <TextBlock x:Name="UserSelectionDescription" Text="当前登录的用户配置文件。" Foreground="{DynamicResource AppFgColor}" FontSize="13" TextWrapping="Wrap" Margin="0,-2,0,3"/>
                                             </StackPanel>
                                         </Border>
 
@@ -924,7 +924,7 @@
                                                     <ComboBoxItem x:Name="AppRemovalScopeCurrentUser" Content="仅当前用户"/>
                                                     <ComboBoxItem x:Name="AppRemovalScopeTargetUser" Content="仅目标用户" Visibility="Collapsed"/>
                                                 </ComboBox>
-                                                <TextBlock x:Name="AppRemovalScopeDescription" Text="应用将为所有用户移除，并从 Windows 镜像中移除，以防止新用户重新安装。 Foreground="{DynamicResource AppFgColor}" FontSize="13" TextWrapping="Wrap" Margin="0,6,0,3"/>
+                                                <TextBlock x:Name="AppRemovalScopeDescription" Text="应用将为所有用户移除，并从 Windows 镜像中移除，以防止新用户重新安装。" Foreground="{DynamicResource AppFgColor}" FontSize="13" TextWrapping="Wrap" Margin="0,6,0,3"/>
                                             </StackPanel>
                                         </Border>
 

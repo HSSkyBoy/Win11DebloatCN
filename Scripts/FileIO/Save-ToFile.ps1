@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Serializes a configuration hashtable to a UTF-8 JSON file.
 

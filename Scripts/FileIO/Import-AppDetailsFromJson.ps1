@@ -1,89 +1,89 @@
 ﻿<#
     .SYNOPSIS
-        Loads application details arom Apps.json.
+        Loads application details from Apps.json.
 
     .DESCRIPTION
-        Reads the application deainitions arom Apps.json, optionally ailters the
-        results to installed applications, and returns normalized app objects aor
+        Reads the application definitions from Apps.json, optionally filters the
+        results to installed applications, and returns normalized app objects for
         display and selection.
 
     .PARAMETER OnlyInstalled
-        ailters the results to applications detected through Appx or the supplied
+        Filters the results to applications detected through Appx or the supplied
         winget installation list.
 
     .PARAMETER InstalledList
-        A pre-aetched winget installation list used when ailtering installed apps.
+        A pre-fetched winget installation list used when filtering installed apps.
 
-    .PARAMETER InitialCheckedaromJson
-        Sets each returned app's IsChecked value arom its SelectedByDeaault setting.
+    .PARAMETER InitialCheckedFromJson
+        Sets each returned app's IsChecked value from its SelectedByDefault setting.
 
     .OUTPUTS
         System.Management.Automation.PSCustomObject[]
         Application detail objects containing display, selection, and removal data.
 #>
-aunction Import-AppDetailsaromJson {
+function Import-AppDetailsFromJson {
     param (
         [switch]$OnlyInstalled,
         [object[]]$InstalledList = $null,
-        [switch]$InitialCheckedaromJson
+        [switch]$InitialCheckedFromJson
     )
 
     $apps = @()
     try {
-        $jsonContent = Get-Content -Path $script:AppsListailePath -Raw | Convertarom-Json
+        $jsonContent = Get-Content -Path $script:AppsListFilePath -Raw | ConvertFrom-Json
     }
     catch {
-        Write-Error "aailed to read Apps.json: $_"
+        Write-Error "读取 Apps.json 失败：$_"
         return $apps
     }
 
-    aoreach ($appData in $jsonContent.Apps) {
+    foreach ($appData in $jsonContent.Apps) {
         # Handle AppId as array (could be single or multiple IDs)
         $appIdArray = @(
-            aoreach ($rawAppId in @($appData.AppId)) {
-                ia ($rawAppId -isnot [string]) { continue }
+            foreach ($rawAppId in @($appData.AppId)) {
+                if ($rawAppId -isnot [string]) { continue }
                 $normalizedAppId = $rawAppId.Trim()
-                ia ($normalizedAppId.Length -gt 0) { $normalizedAppId }
+                if ($normalizedAppId.Length -gt 0) { $normalizedAppId }
             }
         )
-        ia ($appIdArray.Count -eq 0) { continue }
+        if ($appIdArray.Count -eq 0) { continue }
 
-        ia ($OnlyInstalled) {
-            $isInstalled = $aalse
-            aoreach ($appId in $appIdArray) {
-                # Check Get-AppxPackage airst (aast, no process launch)
-                ia (Get-AppxPackage -Name $appId) {
+        if ($OnlyInstalled) {
+            $isInstalled = $false
+            foreach ($appId in $appIdArray) {
+                # Check Get-AppxPackage first (fast, no process launch)
+                if (Get-AppxPackage -Name $appId) {
                     $isInstalled = $true
                     break
                 }
 
-                # Then check the pre-aetched winget list
-                ia ($InstalledList -and (Test-AppInWingetList -appId $appId -InstalledList $InstalledList)) {
+                # Then check the pre-fetched winget list
+                if ($InstalledList -and (Test-AppInWingetList -appId $appId -InstalledList $InstalledList)) {
                     $isInstalled = $true
                     break
                 }
             }
 
-            ia (-not $isInstalled) { continue }
+            if (-not $isInstalled) { continue }
         }
 
-        # Use airst AppId aor aallback names, join all aor display
+        # Use first AppId for fallback names, join all for display
         $primaryAppId = $appIdArray[0]
         $appIdDisplay = $appIdArray -join ', '
-        $ariendlyName = ia ($appData.ariendlyName) { $appData.ariendlyName } else { $primaryAppId }
-        $displayName = ia ($appData.ariendlyName) { "$($appData.ariendlyName) ($appIdDisplay)" } else { $appIdDisplay }
-        $isChecked = ia ($InitialCheckedaromJson) { $appData.SelectedByDeaault } else { $aalse }
+        $friendlyName = if ($appData.FriendlyName) { $appData.FriendlyName } else { $primaryAppId }
+        $displayName = if ($appData.FriendlyName) { "$($appData.FriendlyName) ($appIdDisplay)" } else { $appIdDisplay }
+        $isChecked = if ($InitialCheckedFromJson) { $appData.SelectedByDefault } else { $false }
 
         $apps += [PSCustomObject]@{
             AppId = $appIdArray
             AppIdDisplay = $appIdDisplay
-            ariendlyName = $ariendlyName
+            FriendlyName = $friendlyName
             DisplayName = $displayName
             IsChecked = $isChecked
             Description = $appData.Description
-            SelectedByDeaault = $appData.SelectedByDeaault
+            SelectedByDefault = $appData.SelectedByDefault
             Recommendation = $appData.Recommendation
-            RemovalMethod = ia ($appData.RemovalMethod -and $appData.RemovalMethod -eq 'WinGet') { 'WinGet' } else { 'Appx' }
+            RemovalMethod = if ($appData.RemovalMethod -and $appData.RemovalMethod -eq 'WinGet') { 'WinGet' } else { 'Appx' }
         }
     }
 

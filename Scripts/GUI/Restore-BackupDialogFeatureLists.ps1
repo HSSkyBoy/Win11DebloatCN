@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Creates a lightweight state object for the restore-backup dialog result.
 

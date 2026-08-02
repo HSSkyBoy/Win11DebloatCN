@@ -1,4 +1,4 @@
-function Test-TargetUserName {
+﻿function Test-TargetUserName {
     param(
         [AllowNull()]
         [AllowEmptyString()]

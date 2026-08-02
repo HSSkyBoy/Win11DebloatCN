@@ -502,11 +502,11 @@ function Show-MainWindow {
         if ($e.Key -eq [System.Windows.Input.Key]::F -and
             ([System.Windows.Input.Keyboard]::Modifiers -band [System.Windows.Input.ModifierKeys]::Control)) {
             $currentTab = $tabControl.SelectedItem
-            if ($currentTab.Header -eq "App Removal" -and $appSearchBox) {
+            if ($currentTab.Header -eq "应用移除" -and $appSearchBox) {
                 $appSearchBox.Focus()
                 $e.Handled = $true
             }
-            elseif ($currentTab.Header -eq "Tweaks" -and $tweakSearchBox) {
+            elseif ($currentTab.Header -eq "系统优化" -and $tweakSearchBox) {
                 $tweakSearchBox.Focus()
                 $e.Handled = $true
             }
@@ -675,9 +675,9 @@ function Show-MainWindow {
             $selectedScopeItem = $appRemovalScopeCombo.SelectedItem
             if ($selectedScopeItem) {
                 switch ($selectedScopeItem.Content) {
-                    "All users" { Add-Parameter 'AppRemovalTarget' 'AllUsers' }
-                    "Current user only" { Add-Parameter 'AppRemovalTarget' 'CurrentUser' }
-                    "Target user only" { Add-Parameter 'AppRemovalTarget' ($otherUsernameTextBox.Text.Trim()) }
+                    "所有用户" { Add-Parameter 'AppRemovalTarget' 'AllUsers' }
+                    "仅当前用户" { Add-Parameter 'AppRemovalTarget' 'CurrentUser' }
+                    "仅目标用户" { Add-Parameter 'AppRemovalTarget' ($otherUsernameTextBox.Text.Trim()) }
                 }
             }
         }

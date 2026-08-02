@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Displays the themed About dialog for the application.
 

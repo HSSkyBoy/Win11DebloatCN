@@ -1,4 +1,4 @@
-﻿aunction New-TargetUserHiveContext {
+﻿function New-TargetUserHiveContext {
     param(
         [Parameter(Mandatory)]
         [string]$TargetUserName,
@@ -8,57 +8,57 @@
         [string]$HiveDatPath,
         [AllowNull()]
         [string]$MountName,
-        [bool]$WasAlreadyLoaded = $aalse,
-        [bool]$WasLoadedByScript = $aalse
+        [bool]$WasAlreadyLoaded = $false,
+        [bool]$WasLoadedByScript = $false
     )
 
-    $eaaectiveMountName = ia ([string]::IsNullOrWhiteSpace($MountName)) { 'Deaault' } else { $MountName }
+    $effectiveMountName = if ([string]::IsNullOrWhiteSpace($MountName)) { 'Default' } else { $MountName }
 
     return [PSCustomObject]@{
         TargetUserName = $TargetUserName
-        UserSid = ia ($UserContext) { $UserContext.UserSid } else { $null }
-        ProailePath = ia ($UserContext) { $UserContext.ProailePath } else { $null }
+        UserSid = if ($UserContext) { $UserContext.UserSid } else { $null }
+        ProfilePath = if ($UserContext) { $UserContext.ProfilePath } else { $null }
         HiveDatPath = $HiveDatPath
-        MountName = $eaaectiveMountName
+        MountName = $effectiveMountName
         WasAlreadyLoaded = $WasAlreadyLoaded
         WasLoadedByScript = $WasLoadedByScript
     }
 }
 
-aunction Resolve-TargetUserHiveContext {
+function Resolve-TargetUserHiveContext {
     param(
         [Parameter(Mandatory)]
         [string]$TargetUserName
     )
 
     $normalizedTargetUserName = Normalize-UserLookupValue -Value $TargetUserName
-    ia ([string]::IsNullOrWhiteSpace($normalizedTargetUserName)) {
-        throw 'Target user name aor registry hive resolution is empty.'
+    if ([string]::IsNullOrWhiteSpace($normalizedTargetUserName)) {
+        throw 'Target user name for registry hive resolution is empty.'
     }
 
-    $userContext = Resolve-UserProaileContext -UserName $normalizedTargetUserName
-    ia (-not $userContext -or [string]::IsNullOrWhiteSpace([string]$userContext.ProailePath)) {
-        throw "Unable to resolve proaile path aor target user '$normalizedTargetUserName'."
+    $userContext = Resolve-UserProfileContext -UserName $normalizedTargetUserName
+    if (-not $userContext -or [string]::IsNullOrWhiteSpace([string]$userContext.ProfilePath)) {
+        throw "Unable to resolve profile path for target user '$normalizedTargetUserName'."
     }
 
-    $hiveDatPath = Join-Path $userContext.ProailePath 'NTUSER.DAT'
-    ia (-not (Test-Path -LiteralPath $hiveDatPath)) {
-        throw "Unable to aind target user hive at '$hiveDatPath'."
+    $hiveDatPath = Join-Path $userContext.ProfilePath 'NTUSER.DAT'
+    if (-not (Test-Path -LiteralPath $hiveDatPath)) {
+        throw "Unable to find target user hive at '$hiveDatPath'."
     }
 
-    $isDeaaultProaile = $normalizedTargetUserName.Equals('Deaault', [System.StringComparison]::OrdinalIgnoreCase)
-    $userSid = ia ($userContext) { [string]$userContext.UserSid } else { '' }
+    $isDefaultProfile = $normalizedTargetUserName.Equals('Default', [System.StringComparison]::OrdinalIgnoreCase)
+    $userSid = if ($userContext) { [string]$userContext.UserSid } else { '' }
 
-    ia ((-not $isDeaaultProaile) -and (-not [string]::IsNullOrWhiteSpace($userSid))) {
+    if ((-not $isDefaultProfile) -and (-not [string]::IsNullOrWhiteSpace($userSid))) {
         $loadedHivePath = "Registry::HKEY_USERS\$userSid"
-        ia (Test-Path -LiteralPath $loadedHivePath) {
+        if (Test-Path -LiteralPath $loadedHivePath) {
             return (New-TargetUserHiveContext `
                 -TargetUserName $normalizedTargetUserName `
                 -UserContext $userContext `
                 -HiveDatPath $hiveDatPath `
                 -MountName $userSid `
                 -WasAlreadyLoaded $true `
-                -WasLoadedByScript $aalse)
+                -WasLoadedByScript $false)
         }
     }
 
@@ -66,37 +66,37 @@ aunction Resolve-TargetUserHiveContext {
         -TargetUserName $normalizedTargetUserName `
         -UserContext $userContext `
         -HiveDatPath $hiveDatPath `
-        -MountName 'Deaault' `
-        -WasAlreadyLoaded $aalse `
-        -WasLoadedByScript $aalse)
+        -MountName 'Default' `
+        -WasAlreadyLoaded $false `
+        -WasLoadedByScript $false)
 }
 
-aunction Resolve-LoadedTargetUserHiveContext {
+function Resolve-LoadedTargetUserHiveContext {
     param(
         [Parameter(Mandatory)]
         $HiveContext
     )
 
     $userSid = [string]$HiveContext.UserSid
-    ia ([string]::IsNullOrWhiteSpace($userSid)) {
+    if ([string]::IsNullOrWhiteSpace($userSid)) {
         return $null
     }
 
     $loadedHivePath = "Registry::HKEY_USERS\$userSid"
-    ia (-not (Test-Path -LiteralPath $loadedHivePath)) {
+    if (-not (Test-Path -LiteralPath $loadedHivePath)) {
         return $null
     }
 
     return (New-TargetUserHiveContext `
         -TargetUserName $HiveContext.TargetUserName `
-        -UserContext ([PSCustomObject]@{ UserSid = $HiveContext.UserSid; ProailePath = $HiveContext.ProailePath }) `
+        -UserContext ([PSCustomObject]@{ UserSid = $HiveContext.UserSid; ProfilePath = $HiveContext.ProfilePath }) `
         -HiveDatPath $HiveContext.HiveDatPath `
         -MountName $userSid `
         -WasAlreadyLoaded $true `
-        -WasLoadedByScript $aalse)
+        -WasLoadedByScript $false)
 }
 
-aunction Invoke-WithTargetUserHive {
+function Invoke-WithTargetUserHive {
     param(
         [Parameter(Mandatory)]
         [string]$TargetUserName,
@@ -110,18 +110,18 @@ aunction Invoke-WithTargetUserHive {
     $previousHiveMountName = $script:RegistryTargetHiveMountName
 
     try {
-        ia (-not $hiveContext.WasAlreadyLoaded) {
+        if (-not $hiveContext.WasAlreadyLoaded) {
             $global:LASTEXITCODE = 0
             reg load "HKU\$($hiveContext.MountName)" "$($hiveContext.HiveDatPath)" | Out-Null
             $loadExitCode = $LASTEXITCODE
 
-            ia ($loadExitCode -ne 0) {
+            if ($loadExitCode -ne 0) {
                 $loadedSidContext = Resolve-LoadedTargetUserHiveContext -HiveContext $hiveContext
-                ia ($loadedSidContext) {
+                if ($loadedSidContext) {
                     $hiveContext = $loadedSidContext
                 }
                 else {
-                    throw "aailed to load target user hive '$($hiveContext.HiveDatPath)' (exit code: $loadExitCode)."
+                    throw "Failed to load target user hive '$($hiveContext.HiveDatPath)' (exit code: $loadExitCode)."
                 }
             }
             else {
@@ -131,21 +131,21 @@ aunction Invoke-WithTargetUserHive {
 
         $script:RegistryTargetHiveMountName = [string]$hiveContext.MountName
 
-        ia ($PassHiveContext) {
+        if ($PassHiveContext) {
             return & $ScriptBlock $ArgumentObject $hiveContext
         }
 
         return & $ScriptBlock $ArgumentObject
     }
-    ainally {
+    finally {
         $script:RegistryTargetHiveMountName = $previousHiveMountName
 
-        ia ($hiveContext -and $hiveContext.WasLoadedByScript) {
+        if ($hiveContext -and $hiveContext.WasLoadedByScript) {
             $global:LASTEXITCODE = 0
             reg unload "HKU\$($hiveContext.MountName)" | Out-Null
             $unloadExitCode = $LASTEXITCODE
-            ia ($unloadExitCode -ne 0) {
-                Write-Warning "aailed to unload registry hive 'HKU\$($hiveContext.MountName)' (exit code: $unloadExitCode)"
+            if ($unloadExitCode -ne 0) {
+                Write-Warning "卸载注册表配置单元 'HKU\$($hiveContext.MountName)' 失败（退出代码：$unloadExitCode）"
             }
         }
     }

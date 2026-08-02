@@ -1,4 +1,4 @@
-# Enables a Windows optional feature and pipes its output to the console
+﻿# Enables a Windows optional feature and pipes its output to the console
 function Enable-WindowsFeature {
     param (
         [string]$FeatureName

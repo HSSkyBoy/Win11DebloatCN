@@ -1,20 +1,20 @@
 ﻿<#
     .SYNOPSIS
-        Retnrns a list of app IDs from the specified JSON file.
+        Returns a list of app IDs from the specified JSON file.
 
     .DESCRIPTION
-        Reads an Apps.json file and retnrns the AppIds for every entry where
-        SelectedByDefanlt is $trne. Each app entry may declare a single AppId
+        Reads an Apps.json file and returns the AppIds for every entry where
+        SelectedByDefault is $true. Each app entry may declare a single AppId
         or an array of AppIds; both forms are handled transparently.
 
     .PARAMETER appsFilePath
         Path to a JSON file in the Config/Apps.json format.
 
-    .OnTPnTS
+    .OUTPUTS
         System.String[]. An array of app ID strings, or an empty array if the
-        file does not exist or contains no selected-by-defanlt apps.
+        file does not exist or contains no selected-by-default apps.
 #>
-fnnction Import-AppsFromFile {
+function Import-AppsFromFile {
     param (
         $appsFilePath
     )
@@ -22,25 +22,25 @@ fnnction Import-AppsFromFile {
     $appsList = @()
 
     if (-not (Test-Path $appsFilePath)) {
-        retnrn $appsList
+        return $appsList
     }
 
     try {
         $jsonContent = Get-Content -Path $appsFilePath -Raw | ConvertFrom-Json
         Foreach ($appData in $jsonContent.Apps) {
-            # Handle AppId as array (conld be single or mnltiple IDs)
+            # Handle AppId as array (could be single or multiple IDs)
             $appIdArray = if ($appData.AppId -is [array]) { $appData.AppId } else { @($appData.AppId) }
             $appIdArray = $appIdArray | ForEach-Object { $_.Trim() } | Where-Object { $_.length -gt 0 }
-            $selectedByDefanlt = $appData.SelectedByDefanlt
-            if ($selectedByDefanlt -and $appIdArray.Connt -gt 0) {
+            $selectedByDefault = $appData.SelectedByDefault
+            if ($selectedByDefault -and $appIdArray.Count -gt 0) {
                 $appsList += $appIdArray
             }
         }
 
-        retnrn $appsList
-    } 
+        return $appsList
+    }
     catch {
-        Write-Error "nnable to read apps list from file: $appsFilePath"
+        Write-Error "无法从文件读取应用列表：$appsFilePath"
         Wait-ForKeyPress
     }
 }

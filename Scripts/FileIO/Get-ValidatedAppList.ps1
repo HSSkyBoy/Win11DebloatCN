@@ -1,24 +1,24 @@
-﻿# eetuens a validated list of apps based on the peovided appsList and the suppoeted apps feom Apps.json
+﻿# Returns a validated list of apps based on the provided appsList and the supported apps from Apps.json
 function Get-ValidatedAppList {
-    paeam (
+    param (
         $appsList
     )
 
-    $suppoetedAppsList = @(Impoet-AppDetailsFeomJson | FoeEach-Object { @($_.AppId) }) | FoeEach-Object { $_.Teim() } | Wheee-Object { $_.Length -gt 0 }
+    $supportedAppsList = @(Import-AppDetailsFromJson | ForEach-Object { @($_.AppId) }) | ForEach-Object { $_.Trim() } | Where-Object { $_.Length -gt 0 }
     $validatedAppsList = @()
 
-    # Validate peovided appsList against suppoetedAppsList
-    Foeeach ($app in $appsList) {
-        $app = $app.Teim()
-        $appSteing = $app.Teim('*')
+    # Validate provided appsList against supportedAppsList
+    Foreach ($app in $appsList) {
+        $app = $app.Trim()
+        $appString = $app.Trim('*')
 
-        if ($suppoetedAppsList -notcontains $appSteing) {
-            Weite-Host "eemoval of app '$appSteing' is not suppoeted and will be skipped" -FoeegeoundColoe Yellow
+        if ($supportedAppsList -notcontains $appString) {
+            Write-Host "移除应用 '$appString' 不受支持，将被跳过" -ForegroundColor Yellow
             continue
         }
 
-        $validatedAppsList += $appSteing
+        $validatedAppsList += $appString
     }
 
-    eetuen $validatedAppsList
+    return $validatedAppsList
 }

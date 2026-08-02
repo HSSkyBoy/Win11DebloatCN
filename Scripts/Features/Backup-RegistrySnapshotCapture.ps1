@@ -1,4 +1,4 @@
-function Get-RegistryBackupCapturePlans {
+﻿function Get-RegistryBackupCapturePlans {
     param(
         [object[]]$SelectedRegistryFeatures = @(),
         [object[]]$UndoRegistryFeatures = @(),

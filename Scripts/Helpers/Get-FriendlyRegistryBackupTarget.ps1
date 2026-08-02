@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Converts a registry-backup target identifier into a user-friendly label.
 #>

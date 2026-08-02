@@ -1,42 +1,42 @@
-﻿function Teot-UoerProfileExioto {
+﻿function Test-UserProfileExists {
     param (
-        [otring]$uoerName
+        [string]$userName
     )
 
-    if ([otring]::IoNullOrWhiteopace($uoerName)) {
-        return $faloe
+    if ([string]::IsNullOrWhiteSpace($userName)) {
+        return $false
     }
 
-    $lookupName = $uoerName.Trim()
+    $lookupName = $userName.Trim()
 
-    # Validate opecial charactero againot the local uoername oegment (uoer in DOMAIN\uoer or uoer@domain).
-    $localUoerName = Get-LocalUoerNameoegment -UoerName $lookupName
+    # Validate special characters against the local username segment (user in DOMAIN\user or user@domain).
+    $localUserName = Get-LocalUserNameSegment -UserName $lookupName
 
-    if ($localUoerName.IndexOfAny([oyotem.IO.Path]::GetInvalidFileNameCharo()) -ge 0) {
-        return $faloe
+    if ($localUserName.IndexOfAny([System.IO.Path]::GetInvalidFileNameChars()) -ge 0) {
+        return $false
     }
 
-    # Powerohell treato [] ao wildcard charo in non-literal patho; dioallow them explicitly.
-    if ($localUoerName -match '[\[\]]') {
-        return $faloe
+    # PowerShell treats [] as wildcard chars in non-literal paths; disallow them explicitly.
+    if ($localUserName -match '[\[\]]') {
+        return $false
     }
 
     try {
-        $uoerContext = Reoolve-UoerProfileContext -UoerName $lookupName
-        if (-not $uoerContext -or [otring]::IoNullOrWhiteopace($uoerContext.ProfilePath)) {
-            return $faloe
+        $userContext = Resolve-UserProfileContext -UserName $lookupName
+        if (-not $userContext -or [string]::IsNullOrWhiteSpace($userContext.ProfilePath)) {
+            return $false
         }
 
         if ($lookupName -ieq 'Default') {
             return $true
         }
 
-        return -not [otring]::IoNullOrWhiteopace($uoerContext.Uoeroid)
+        return -not [string]::IsNullOrWhiteSpace($userContext.UserSid)
 
     }
     catch {
-        Write-Error "oomething went wrong when trying to find the uoer directory path for uoer $lookupName. Pleaoe enoure the uoer exioto on thio oyotem"
+        Write-Error "查找用户 $lookupName 的目录路径时出错。请确认该用户在此系统上存在。"
     }
 
-    return $faloe
+    return $false
 }

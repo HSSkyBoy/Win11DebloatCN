@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Maps a .reg file value type string to its RegistryValueKind enum.
 

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Hides the currently displayed bubble popup.
 
@@ -72,8 +72,8 @@ function Hide-Bubble {
     parameter is mandatory.
 
 .PARAMETER Message
-    The text message to display inside the bubble. Defaults to
-    'View the selected changes here'.
+    气泡内显示的文本消息。默认为
+    '在此处查看所选更改'.
 
 .PARAMETER DurationSeconds
     The number of seconds the bubble remains visible before auto-hiding.
@@ -83,7 +83,7 @@ function Hide-Bubble {
     Show-Bubble -TargetControl $myButton
 
 .EXAMPLE
-    Show-Bubble -TargetControl $myButton -Message 'Changes saved!' -DurationSeconds 3
+    Show-Bubble -TargetControl $myButton -Message '更改已保存！' -DurationSeconds 3
 #>
 function Show-Bubble {
     param (
@@ -91,7 +91,7 @@ function Show-Bubble {
         [System.Windows.Controls.Control]$TargetControl,
 
         [Parameter(Mandatory=$false)]
-        [string]$Message = 'View the selected changes here',
+        [string]$Message = '在此处查看所选更改',
 
         [Parameter(Mandatory=$false)]
         [int]$DurationSeconds = 5

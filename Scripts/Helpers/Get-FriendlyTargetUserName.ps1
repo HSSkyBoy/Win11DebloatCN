@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Returns a readable description of the current app-removal target.
 #>

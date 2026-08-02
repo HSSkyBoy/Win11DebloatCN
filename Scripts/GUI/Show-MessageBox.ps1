@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Shows a themed Windows 11-style message box.
 #>

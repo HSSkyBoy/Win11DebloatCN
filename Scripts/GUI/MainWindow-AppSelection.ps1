@@ -183,13 +183,13 @@ function Update-AppRemovalScopeDescription {
     $selectedItem = $AppRemovalScopeCombo.SelectedItem
     if ($selectedItem) {
         switch ($selectedItem.Content) {
-            "All users" {
+            "所有用户" {
                 $AppRemovalScopeDescription.Text = "应用将从所有用户和 Windows 映像中移除，以防止新用户重新安装。"
             }
-            "Current user only" {
+            "仅当前用户" {
                 $AppRemovalScopeDescription.Text = "应用将仅从当前用户中移除。"
             }
-            "Target user only" {
+            "仅目标用户" {
                 $AppRemovalScopeDescription.Text = "应用将仅从指定的目标用户中移除。"
             }
         }
@@ -564,7 +564,7 @@ function Initialize-MainWindowApps {
 
                     if ($null -eq $listOfApps) {
                         Write-Warning "WinGet 未返回数据（命令超时或失败）"
-                        Show-MessageBox -Message '无法通过 WinGet 加载已安装应用列表。' -Title '错误' -Button 'OK' -Icon '错误' | Out-Null
+                        Show-MessageBox -Message '无法通过 WinGet 加载已安装应用列表。' -Title '错误' -Button 'OK' -Icon 'Error' | Out-Null
                         $OnlyInstalledAppsBox.IsChecked = $false
                     }
                 }

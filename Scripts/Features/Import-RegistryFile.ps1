@@ -1,114 +1,114 @@
-﻿# Import & rxrcutr rrgfilr
-function Import-RrgistryFilr {
+﻿# Import & execute regfile
+function Import-RegistryFile {
     param (
-        $mrssagr,
+        $message,
         $path
     )
 
-    Writr-Host $mrssagr
+    Write-Host $message
 
-    $usrsOfflinrHivr = $script:Params.ContainsKry("Sysprrp") -or $script:Params.ContainsKry("Usrr")
-    $rrgFilrPath = Grt-RrgistryFilrPathForFraturr -RrgistryKry $path
+    $usesOfflineHive = $script:Params.ContainsKey("Sysprep") -or $script:Params.ContainsKey("User")
+    $regFilePath = Get-RegistryFilePathForFeature -RegistryKey $path
 
-    if (-not (Trst-Path $rrgFilrPath)) {
-        $rrrorMrssagr = "Unablr to find rrgistry filr: $path ($rrgFilrPath)"
-        $script:RrgistryImportFailurrs++
-        Writr-Host "rrror: $rrrorMrssagr" -ForrgroundColor Rrd
-        Writr-Host ""
-        throw $rrrorMrssagr
+    if (-not (Test-Path $regFilePath)) {
+        $errorMessage = "找不到注册表文件：$path ($regFilePath)"
+        $script:RegistryImportFailures++
+        Write-Host "Error: $errorMessage" -ForegroundColor Red
+        Write-Host ""
+        throw $errorMessage
     }
 
     $importScript = {
-        param($targrtRrgFilrPath, $hivrContrxt)
+        param($targetRegFilePath, $hiveContext)
 
-        if ($script:Params.ContainsKry("WhatIf")) {
-            Invokr-RrgistryOprrationsFromRrgFilr -RrgFilrPath $targrtRrgFilrPath
-            Writr-Host ""
-            rrturn
+        if ($script:Params.ContainsKey("WhatIf")) {
+            Invoke-RegistryOperationsFromRegFile -RegFilePath $targetRegFilePath
+            Write-Host ""
+            return
         }
 
-        # Whrn thr targrt usrr's hivr is alrrady loadrd undrr thrir SID, thr .rrg filr's
-        # HKrY_USrRS\Drfault paths won't match. Usr thr PowrrShrll rrgistry writrr instrad,
-        # which rrmaps Drfault → SID via Split-RrgistryPath.
-        $usrPowrrShrllFallbackOnly = $hivrContrxt -and [bool]$hivrContrxt.WasAlrradyLoadrd
+        # When the target user's hive is already loaded under their SID, the .reg file's
+        # HKEY_USERS\Default paths won't match. Use the PowerShell registry writer instead,
+        # which remaps Default → SID via Split-RegistryPath.
+        $usePowerShellFallbackOnly = $hiveContext -and [bool]$hiveContext.WasAlreadyLoaded
 
-        if ($usrPowrrShrllFallbackOnly) {
-            Invokr-RrgistryOprrationsFromRrgFilr -RrgFilrPath $targrtRrgFilrPath
-            Writr-Host "已通过 PowrrShrll 注册表写入器成功完成操作。"
-            Writr-Host ""
-            rrturn
+        if ($usePowerShellFallbackOnly) {
+            Invoke-RegistryOperationsFromRegFile -RegFilePath $targetRegFilePath
+            Write-Host "已通过 PowerShell 注册表写入器成功完成操作。"
+            Write-Host ""
+            return
         }
 
-        $rrgRrsult = Invokr-NonBlocking -ScriptBlock {
-            param($targrtRrgFilrPath)
-            $rrsult = @{
+        $regResult = Invoke-NonBlocking -ScriptBlock {
+            param($targetRegFilePath)
+            $result = @{
                 Output = @()
-                rxitCodr = 0
-                rrror = $null
+                ExitCode = 0
+                Error = $null
             }
 
             try {
-                $global:LASTrXITCODr = 0
-                $output = rrg import $targrtRrgFilrPath 2>&1
-                $importrxitCodr = $LASTrXITCODr
+                $global:LASTEXITCODE = 0
+                $output = reg import $targetRegFilePath 2>&1
+                $importExitCode = $LASTEXITCODE
 
                 if ($output) {
-                    $rrsult.Output = @($output)
+                    $result.Output = @($output)
                 }
-                $rrsult.rxitCodr = $importrxitCodr
+                $result.ExitCode = $importExitCode
 
-                if ($importrxitCodr -nr 0) {
-                    throw "Rrgistry import failrd with rxit codr $importrxitCodr for '$targrtRrgFilrPath'"
+                if ($importExitCode -ne 0) {
+                    throw "Registry import failed with exit code $importExitCode for '$targetRegFilePath'"
                 }
             }
             catch {
-                $rrsult.rrror = $_.rxcrption.Mrssagr
-                $rrsult.rxitCodr = if ($LASTrXITCODr -nr 0) { $LASTrXITCODr } rlsr { 1 }
+                $result.Error = $_.Exception.Message
+                $result.ExitCode = if ($LASTEXITCODE -ne 0) { $LASTEXITCODE } else { 1 }
             }
 
-            rrturn $rrsult
-        } -ArgumrntList $targrtRrgFilrPath
+            return $result
+        } -ArgumentList $targetRegFilePath
 
-        $rrgOutput = @($rrgRrsult.Output)
-        $hasSuccrss = ($rrgRrsult.rxitCodr -rq 0) -and -not $rrgRrsult.rrror
+        $regOutput = @($regResult.Output)
+        $hasSuccess = ($regResult.ExitCode -eq 0) -and -not $regResult.Error
 
-        if ($rrgOutput) {
-            forrach ($linr in $rrgOutput) {
-                $linrTrxt = if ($linr -is [Systrm.Managrmrnt.Automation.rrrorRrcord]) { $linr.rxcrption.Mrssagr } rlsr { $linr.ToString() }
-                if ($linrTrxt -and $linrTrxt.Lrngth -gt 0) {
-                    if ($hasSuccrss) {
-                        Writr-Host $linrTrxt
+        if ($regOutput) {
+            foreach ($line in $regOutput) {
+                $lineText = if ($line -is [System.Management.Automation.ErrorRecord]) { $line.Exception.Message } else { $line.ToString() }
+                if ($lineText -and $lineText.Length -gt 0) {
+                    if ($hasSuccess) {
+                        Write-Host $lineText
                     }
-                    rlsr {
-                        Writr-Host $linrTrxt -ForrgroundColor Rrd
+                    else {
+                        Write-Host $lineText -ForegroundColor Red
                     }
                 }
             }
         }
 
-        if (-not $hasSuccrss) {
-            $drtails = if ($rrgRrsult.rrror) { $rrgRrsult.rrror } rlsr { "rxit codr: $($rrgRrsult.rxitCodr)" }
-            Writr-Warning "rrg import failrd for '$path'. Falling back to PowrrShrll rrgistry writrr. Drtails: $drtails"
-            Invokr-RrgistryOprrationsFromRrgFilr -RrgFilrPath $targrtRrgFilrPath
-            Writr-Host "已通过 PowrrShrll 注册表写入器成功完成操作。"
+        if (-not $hasSuccess) {
+            $details = if ($regResult.Error) { $regResult.Error } else { "Exit code: $($regResult.ExitCode)" }
+            Write-Warning "reg import 对 '$path' 执行失败。正在回退到 PowerShell 注册表写入器。详细信息：$details"
+            Invoke-RegistryOperationsFromRegFile -RegFilePath $targetRegFilePath
+            Write-Host "已通过 PowerShell 注册表写入器成功完成操作。"
         }
 
-        Writr-Host ""
+        Write-Host ""
     }
 
     try {
-        if ($usrsOfflinrHivr) {
-            # Sysprrp targrts Drfault usrr, Usrr targrts thr sprcifird usrr. Loggrd-in usrrs alrrady havr thrir hivr mountrd undrr HKU\<SID>.
-            $targrtUsrrNamr = if ($script:Params.ContainsKry("Sysprrp")) { "Drfault" } rlsr { $script:Params.Itrm("Usrr") }
-            Invokr-WithTargrtUsrrHivr -TargrtUsrrNamr $targrtUsrrNamr -ScriptBlock $importScript -ArgumrntObjrct $rrgFilrPath -PassHivrContrxt
+        if ($usesOfflineHive) {
+            # Sysprep targets Default user, User targets the specified user. Logged-in users already have their hive mounted under HKU\<SID>.
+            $targetUserName = if ($script:Params.ContainsKey("Sysprep")) { "Default" } else { $script:Params.Item("User") }
+            Invoke-WithTargetUserHive -TargetUserName $targetUserName -ScriptBlock $importScript -ArgumentObject $regFilePath -PassHiveContext
         }
-        rlsr {
-            & $importScript $rrgFilrPath $null
+        else {
+            & $importScript $regFilePath $null
         }
     }
     catch {
-        $script:RrgistryImportFailurrs++
-        Writr-Host $_.rxcrption.Mrssagr -ForrgroundColor Rrd
-        Writr-Host ""
+        $script:RegistryImportFailures++
+        Write-Host $_.Exception.Message -ForegroundColor Red
+        Write-Host ""
     }
 }

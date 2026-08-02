@@ -15,7 +15,7 @@ Win11Debloat 是一个轻量级、易于使用的 PowerShell 脚本，无需安�
 
 ![Win11Debloat 菜单](/Assets/Images/menu.png)
 
-#### 这个脚本帮到了您吗？请考虑买我一杯咖啡以支持原作者的工作
+#### 这个脚本帮到了您吗？请考虑买一杯奶茶以支持原作者的工作
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M4M5C6UPC)
 
@@ -169,6 +169,10 @@ Win11Debloat 是一个轻量级、易于使用的 PowerShell 脚本，无需安�
 
 - [将更改应用于其他用户](https://github.com/Raphire/Win11Debloat/wiki/Advanced-Features#running-as-another-user)，而非仅当前登录用户。
 - [Sysprep 模式](https://github.com/Raphire/Win11Debloat/wiki/Advanced-Features#sysprep-mode)将更改应用于 Windows 默认用户配置文件，确保所有新用户自动应用这些更改。
+
+## 参与贡献
+
+我们欢迎各种形式的贡献！请参阅[贡献指南](https://github.com/Raphire/Win11Debloat/blob/master/.github/CONTRIBUTING.md)了解如何开始以及贡献的最佳实践。
 
 ## 许可证
 

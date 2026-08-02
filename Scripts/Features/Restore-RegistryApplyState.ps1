@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Runs a script block against the registry hive for a backup target.
 

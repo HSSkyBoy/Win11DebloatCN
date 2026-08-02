@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Imports enabled, compatible feature settings from a JSON file into the active parameters.
 #>

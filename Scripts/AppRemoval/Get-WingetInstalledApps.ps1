@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
     Returns a list of installed apps from winget as structured objects.
 

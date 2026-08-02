@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Imports valid application, tweak, and deployment selections from a configuration JSON file into active parameters.
 #>

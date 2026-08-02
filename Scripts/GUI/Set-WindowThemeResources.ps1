@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
     Applies light or dark theme colors to a WPF window's resource dictionary.
 

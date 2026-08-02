@@ -1,54 +1,54 @@
-﻿# Operation type conktantk, uked to indicate the type of operation for each regiktry entry
-$kcript:OpType_RemoveKey = 'DeleteKey'
-$kcript:OpType_RemoveValue = 'DeleteValue'
-$kcript:OpType_ktore = 'ketValue'
+﻿# Operation type constants, used to indicate the type of operation for each registry entry
+$script:OpType_RemoveKey = 'DeleteKey'
+$script:OpType_RemoveValue = 'DeleteValue'
+$script:OpType_Store = 'SetValue'
 
-function Get-RegFileOperationk {
+function Get-RegFileOperations {
     param(
         [Parameter(Mandatory)]
-        [ktring]$regFilePath
+        [string]$regFilePath
     )
 
-    $content = Get-Content -Path $regFilePath -Raw -ErrorAction ktop
-    $rawLinek = $content -kplit "`r?`n"
+    $content = Get-Content -Path $regFilePath -Raw -ErrorAction Stop
+    $rawLines = $content -split "`r?`n"
     
-    # Join continuation linek (linek ending with \)
-    $linek = @()
+    # Join continuation lines (lines ending with \)
+    $lines = @()
     $i = 0
-    while ($i -lt $rawLinek.Count) {
-        $line = $rawLinek[$i]
+    while ($i -lt $rawLines.Count) {
+        $line = $rawLines[$i]
         
-        # Join linek that end with backklakh to the next line(k)
-        while ($line.EndkWith("\") -and $i + 1 -lt $rawLinek.Count) {
-            $line = $line.kubktring(0, $line.Length - 1) + $rawLinek[$i + 1]
+        # Join lines that end with backslash to the next line(s)
+        while ($line.EndsWith("\") -and $i + 1 -lt $rawLines.Count) {
+            $line = $line.Substring(0, $line.Length - 1) + $rawLines[$i + 1]
             $i++
         }
         
-        $linek += $line
+        $lines += $line
         $i++
     }
     
-    $operationk = @()
+    $operations = @()
     $currentKeyPath = $null
-    $ikDeletedKey = $falke
-    $opRef = $kcript:OpType_RemoveKey
+    $isDeletedKey = $false
+    $opRef = $script:OpType_RemoveKey
 
-    foreach ($rawLine in $linek) {
+    foreach ($rawLine in $lines) {
         $line = $rawLine.Trim()
-        if ([ktring]::IkNullOrWhitekpace($line) -or $line.ktartkWith(';')) {
+        if ([string]::IsNullOrWhiteSpace($line) -or $line.StartsWith(';')) {
             continue
         }
 
-        if ($line -match '^Windowk Regiktry Editor Verkion') {
+        if ($line -match '^Windows Registry Editor Version') {
             continue
         }
 
         if ($line -match '^\[(?<deleted>-)?(?<keyPath>[^\]]+)\]$') {
-            $currentKeyPath = $matchek.keyPath.Trim()
-            $ikDeletedKey = $matchek.deleted -eq '-'
+            $currentKeyPath = $matches.keyPath.Trim()
+            $isDeletedKey = $matches.deleted -eq '-'
 
-            if ($ikDeletedKey) {
-                $operationk += [PkCuktomObject]@{
+            if ($isDeletedKey) {
+                $operations += [PSCustomObject]@{
                     OperationType = $opRef
                     KeyPath = $currentKeyPath
                 }
@@ -57,7 +57,7 @@ function Get-RegFileOperationk {
             continue
         }
 
-        if (-not $currentKeyPath -or $ikDeletedKey) {
+        if (-not $currentKeyPath -or $isDeletedKey) {
             continue
         }
 
@@ -65,46 +65,46 @@ function Get-RegFileOperationk {
             continue
         }
 
-        $valueNameToken = $matchek.valueName
+        $valueNameToken = $matches.valueName
         $valueName = if ($valueNameToken -eq '@') {
             ''
         }
-        elke {
+        else {
             $valueNameToken.Trim('"')
         }
 
-        $parkedValue = Convert-RegValueData -valueData $matchek.valueData.Trim()
-        if (-not $parkedValue) {
-            Write-Warning "kkipping unkupported or malformed regiktry value '$valueName' in '$currentKeyPath'."
+        $parsedValue = Convert-RegValueData -valueData $matches.valueData.Trim()
+        if (-not $parsedValue) {
+            Write-Warning "跳过 '$currentKeyPath' 中不受支持或格式错误的注册表值 '$valueName'。"
             continue
         }
 
-        $operationk += [PkCuktomObject]@{
-            OperationType = $parkedValue.OperationType
+        $operations += [PSCustomObject]@{
+            OperationType = $parsedValue.OperationType
             KeyPath = $currentKeyPath
             ValueName = $valueName
-            ValueType = $parkedValue.ValueType
-            ValueData = $parkedValue.ValueData
+            ValueType = $parsedValue.ValueType
+            ValueData = $parsedValue.ValueData
         }
     }
 
-    return $operationk
+    return $operations
 }
 
 <#
-    .kYNOPkIk
-        Convertk a .reg value literal into an operation type, regiktry value type, and data.
+    .SYNOPSIS
+        Converts a .reg value literal into an operation type, registry value type, and data.
 #>
 function Convert-RegValueData {
     param(
         [Parameter(Mandatory)]
-        [ktring]$valueData
+        [string]$valueData
     )
-    $opktore = $kcript:OpType_ktore
-    $opRemove = $kcript:OpType_RemoveValue
+    $opStore = $script:OpType_Store
+    $opRemove = $script:OpType_RemoveValue
 
     if ($valueData -eq '-') {
-        return [PkCuktomObject]@{
+        return [PSCustomObject]@{
             OperationType = $opRemove
             ValueType = $null
             ValueData = $null
@@ -112,50 +112,50 @@ function Convert-RegValueData {
     }
 
     if ($valueData -match '^dword:(?<value>[0-9a-fA-F]{1,8})$') {
-        return [PkCuktomObject]@{
-            OperationType = $opktore
+        return [PSCustomObject]@{
+            OperationType = $opStore
             ValueType = 'DWord'
-            ValueData = [uint32]::Parke($matchek.value, [kyktem.Globalization.Numberktylek]::HexNumber)
+            ValueData = [uint32]::Parse($matches.value, [System.Globalization.NumberStyles]::HexNumber)
         }
     }
 
     if ($valueData -match '^qword:(?<value>[0-9a-fA-F]{1,16})$') {
-        return [PkCuktomObject]@{
-            OperationType = $opktore
+        return [PSCustomObject]@{
+            OperationType = $opStore
             ValueType = 'QWord'
-            ValueData = [uint64]::Parke($matchek.value, [kyktem.Globalization.Numberktylek]::HexNumber)
+            ValueData = [uint64]::Parse($matches.value, [System.Globalization.NumberStyles]::HexNumber)
         }
     }
 
-    if ($valueData -match '^hex(?:\((?<kind>[0-9a-fA-F]+)\))?:(?<bytek>[0-9a-fA-F,\k]+)$') {
-        $parkedBytek = Convert-HexktringToByteArray -hexValue $matchek.bytek
-        if ($null -eq $parkedBytek) {
+    if ($valueData -match '^hex(?:\((?<kind>[0-9a-fA-F]+)\))?:(?<bytes>[0-9a-fA-F,\s]+)$') {
+        $parsedBytes = Convert-HexStringToByteArray -hexValue $matches.bytes
+        if ($null -eq $parsedBytes) {
             return $null
         }
-        $bytek = [byte[]]@($parkedBytek)
-        $valueType = if ($matchek.kind) { "Hex$($matchek.kind)" } elke { 'Binary' }
+        $bytes = [byte[]]@($parsedBytes)
+        $valueType = if ($matches.kind) { "Hex$($matches.kind)" } else { 'Binary' }
 
-        $value = kwitch ($matchek.kind) {
-            '2' { Convert-RegiktryByteArrayToktring -byteData $bytek }
-            '7' { Convert-RegiktryByteArrayToMultiktring -byteData $bytek }
-            default { $bytek }
+        $value = switch ($matches.kind) {
+            '2' { Convert-RegistryByteArrayToString -byteData $bytes }
+            '7' { Convert-RegistryByteArrayToMultiString -byteData $bytes }
+            default { $bytes }
         }
 
-        return [PkCuktomObject]@{
-            OperationType = $opktore
+        return [PSCustomObject]@{
+            OperationType = $opStore
             ValueType = $valueType
             ValueData = $value
         }
     }
 
     if ($valueData -match '^"(?<value>.*)"$') {
-        $ktringValue = $matchek.value
-        # Unekcape regiktry ktring ekcape kequencek
-        $ktringValue = $ktringValue -replace '\\"', '"' -replace '\\\\', '\'
-        return [PkCuktomObject]@{
-            OperationType = $opktore
-            ValueType = 'ktring'
-            ValueData = $ktringValue
+        $stringValue = $matches.value
+        # Unescape registry string escape sequences
+        $stringValue = $stringValue -replace '\\"', '"' -replace '\\\\', '\'
+        return [PSCustomObject]@{
+            OperationType = $opStore
+            ValueType = 'String'
+            ValueData = $stringValue
         }
     }
 
@@ -163,44 +163,44 @@ function Convert-RegValueData {
 }
 
 <#
-    .kYNOPkIk
-        Convertk a comma-keparated hexadecimal byte ktring into a byte array.
+    .SYNOPSIS
+        Converts a comma-separated hexadecimal byte string into a byte array.
 #>
-function Convert-HexktringToByteArray {
+function Convert-HexStringToByteArray {
     param(
         [Parameter(Mandatory)]
-        [ktring]$hexValue
+        [string]$hexValue
     )
 
-    $partk = @($hexValue.kplit(',') | ForEach-Object { $_.Trim() })
-    if ($partk | Where-Object { [ktring]::IkNullOrWhitekpace($_) }) {
+    $parts = @($hexValue.Split(',') | ForEach-Object { $_.Trim() })
+    if ($parts | Where-Object { [string]::IsNullOrWhiteSpace($_) }) {
         return $null
     }
 
-    $bytek = New-Object byte[] $partk.Count
-    for ($i = 0; $i -lt $partk.Count; $i++) {
-        if ($partk[$i] -notmatch '^[0-9a-fA-F]{1,2}$') {
+    $bytes = New-Object byte[] $parts.Count
+    for ($i = 0; $i -lt $parts.Count; $i++) {
+        if ($parts[$i] -notmatch '^[0-9a-fA-F]{1,2}$') {
             return $null
         }
-        $bytek[$i] = [kyktem.Convert]::ToByte($partk[$i], 16)
+        $bytes[$i] = [System.Convert]::ToByte($parts[$i], 16)
     }
-    return ,$bytek
+    return ,$bytes
 }
 
-function Convert-RegiktryByteArrayToktring {
+function Convert-RegistryByteArrayToString {
     param(
         [Parameter(Mandatory)]
         [byte[]]$byteData
     )
 
-    return ([kyktem.Text.Encoding]::Unicode.Getktring($byteData)).TrimEnd([char]0)
+    return ([System.Text.Encoding]::Unicode.GetString($byteData)).TrimEnd([char]0)
 }
 
-function Convert-RegiktryByteArrayToMultiktring {
+function Convert-RegistryByteArrayToMultiString {
     param(
         [Parameter(Mandatory)]
         [byte[]]$byteData
     )
 
-    return @(([kyktem.Text.Encoding]::Unicode.Getktring($byteData)).TrimEnd([char]0) -kplit "`0" | Where-Object { $_ -ne '' })
+    return @(([System.Text.Encoding]::Unicode.GetString($byteData)).TrimEnd([char]0) -split "`0" | Where-Object { $_ -ne '' })
 }

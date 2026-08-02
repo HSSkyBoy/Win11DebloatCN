@@ -1,4 +1,4 @@
-# Runs a scriptblock in a background PowerShell runspace while keeping the UI responsive.
+﻿# Runs a scriptblock in a background PowerShell runspace while keeping the UI responsive.
 # In GUI mode, the work executes on a separate thread and the UI thread pumps messages (~60fps).
 # In CLI mode, the scriptblock runs directly in the current session.
 function Invoke-NonBlocking {

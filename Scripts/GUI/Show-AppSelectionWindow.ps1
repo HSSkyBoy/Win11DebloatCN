@@ -72,7 +72,7 @@ function Show-AppSelectionWindow {
             $listOfApps = Get-WingetInstalledApps -TimeOut 10 -NonBlocking
             if ($null -eq $listOfApps) {
                 # Show error that the script was unable to get list of apps from WinGet
-                Show-MessageBox -Message '无法通过 WinGet 加载已安装应用列表。' -Title '错误' -Button 'OK' -Icon '错误' -Owner $window | Out-Null
+                Show-MessageBox -Message '无法通过 WinGet 加载已安装应用列表。' -Title '错误' -Button 'OK' -Icon 'Error' -Owner $window | Out-Null
                 $onlyInstalledBox.IsChecked = $false
             }
         }

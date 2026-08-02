@@ -1,4 +1,4 @@
-# MainWindow-TweaksBuilder.ps1
+﻿# MainWindow-TweaksBuilder.ps1
 # Dynamic tweaks UI construction from Features.json, tweak state management, selection clear, and search/highlight.
 
 <#

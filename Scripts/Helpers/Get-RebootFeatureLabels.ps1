@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
     Resolves display labels for selected features that require reboot.
 
