@@ -1,0 +1,591 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Primary Button Style -->
+    <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource ButtonBgColor}"/>
+        <Setter Property="Foreground" Value="white"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBgColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,1"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource ButtonDisabledColor}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonDisabledColor}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ButtonTextDisabledColor}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource ButtonHoverColor}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonHoverColor}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource ButtonPressedColor}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonPressedColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Secondary Button Style -->
+    <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource SecondaryButtonBgColor}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,1"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource SecondaryButtonDisabledColor}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource AppBorderColor}"/>
+                <Setter Property="Foreground" Value="{DynamicResource SecondaryButtonTextDisabledColor}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource SecondaryButtonHoverColor}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderColor}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource SecondaryButtonPressedColor}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Hyperlink Style -->
+    <Style x:Key="HyperlinkStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource ButtonBgColor}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ButtonHoverColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ProgressBar Style -->
+    <Style x:Key="ApplyProgressBarStyle" TargetType="ProgressBar">
+        <Setter Property="Background" Value="{DynamicResource ButtonBorderColor}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonBgColor}"/>
+        <Setter Property="Height" Value="6"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid>
+                        <Border x:Name="PART_Track" Background="{TemplateBinding Background}" CornerRadius="3" Height="{TemplateBinding Height}"/>
+                        <Border x:Name="PART_Indicator" Background="{TemplateBinding Foreground}" CornerRadius="3" HorizontalAlignment="Left" Height="{TemplateBinding Height}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Modal Title Style -->
+    <Style x:Key="ModalTitleStyle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,8"/>
+    </Style>
+
+    <!-- Modal Subtext Style -->
+    <Style x:Key="ModalSubtextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="Opacity" Value="0.8"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <!-- Shared modal window shell styles -->
+    <Style x:Key="ModalCardBorderStyle" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AppBorderColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Background" Value="{DynamicResource CardBgColor}"/>
+        <Setter Property="Margin" Value="25"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black"
+                                  Opacity="0.15"
+                                  BlurRadius="20"
+                                  ShadowDepth="0"
+                                  Direction="0"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ModalTitleBarStyle" TargetType="Grid">
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style x:Key="ModalTitleTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="16,0,0,0"/>
+    </Style>
+
+    <Style x:Key="ModalFooterBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource AppBgColor}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AppBorderColor}"/>
+        <Setter Property="BorderThickness" Value="0,1,0,0"/>
+        <Setter Property="Padding" Value="16,12"/>
+        <Setter Property="CornerRadius" Value="0,0,8,8"/>
+    </Style>
+
+    <Style x:Key="ModalFooterButtonsRightStyle" TargetType="StackPanel">
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+    </Style>
+
+    <Style x:Key="ModalPrimaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="MinWidth" Value="80"/>
+        <Setter Property="Margin" Value="4,0"/>
+    </Style>
+
+    <Style x:Key="ModalSecondaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="MinWidth" Value="80"/>
+        <Setter Property="Margin" Value="4,0"/>
+    </Style>
+
+    <Style x:Key="ModalPrimaryStretchedButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="4,0"/>
+    </Style>
+
+    <Style x:Key="ModalSecondaryStretchedButtonStyle" TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="4,0"/>
+    </Style>
+
+    <Style x:Key="ModalInfoLabelTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Margin" Value="0,0,16,8"/>
+    </Style>
+
+    <Style x:Key="ModalInfoValueTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="Margin" Value="0,0,0,8"/>
+    </Style>
+
+    <!-- Shared ComboBox style used across windows -->
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Foreground" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="10,8"/>
+        <Setter Property="Margin" Value="0,0,0,4"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Grid>
+                        <Border x:Name="ItemBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="0,0,0,1"/>
+                        </Border>
+                        <Border x:Name="AccentLine"
+                                Width="3"
+                                Height="15"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
+                                Background="{DynamicResource ButtonBgColor}"
+                                CornerRadius="1.5"
+                                Margin="0"
+                                Visibility="Collapsed"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="AccentLine" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource ComboBoxItemSelectedColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource ComboBoxItemHoverColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ComboBox">
+        <Setter Property="Background" Value="{DynamicResource ComboBoxBgColor}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AppBorderColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Margin" Value="0,4,0,12"/>
+        <Setter Property="MinHeight" Value="33"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Border x:Name="ClosedAccentLine" Width="3" Height="18" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="{DynamicResource ButtonBgColor}" CornerRadius="1.5" Panel.ZIndex="2"/>
+                        <ToggleButton x:Name="ToggleButton" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Focusable="False" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4">
+                                                    <TextBlock x:Name="Arrow"
+                                                               Text="&#xE70D;"
+                                                               FontFamily="{DynamicResource AppIconFontFamily}"
+                                                               FontSize="10"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0,0,8,0"
+                                                               Foreground="{DynamicResource AppFgColor}"
+                                                               RenderTransformOrigin="0.5,0.5">
+                                                        <TextBlock.RenderTransform>
+                                                            <RotateTransform Angle="0"/>
+                                                        </TextBlock.RenderTransform>
+                                                    </TextBlock>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource ComboBoxHoverColor}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Trigger.EnterActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.2">
+                                                                        <DoubleAnimation.EasingFunction>
+                                                                            <CubicEase EasingMode="EaseOut"/>
+                                                                        </DoubleAnimation.EasingFunction>
+                                                                    </DoubleAnimation>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </Trigger.EnterActions>
+                                                        <Trigger.ExitActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="0" Duration="0:0:0.2">
+                                                                        <DoubleAnimation.EasingFunction>
+                                                                            <CubicEase EasingMode="EaseOut"/>
+                                                                        </DoubleAnimation.EasingFunction>
+                                                                    </DoubleAnimation>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </Trigger.ExitActions>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          IsHitTestVisible="False"
+                                          Margin="10,0,20,2"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                        <Popup x:Name="Popup"
+                               Placement="Bottom"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               AllowsTransparency="True"
+                               Focusable="False"
+                               PopupAnimation="Fade"
+                               StaysOpen="False"
+                               PlacementTarget="{Binding ElementName=ToggleButton}"
+                               VerticalOffset="1"
+                               HorizontalOffset="0">
+                            <Grid x:Name="DropDown" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" Margin="12">
+                                <Border x:Name="DropDownBorder"
+                                        Background="{DynamicResource ComboBoxItemBgColor}"
+                                        BorderBrush="{DynamicResource AppBorderColor}"
+                                        BorderThickness="1"
+                                        CornerRadius="4"
+                                        Padding="5,4,5,1">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="12" Opacity="0.25" ShadowDepth="4"/>
+                                    </Border.Effect>
+                                    <ScrollViewer Margin="0,2,0,0"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Disabled">
+                                        <ItemsPresenter Margin="0,0,0,1"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="SelectedIndex" Value="0">
+                            <Setter TargetName="ClosedAccentLine" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="SelectedIndex" Value="-1">
+                            <Setter TargetName="ClosedAccentLine" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ClosedAccentLine" Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Background" Value="{DynamicResource ButtonDisabledColor}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource AppBorderColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ButtonTextDisabledColor}"/>
+                            <Setter Property="Opacity" Value="0.6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Base CheckBox style used across windows -->
+    <Style TargetType="CheckBox">
+        <Setter Property="Foreground" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Padding" Value="4,2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="CheckBoxBorder" Grid.Column="0" Width="20" Height="20" Background="{DynamicResource CheckBoxBgColor}" BorderBrush="{DynamicResource CheckBoxBorderColor}" BorderThickness="1" CornerRadius="4" Margin="0,0,8,0">
+                                <Grid>
+                                    <TextBlock x:Name="CheckMark" Text="&#xE73E;" FontFamily="{DynamicResource AppIconFontFamily}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource ButtonBgColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0">
+                                        <TextBlock.Clip>
+                                            <RectangleGeometry x:Name="CheckMarkClip" Rect="0,0,0,16"/>
+                                        </TextBlock.Clip>
+                                    </TextBlock>
+                                    <TextBlock x:Name="IndeterminateMark" Text="&#xe9ae;" FontFamily="{DynamicResource AppIconFontFamily}" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource ButtonBgColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0" Margin="1,0,0,1">
+                                        <TextBlock.Clip>
+                                            <RectangleGeometry x:Name="IndeterminateMarkClip" Rect="0,0,0,12"/>
+                                        </TextBlock.Clip>
+                                    </TextBlock>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,2"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="CheckBoxBorder" Property="Background" Value="{DynamicResource CheckBoxHoverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="CheckBoxBorder" Property="Background" Value="{DynamicResource ButtonBgColor}"/>
+                            <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource ButtonBgColor}"/>
+                            <Setter TargetName="CheckMark" Property="Foreground" Value="White"/>
+                            <Setter TargetName="CheckMark" Property="Opacity" Value="1"/>
+                            <Setter TargetName="IndeterminateMark" Property="Opacity" Value="0"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25" FillBehavior="HoldEnd"/>
+                                        <RectAnimation Storyboard.TargetName="CheckMarkClip" Storyboard.TargetProperty="Rect" From="0,0,0,16" To="0,0,16,16" Duration="0:0:0.25" FillBehavior="HoldEnd"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <RectAnimation Storyboard.TargetName="CheckMarkClip" Storyboard.TargetProperty="Rect" From="0,0,16,16" To="16,0,0,16" Duration="0:0:0.15" FillBehavior="HoldEnd"/>
+                                        <DoubleAnimation Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.15" FillBehavior="HoldEnd"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="{x:Null}">
+                            <Setter TargetName="CheckBoxBorder" Property="Background" Value="{DynamicResource ButtonBgColor}"/>
+                            <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource ButtonBgColor}"/>
+                            <Setter TargetName="IndeterminateMark" Property="Foreground" Value="White"/>
+                            <Setter TargetName="IndeterminateMark" Property="Opacity" Value="1"/>
+                            <Setter TargetName="CheckMark" Property="Opacity" Value="0"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="IndeterminateMark" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25" FillBehavior="HoldEnd"/>
+                                        <RectAnimation Storyboard.TargetName="IndeterminateMarkClip" Storyboard.TargetProperty="Rect" From="0,0,0,16" To="0,0,16,16" Duration="0:0:0.25" FillBehavior="HoldEnd"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <RectAnimation Storyboard.TargetName="IndeterminateMarkClip" Storyboard.TargetProperty="Rect" From="0,0,16,16" To="16,0,0,16" Duration="0:0:0.15" FillBehavior="HoldEnd"/>
+                                        <DoubleAnimation Storyboard.TargetName="IndeterminateMark" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.15" FillBehavior="HoldEnd"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="CheckMark" Property="Opacity" Value="0"/>
+                            <Setter TargetName="IndeterminateMark" Property="Opacity" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="CheckBoxBorder" Property="Background" Value="{DynamicResource ButtonDisabledColor}"/>
+                            <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource AppBorderColor}"/>
+                            <Setter Property="Opacity" Value="0.4"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsChecked" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="CheckBoxBorder" Property="Background" Value="{DynamicResource ButtonHoverColor}"/>
+                            <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource ButtonHoverColor}"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsChecked" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="CheckBoxBorder" Property="Background" Value="{DynamicResource ButtonHoverColor}"/>
+                            <Setter TargetName="CheckBoxBorder" Property="BorderBrush" Value="{DynamicResource ButtonHoverColor}"/>
+                            <Setter TargetName="CheckBoxBorder" Property="Opacity" Value="0.8"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Shared checkbox style used for feature toggles across windows -->
+    <Style x:Key="FeatureCheckboxStyle" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+        <Setter Property="Margin" Value="-4,-2,-4,10"/>
+        <Setter Property="Padding" Value="4,2"/>
+    </Style>
+
+    <!-- Shared CheckBox style for app list items -->
+    <Style x:Key="AppsPanelCheckBoxStyle" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+        <Setter Property="Margin" Value="2,3,2,3"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <!-- Shared CheckBox style for preset picker entries -->
+    <Style x:Key="PresetCheckBoxStyle" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+        <Setter Property="Margin" Value="8,4"/>
+    </Style>
+
+    <!-- ScrollBar Style -->
+    <Style TargetType="{x:Type ScrollBar}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid>
+                        <Track Name="PART_Track" IsDirectionReversed="true">
+                            <Track.Thumb>
+                                <Thumb>
+                                    <Thumb.Style>
+                                        <Style TargetType="Thumb">
+                                            <Setter Property="Background" Value="{DynamicResource ScrollBarThumbColor}"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Thumb">
+                                                        <Border Background="{TemplateBinding Background}" CornerRadius="4"/>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource ScrollBarThumbHoverColor}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Thumb.Style>
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- TextBox outer border: side/top borders in side color, background with hover/focus states -->
+    <Style x:Key="TextBoxBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource TextBoxBgColor}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxSideBorderColor}"/>
+        <Setter Property="BorderThickness" Value="1,1,1,0"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource TextBoxHoverColor}"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="Background" Value="{DynamicResource TextBoxFocusColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- TextBox inner border: bottom accent line that thickens and changes color on focus -->
+    <Style x:Key="TextBoxBottomBorderStyle" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderColor}"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="CornerRadius" Value="0,0,4,4"/>
+        <Style.Triggers>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBgColor}"/>
+                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                <Setter Property="Padding" Value="8,6,8,5"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- TextBox input (transparent, used inside TextBoxBorderStyle) -->
+    <Style x:Key="TextBoxInputStyle" TargetType="TextBox">
+        <Setter Property="CaretBrush" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource AppFgColor}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Margin" Value="1,0,0,1"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+</ResourceDictionary>

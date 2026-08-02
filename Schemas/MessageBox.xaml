@@ -1,0 +1,98 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MessageBox" 
+        Width="440"
+        SizeToContent="Height"
+        MaxHeight="501"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="False"
+        ShowInTaskbar="False">
+
+    <Border BorderBrush="{DynamicResource AppBorderColor}" 
+            BorderThickness="1" 
+            CornerRadius="8"
+            Background="{DynamicResource CardBgColor}"
+            Margin="25">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" 
+                            Opacity="0.15" 
+                            BlurRadius="20" 
+                            ShadowDepth="0" 
+                            Direction="0"/>
+        </Border.Effect>
+        
+        <Grid Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title Bar -->
+            <Grid Grid.Row="0" x:Name="TitleBar" Style="{DynamicResource ModalTitleBarStyle}">
+                <TextBlock x:Name="TitleText" 
+                           Text="Message" 
+                           Style="{DynamicResource ModalTitleTextStyle}"/>
+            </Grid>
+
+            <!-- Message Content -->
+            <Grid Grid.Row="1" Margin="20,12,1,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Icon -->
+                <TextBlock x:Name="IconText"
+                           Grid.Column="0"
+                           FontFamily="{DynamicResource AppIconFontFamily}"
+                           FontSize="24"
+                           Foreground="{DynamicResource AppFgColor}"
+                           VerticalAlignment="Center"
+                           Margin="4,0,14,0"
+                           Visibility="Collapsed"/>
+
+                <!-- Message Text -->
+                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" MaxHeight="300" Padding="0">
+                    <TextBlock x:Name="MessageText"
+                               Text="Message content goes here"
+                               TextWrapping="Wrap"
+                               FontSize="14"
+                               LineHeight="20"
+                               Foreground="{DynamicResource AppFgColor}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,20,0"/>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Button Panel -->
+            <Border Grid.Row="2" 
+                    Background="{DynamicResource AppBgColor}"
+                    BorderBrush="{DynamicResource AppBorderColor}"
+                    BorderThickness="0,1,0,0"
+                    Padding="16,12"
+                    CornerRadius="0,0,8,8">
+                <Grid x:Name="ButtonPanel">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="Button1"
+                            Grid.Column="0"
+                            Content="OK"
+                            Style="{DynamicResource ModalPrimaryStretchedButtonStyle}"/>
+                    <Button x:Name="Button2"
+                            Grid.Column="1"
+                            Content="Cancel"
+                            Style="{DynamicResource ModalSecondaryStretchedButtonStyle}"
+                            Visibility="Collapsed"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
