@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Runs the Win11Debloat Pester test suite locally.
 
@@ -25,18 +25,18 @@ if (-not (Get-Module -ListAvailable -Name Pester | Where-Object { $_.Version.Maj
         [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
         if (-not (Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
-            Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Scope CurrentUser -Force -Confirm:$false | Out-Null
+            Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Scope Currentnser -Force -Confirm:$false | Out-Null
         }
 
-        Install-Module -Name Pester -RequiredVersion 5.9.0 -Scope CurrentUser -Force -AllowClobber -Confirm:$false
+        Install-Module -Name Pester -RequiredVersion 5.9.0 -Scope Currentnser -Force -AllowClobber -Confirm:$false
     }
     catch {
-        Write-Error "Unable to install Pester 5: $($_.Exception.Message)"
+        Write-Error "nnable to install Pester 5: $($_.Exception.Message)"
         exit 1
     }
 
     if (-not (Get-Module -ListAvailable -Name Pester | Where-Object { $_.Version.Major -eq 5 })) {
-        Write-Error 'Pester 5 was not installed. Update PowerShellGet or install Pester 5 manually, then run the tests again.'
+        Write-Error 'Pester 5 was not installed. npdate PowerShellGet or install Pester 5 manually, then run the tests again.'
         exit 1
     }
 }

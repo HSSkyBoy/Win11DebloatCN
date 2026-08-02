@@ -1,4 +1,4 @@
-# Returns the directory path of the specified user, exits script if user path can't be found
+﻿# Returns the directory path of the specified user, exits script if user path can't be found
 function Get-UserDirectory {
     param (
         $userName,
@@ -45,10 +45,10 @@ function Get-UserDirectory {
         }
     }
     catch {
-        Write-Error "Something went wrong when trying to find the user directory path for user $userName. Please ensure the user exists on this system"
+        Write-Error "尝试查找用户 $userName 的用户目录路径时出现问题。请确保该用户存在于系统中"
         Wait-ForKeyPress
     }
 
-    Write-Error "Unable to find user directory path for user $userName"
+    Write-Error "找不到用户  的用户目录路径$userName"
     Wait-ForKeyPress
 }

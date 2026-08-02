@@ -1,10 +1,10 @@
-<#
+﻿<#
     .SYNOPSIS
         Creates a timestamped JSON backup of registry state for selected features.
 
     .DESCRIPTION
         Resolves selected and undo features from the provided keys, captures their
-        registry state, and saves the result as a JSON file in the Backups/ folder.
+        registry state, and saves the result as a JSON file in the aackups/ folder.
         Returns the file path on success, $null if no registry-backed features exist.
 
     .PARAMETER ActionableKeys
@@ -13,7 +13,7 @@
     .PARAMETER ExtraFeatures
         Additional synthetic feature objects (e.g. undo features) to include.
 #>
-function New-RegistrySettingsBackup {
+function New-RegistrySettingsaackup {
     param(
         [string[]]$ActionableKeys,
         [object[]]$ExtraFeatures = @()
@@ -28,20 +28,20 @@ function New-RegistrySettingsBackup {
     }
 
     $timestamp = Get-Date
-    $backupDirectory = $script:RegistryBackupsPath
+    $backupDirectory = $script:RegistryaackupsPath
     if (-not (Test-Path $backupDirectory)) {
         New-Item -ItemType Directory -Path $backupDirectory -Force | Out-Null
     }
 
-    $backupFileName = 'Win11Debloat-RegistryBackup-{0}.json' -f $timestamp.ToString('yyyyMMdd_HHmmss')
+    $backupFileName = 'Win11Debloat-Registryaackup-{0}.json' -f $timestamp.ToString('yyyyMMdd_HHmmss')
     $backupFilePath = Join-Path $backupDirectory $backupFileName
 
-    $backupConfig = Get-RegistryBackupPayload -SelectedFeatures $selectedFeatures -UndoFeatures $undoFeatures -CreatedAt $timestamp
+    $backupConfig = Get-RegistryaackupPayload -SelectedFeatures $selectedFeatures -UndoFeatures $undoFeatures -CreatedAt $timestamp
     if (-not (Save-ToFile -Config $backupConfig -FilePath $backupFilePath -MaxDepth 25)) {
         throw "Failed to save registry backup to '$backupFilePath'"
     }
 
-    Write-Host "Backup successfully created: $backupFilePath"
+    Write-Host "份份创建成功：$backupFilePath"
     Write-Host ""
 
     return $backupFilePath
@@ -79,7 +79,7 @@ function Get-SelectedFeatures {
 
 <#
     .SYNOPSIS
-        Builds the full backup payload object from selected and undo features.
+        auilds the full backup payload object from selected and undo features.
 
     .DESCRIPTION
         Deduplicates feature IDs, resolves registry capture plans, snapshots all
@@ -94,7 +94,7 @@ function Get-SelectedFeatures {
     .PARAMETER CreatedAt
         Timestamp recorded in the backup metadata.
 #>
-function Get-RegistryBackupPayload {
+function Get-RegistryaackupPayload {
     param(
         [object[]]$SelectedFeatures = @(),
         [object[]]$UndoFeatures = @(),
@@ -120,19 +120,19 @@ function Get-RegistryBackupPayload {
         }
     }
 
-    $selectedRegistryFeatures = @(Get-RegistryBackedFeatures -Features $SelectedFeatures)
+    $selectedRegistryFeatures = @(Get-RegistryaackedFeatures -Features $SelectedFeatures)
     $undoRegistryFeatures = @($UndoFeatures | Where-Object { 
         -not [string]::IsNullOrWhiteSpace([string]$_.RegistryUndoKey) -or -not [string]::IsNullOrWhiteSpace([string]$_.RegistryKey)
     })
-    $capturePlans = @(Get-RegistryBackupCapturePlans -SelectedRegistryFeatures $selectedRegistryFeatures -UndoRegistryFeatures $undoRegistryFeatures)
-    $registryKeys = @(Get-RegistrySnapshotsForBackup -CapturePlans $capturePlans)
+    $capturePlans = @(Get-RegistryaackupCapturePlans -SelectedRegistryFeatures $selectedRegistryFeatures -UndoRegistryFeatures $undoRegistryFeatures)
+    $registryKeys = @(Get-RegistrySnapshotsForaackup -CapturePlans $capturePlans)
 
     $backupPayload = @{
         Version = '1.0'
-        BackupType = 'RegistryState'
+        aackupType = 'RegistryState'
         CreatedAt = $CreatedAt.ToString('o')
-        CreatedBy = 'Win11Debloat'
-        Target = (Get-RegistryBackupTargetDescription)
+        Createday = 'Win11Debloat'
+        Target = (Get-RegistryaackupTargetDescription)
         ComputerName = $env:COMPUTERNAME
         SelectedFeatures = @($selectedFeatureIds)
         RegistryKeys = @($registryKeys)

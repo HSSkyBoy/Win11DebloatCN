@@ -1,4 +1,4 @@
-# MainWindow-Deployment.ps1
+﻿# MainWindow-Deployment.ps1
 # Overview generation, pending tweak actions, feature labels, tweak preset maps, apply logic, user mode state, user selection, and validation.
 
 function Get-UndoFeatureLabel {
@@ -114,12 +114,12 @@ function New-Overview {
         }
     }
     if ($selectedAppsCount -gt 0) {
-        $changesList += "Remove $selectedAppsCount application(s)"
+        $changesList += "移除 $selectedAppsCount 个应用"
     }
 
     foreach ($tweakAction in @(Get-PendingTweakActions -Window $Window -ShowAppliedTweaksMode:$showAppliedTweaksMode)) {
         if ($tweakAction.Action -eq 'Undo') {
-            $changesList += "Undo: $($tweakAction.Label)"
+            $changesList += "撤销：$($tweakAction.Label)"
         }
         else {
             $changesList += $tweakAction.Label
@@ -139,12 +139,12 @@ function Invoke-ShowChangesOverview {
     $changesList = New-Overview -Window $Window -AppsPanel $AppsPanel -ShowCurrentlyAppliedTweaksCheckBox $ShowCurrentlyAppliedTweaksCheckBox
 
     if ($changesList.Count -eq 0) {
-        Show-MessageBox -Message 'No changes have been selected.' -Title 'Selected Changes' -Button 'OK' -Icon 'Information'
+        Show-MessageBox -Message '尚未选择任何更改。' -Title '已选择的更改' -Button 'OK' -Icon 'Information'
         return
     }
 
     $message = ($changesList | ForEach-Object { "$([char]0x2022) $_" }) -join "`n"
-    Show-MessageBox -Message $message -Title 'Selected Changes' -Button 'OK' -Icon 'None' -Width 600
+    Show-MessageBox -Message $message -Title '已选择的更改' -Button 'OK' -Icon 'None' -Width 600
 }
 
 <#
@@ -449,23 +449,23 @@ function Update-UserSelectionDescription {
         0 {
             $currentUserName = Get-UserName
             if ([string]::IsNullOrWhiteSpace($currentUserName)) {
-                $UserSelectionDescription.Text = "The currently logged-in user profile"
+                $UserSelectionDescription.Text = "当前登录的用户配置文件"
             }
             else {
-                $UserSelectionDescription.Text = "The currently logged-in user profile: $currentUserName"
+                $UserSelectionDescription.Text = "当前登录的用户配置文件：$currentUserName"
             }
         }
         1 {
             $targetUserName = $OtherUsernameTextBox.Text.Trim()
             if ([string]::IsNullOrWhiteSpace($targetUserName)) {
-                $UserSelectionDescription.Text = "A different user profile on this system"
+                $UserSelectionDescription.Text = "此系统上的其他用户配置文件"
             }
             else {
-                $UserSelectionDescription.Text = "A different user profile on this system: $targetUserName"
+                $UserSelectionDescription.Text = "此系统上的其他用户配置文件：$targetUserName"
             }
         }
         default {
-            $UserSelectionDescription.Text = "The default user template, affecting all new users created after this point. Useful for Sysprep deployment."
+            $UserSelectionDescription.Text = "默认用户模板，影响此后创建的所有新用户。适用于 Sysprep 部署。"
         }
     }
 

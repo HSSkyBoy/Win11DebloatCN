@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Shows a modal category-selection dialog for importing or exporting configuration.
 #>
@@ -32,7 +32,7 @@ function Show-ImportExportConfigWindow {
     $schemaPath = $script:ImportExportConfigSchema
 
     if (-not $schemaPath -or -not (Test-Path $schemaPath)) {
-        Show-MessageBox -Message 'Import/Export window schema file could not be found.' -Title 'Error' -Button 'OK' -Icon 'Error' -Owner $Owner | Out-Null
+        Show-MessageBox -Message '找不到导入/导出窗口的架构文件。' -Title 'Error' -Button 'OK' -Icon 'Error' -Owner $Owner | Out-Null
         if ($overlay -and -not $overlayWasAlreadyVisible) {
             try { $Owner.Dispatcher.Invoke([action]{ $overlay.Visibility = 'Collapsed' }) } catch { }
         }
@@ -422,7 +422,7 @@ function Export-Configuration {
     $deploymentSettings = Get-DeploymentSettings -Owner $Owner -UserSelectionCombo $UserSelectionCombo -OtherUsernameTextBox $OtherUsernameTextBox
     $categoryDetails = Build-CategoryDetails -AppCount $selectedApps.Count -TweakCount $tweakSettings.Count -DeploymentSettings $deploymentSettings
 
-    $categories = Show-ImportExportConfigWindow -Owner $Owner -UsesDarkMode $UsesDarkMode -Title 'Export Configuration' -Prompt 'Create a configuration file based on the currently selected settings. You can choose which settings categories you wish to include in the export.' -DisabledCategories $disabledCategories -CategoryDetails $categoryDetails -ActionLabel 'Export Settings'
+    $categories = Show-ImportExportConfigWindow -Owner $Owner -UsesDarkMode $UsesDarkMode -Title '导出配置' -Prompt 'Create a configuration file based on the currently selected settings. You can choose which settings categories you wish to include in the export.' -DisabledCategories $disabledCategories -CategoryDetails $categoryDetails -ActionLabel 'Export Settings'
     if (-not $categories) {
         Write-Host 'Export canceled.'
         return
@@ -442,31 +442,31 @@ function Export-Configuration {
 
     # Show native save-file dialog
     $saveDialog = New-Object Microsoft.Win32.SaveFileDialog
-    $saveDialog.Title = 'Export Configuration'
+    $saveDialog.Title = '导出配置'
     $saveDialog.Filter = 'JSON files (*.json)|*.json|All files (*.*)|*.*'
     $saveDialog.DefaultExt = '.json'
     $saveDialog.FileName = "Win11Debloat-Config-$(Get-Date -Format 'yyyyMMdd').json"
 
     if ($saveDialog.ShowDialog($Owner) -ne $true) {
-        Write-Host 'Export save dialog canceled.'
+        Write-Host '导出保存对话框已取消。'
         return
     }
 
-    Write-Host "Exporting configuration to '$($saveDialog.FileName)'... (Categories: $($categories -join ', '))"
+    Write-Host "正在将配置导出到 '$($saveDialog.FileName)'... (Categories: $($categories -join ', '))"
 
     if ($script:Params.ContainsKey("WhatIf")) {
-        Write-Host "[WhatIf] Export configuration to '$($saveDialog.FileName)'" -ForegroundColor Cyan
-        Show-MessageBox -Message "[WhatIf] Configuration would be exported to this file (no file written)." -Title 'Export Configuration' -Button 'OK' -Icon 'Information' | Out-Null
+        Write-Host "[WhatIf] 将配置导出到 '$($saveDialog.FileName)'" -ForegroundColor Cyan
+        Show-MessageBox -Message "[WhatIf] 配置将导出到此文件（不写入任何文件）。" -Title '导出配置' -Button 'OK' -Icon 'Information' | Out-Null
         return
     }
 
     if (Save-ToFile -Config $config -FilePath $saveDialog.FileName) {
-        Write-Host "Configuration exported successfully: $($saveDialog.FileName)"
-        Show-MessageBox -Message "Configuration exported successfully." -Title 'Export Configuration' -Button 'OK' -Icon 'Information' | Out-Null
+        Write-Host "配置导出成功：$($saveDialog.FileName)"
+        Show-MessageBox -Message "配置导出成功。" -Title '导出配置' -Button 'OK' -Icon 'Information' | Out-Null
     }
     else {
-        Write-Error "Failed to export configuration to '$($saveDialog.FileName)'"
-        Show-MessageBox -Message "Failed to export configuration" -Title 'Error' -Button 'OK' -Icon 'Error' | Out-Null
+        Write-Error "无法将配置导出到 '$($saveDialog.FileName)'"
+        Show-MessageBox -Message "导出配置失败" -Title 'Error' -Button 'OK' -Icon 'Error' | Out-Null
     }
 }
 
@@ -497,36 +497,36 @@ function Import-Configuration {
         return
     }
 
-    Write-Host "Importing configuration from '$($openDialog.FileName)'..."
+    Write-Host "正在从 '$($openDialog.FileName)'..."
 
     $config = Import-JsonFile -filePath $openDialog.FileName -expectedVersion '1.0'
     if (-not $config) {
-        Write-Error "Failed to read configuration file '$($openDialog.FileName)'"
-        Show-MessageBox -Message "Failed to read configuration file" -Title 'Invalid Config' -Button 'OK' -Icon 'Error' | Out-Null
+        Write-Error "无法读取配置文件 '$($openDialog.FileName)'"
+        Show-MessageBox -Message "无法读取配置文件" -Title '无效配置' -Button 'OK' -Icon 'Error' | Out-Null
         return
     }
 
     if (-not $config.Version) {
-        Write-Error "Invalid configuration file format: '$($openDialog.FileName)'"
-        Show-MessageBox -Message "Invalid configuration file format." -Title 'Invalid Config' -Button 'OK' -Icon 'Error' | Out-Null
+        Write-Error "配置文件格式无效：'$($openDialog.FileName)'"
+        Show-MessageBox -Message "配置文件格式无效。" -Title '无效配置' -Button 'OK' -Icon 'Error' | Out-Null
         return
     }
 
     $availableCategories = Get-AvailableImportExportCategories -Config $config
 
     if ($availableCategories.Count -eq 0) {
-        Write-Warning "Configuration file '$($openDialog.FileName)' contains no importable data."
-        Show-MessageBox -Message "The selected file contains no importable data." -Title 'Invalid Config' -Button 'OK' -Icon 'Error' | Out-Null
+        Write-Warning "配置文件 '$($openDialog.FileName)' 不包含可导入的数据。"
+        Show-MessageBox -Message "所选文件 不包含可导入的数据。" -Title '无效配置' -Button 'OK' -Icon 'Error' | Out-Null
         return
     }
 
-    Write-Host "Available categories in config: $($availableCategories -join ', ')"
+    Write-Host "配置中的可用类别：$($availableCategories -join ', ')"
 
     $appCount = @($config.Apps | Where-Object { $_ -is [string] -and -not [string]::IsNullOrWhiteSpace($_) }).Count
     $tweakCount = @($config.Tweaks | Where-Object { $_ -and $_.Name -and $_.Value -eq $true }).Count
     $categoryDetails = Build-CategoryDetails -AppCount $appCount -TweakCount $tweakCount -DeploymentSettings @($config.Deployment)
 
-    $categories = Show-ImportExportConfigWindow -Owner $Owner -UsesDarkMode $UsesDarkMode -Title 'Import Configuration' -Prompt 'Choose the settings categories that you wish to import. You can review and modify the imported settings before they are applied.' -Categories $availableCategories -CategoryDetails $categoryDetails -ActionLabel 'Import Settings'
+    $categories = Show-ImportExportConfigWindow -Owner $Owner -UsesDarkMode $UsesDarkMode -Title '导入配置' -Prompt 'Choose the settings categories that you wish to import. You can review and modify the imported settings before they are applied.' -Categories $availableCategories -CategoryDetails $categoryDetails -ActionLabel 'Import Settings'
     if (-not $categories) {
         Write-Host 'Import canceled.'
         return
@@ -540,7 +540,7 @@ function Import-Configuration {
             Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
         )
 
-        Write-Host "Importing $($appIds.Count) app selection(s)."
+        Write-Host "正在导入 $($appIds.Count) 个应用选择。"
         Set-ImportedApplications -AppsPanel $AppsPanel -AppIds $appIds
         
         if ($OnAppsImported) { 
@@ -549,16 +549,16 @@ function Import-Configuration {
     }
     if ($categories -contains 'System Tweaks' -and $config.Tweaks) {
         $tweakCount = @($config.Tweaks).Count
-        Write-Host "Importing $tweakCount tweak(s)."
+        Write-Host "正在导入 $tweakCount 个设置项。"
         Set-ImportedTweakSettings -Owner $Owner -UiControlMappings $UiControlMappings -TweakSettings @($config.Tweaks)
     }
     if ($categories -contains 'Deployment Settings' -and $config.Deployment) {
-        Write-Host 'Importing deployment settings.'
+        Write-Host '正在导入 deployment settings.'
         Set-ImportedDeploymentSettings -Owner $Owner -UserSelectionCombo $UserSelectionCombo -OtherUsernameTextBox $OtherUsernameTextBox -DeploymentSettings @($config.Deployment)
     }
 
-    Write-Host 'Configuration imported successfully.'
-    Show-MessageBox -Message "Configuration imported successfully." -Title 'Import Configuration' -Button 'OK' -Icon 'Information' | Out-Null
+    Write-Host '配置导入成功。'
+    Show-MessageBox -Message "配置导入成功。" -Title '导入配置' -Button 'OK' -Icon 'Information' | Out-Null
 
     if ($OnImportCompleted) {
         & $OnImportCompleted $categories

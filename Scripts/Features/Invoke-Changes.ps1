@@ -367,7 +367,7 @@ function Invoke-AllChanges {
             Write-Host "[WhatIf] 创建 registry 备份" -ForegroundColor Cyan
         }
         else {
-            Write-Host "> Creating registry backup..."
+            Write-Host "> 正在创建注册表备份..."
             try {
                 $undoSyntheticFeatures = @($undoIds | ForEach-Object {
                     $f = if ($script:Features.ContainsKey($_)) { $script:Features[$_] } else { $null }

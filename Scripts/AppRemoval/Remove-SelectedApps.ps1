@@ -211,7 +211,7 @@ function Test-AppStillInstalled {
         }
     }
     else {
-        Write-Warning "Unable to verify whether '$appId' is still installed (WinGet is unavailable)"
+        Write-Warning "无法验证 '$appId' 是否仍已安装（WinGet 不可用）"
     }
 
     return $false
@@ -252,7 +252,7 @@ function Get-AppRemovalMethod {
             }
         }
         catch {
-            Write-Warning "Failed to load app removal methods from '$script:AppsListFilePath'. Defaulting unknown apps to Appx. Error: $_"
+            Write-Warning "无法从 '$script:AppsListFilePath'. 未知应用将默认为 Appx 方式。错误：$_"
         }
     }
 
@@ -274,7 +274,7 @@ function Get-AppRemovalMethod {
 #>
 function Request-EdgeForceRemove {
     if ($script:GuiWindow) {
-        $result = Show-MessageBox -Message 'Unable to uninstall Microsoft Edge via WinGet. Would you like to forcefully uninstall it? NOT RECOMMENDED!' -Title 'Force Uninstall Microsoft Edge?' -Button 'YesNo' -Icon 'Warning'
+        $result = Show-MessageBox -Message '无法通过 WinGet 卸载 Microsoft Edge。是否要强制卸载它？不建议这样做！' -Title '强制卸载 Microsoft Edge？' -Button 'YesNo' -Icon 'Warning'
         if ($result -eq 'Yes') {
             Write-Host ""
             Invoke-ForceRemoveEdge
@@ -549,7 +549,7 @@ function Test-AppStillInstalled {
         }
     }
     else {
-        Write-Warning "Unable to verify whether '$appId' is still installed (WinGet is unavailable)"
+        Write-Warning "无法验证 '$appId' 是否仍已安装（WinGet 不可用）"
     }
 
     return $false
@@ -590,7 +590,7 @@ function Get-AppRemovalMethod {
             }
         }
         catch {
-            Write-Warning "Failed to load app removal methods from '$script:AppsListFilePath'. Defaulting unknown apps to Appx. Error: $_"
+            Write-Warning "无法从 '$script:AppsListFilePath'. 未知应用将默认为 Appx 方式。错误：$_"
         }
     }
 
@@ -612,7 +612,7 @@ function Get-AppRemovalMethod {
 #>
 function Request-EdgeForceRemove {
     if ($script:GuiWindow) {
-        $result = Show-MessageBox -Message 'Unable to uninstall Microsoft Edge via WinGet. Would you like to forcefully uninstall it? NOT RECOMMENDED!' -Title 'Force Uninstall Microsoft Edge?' -Button 'YesNo' -Icon 'Warning'
+        $result = Show-MessageBox -Message '无法通过 WinGet 卸载 Microsoft Edge。是否要强制卸载它？不建议这样做！' -Title '强制卸载 Microsoft Edge？' -Button 'YesNo' -Icon 'Warning'
         if ($result -eq 'Yes') {
             Write-Host ""
             Invoke-ForceRemoveEdge
@@ -674,7 +674,7 @@ function Set-RunOnceWingetTask {
         } -ArgumentObject $operation
     }
     catch {
-        Write-Host "Failed to schedule uninstall task for $($appId): $_" -ForegroundColor Red
+        Write-Host "无法为 $($appId): $_" -ForegroundColor Red
     }
 }
 " -ForegroundColor Red

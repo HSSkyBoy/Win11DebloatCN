@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Imports a JSON file, optionally validates its version, and returns $null on failure.
 #>
@@ -11,7 +11,7 @@ function Import-JsonFile {
     
     if (-not (Test-Path $filePath)) {
         if (-not $optionalFile) {
-            Write-Error "File not found: $filePath"
+            Write-Error "找不到文件：$filePath"
         }
         return $null
     }
@@ -28,7 +28,7 @@ function Import-JsonFile {
         return $jsonContent
     }
     catch {
-        Write-Error "Failed to parse JSON file: $filePath"
+        Write-Error "解析 JSON 文件失败：$filePath"
         return $null
     }
 }

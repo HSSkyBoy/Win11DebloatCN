@@ -1,4 +1,4 @@
-param (
+﻿param (
     [switch]$Verbose,
     [switch]$WhatIf,
     [switch]$Dev,
@@ -107,9 +107,9 @@ param (
 
 # Show error if current powershell environment does not have LanguageMode set to FullLanguage 
 if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage") {
-   Write-Host "Error: Win11Debloat is unable to run on your system. PowerShell execution is restricted by security policies" -ForegroundColor Red
+   Write-Host "错误：Win11Debloat 无法在您的系统上运行，PowerShell 执行受到安全策略限制" -ForegroundColor Red
    Write-Output ""
-   Write-Output "Press enter to exit..."
+   Write-Output "按回车键退出..."
    Read-Host | Out-Null
    Exit
 }
@@ -126,18 +126,18 @@ $tempArchivePath = Join-Path $tempRootPath 'win11debloat.zip'
 # Download Win11Debloat from GitHub as a zip archive.
 try {
     if ($Dev) {
-        Write-Output "> Downloading development version of Win11Debloat..."
+        Write-Output "> 正在下载 Win11Debloat 开发版..."
         $sourceUri = "https://github.com/Raphire/Win11Debloat/archive/refs/heads/master.zip"
     } else {
-        Write-Output "> Downloading Win11Debloat..."
+        Write-Output "> 正在下载 Win11Debloat..."
         $sourceUri = (Invoke-RestMethod https://api.github.com/repos/Raphire/Win11Debloat/releases/latest).zipball_url
     }
     Invoke-RestMethod $sourceUri -OutFile $tempArchivePath
 }
 catch {
-    Write-Host "Error: Unable to fetch required files from GitHub. Please check your internet connection and try again." -ForegroundColor Red
+    Write-Host "错误：无法从 GitHub 获取所需文件。请检查您的网络连接后重试。" -ForegroundColor Red
     Write-Output ""
-    Write-Output "Press enter to exit..."
+    Write-Output "按回车键退出..."
     Read-Host | Out-Null
     Exit
 }
@@ -145,7 +145,7 @@ catch {
 # Remove old script folder if it exists, but keep configs, logs and backups
 if (Test-Path $tempWorkPath) {
     Write-Output ""
-    Write-Output "> Cleaning up old script files..."
+    Write-Output "> 正在清理旧的脚本文件..."
 
     Get-ChildItem -Path $tempWorkPath -Exclude Config,Logs,Backups | Remove-Item -Recurse -Force
 }
@@ -156,7 +156,7 @@ $backupDir = Join-Path $tempWorkPath 'ConfigOld'
 # Temporarily move existing config files if they exist to prevent them from being overwritten by the new script files, will be moved back after the new script is unpacked
 if (Test-Path "$configDir") {
     Write-Output ""
-    Write-Output "> Backing up existing config files..."
+    Write-Output "> 正在备份现有配置文件..."
 
     New-Item -ItemType Directory -Path "$backupDir" -Force | Out-Null
 
@@ -170,7 +170,7 @@ if (Test-Path "$configDir") {
 }
 
 Write-Output ""
-Write-Output "> Unpacking..."
+Write-Output "> 正在解压..."
 
 # Unzip archive to Win11Debloat folder
 Expand-Archive $tempArchivePath $tempWorkPath
@@ -188,7 +188,7 @@ if (Test-Path "$backupDir") {
     }
 
     Write-Output ""
-    Write-Output "> Restoring existing config files..."
+    Write-Output "> 正在恢复现有配置文件..."
 
     Get-ChildItem -Path "$backupDir" -Recurse | Move-Item -Destination "$configDir"
     Remove-Item "$backupDir" -Recurse -Force
@@ -205,7 +205,7 @@ $arguments = $($PSBoundParameters.GetEnumerator() | Where-Object { $_.Key -ne 'D
 })
 
 Write-Output ""
-Write-Output "> Launching Win11Debloat..."
+Write-Output "> 正在启动 Win11Debloat..."
 
 # Minimize the powershell window when no parameters are provided
 if ($arguments.Count -eq 0) {
@@ -233,7 +233,7 @@ if ($null -ne $debloatProcess) {
 # Remove all remaining script files, except for configs, logs and backups
 if (Test-Path $tempWorkPath) {
     Write-Output ""
-    Write-Output "> Cleaning up..."
+    Write-Output "> 正在清理..."
 
     # Cleanup, remove Win11Debloat directory
     Get-ChildItem -Path $tempWorkPath -Exclude Config,Logs,Backups | Remove-Item -Recurse -Force

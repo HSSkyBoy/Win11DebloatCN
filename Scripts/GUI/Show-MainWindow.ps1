@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Creates and displays the main Win11Debloat window.
 #>
@@ -47,8 +47,8 @@ function Show-MainWindow {
     # ---- Handle unhandled exceptions on the dispatcher thread ----
     [System.Windows.Threading.Dispatcher]::CurrentDispatcher.Add_UnhandledException({
         param($sender, $e)
-        Write-Warning "Unhandled exception in GUI: $($e.Exception.Message)"
-        Write-Warning "Stack trace: $($e.Exception.StackTrace)"
+        Write-Warning "GUI 中发生未处理的异常：$($e.Exception.Message)"
+        Write-Warning "堆栈跟踪：$($e.Exception.StackTrace)"
         $e.Handled = $true
     })
 
@@ -97,7 +97,7 @@ function Show-MainWindow {
             Start-Process "explorer.exe" -ArgumentList $logsFolder
         }
         else {
-            Show-MessageBox -Message "No logs folder found at: $logsFolder" -Title "Logs" -Button 'OK' -Icon 'Information'
+            Show-MessageBox -Message "在 $logsFolder 未找到日志文件夹" -Title "Logs" -Button 'OK' -Icon 'Information'
         }
     })
 
@@ -169,8 +169,8 @@ function Show-MainWindow {
             Export-Configuration -Owner $window -UsesDarkMode $usesDarkMode -AppsPanel $appsPanel -UiControlMappings $script:UiControlMappings -UserSelectionCombo $userSelectionCombo -OtherUsernameTextBox $otherUsernameTextBox
         }
         catch {
-            Write-Warning "Export configuration failed: $($_.Exception.Message)"
-            Show-MessageBox -Owner $window -Message "Unable to open export configuration dialog: $($_.Exception.Message)" -Title 'Export Configuration Failed' -Button 'OK' -Icon 'Error' | Out-Null
+            Write-Warning "导出配置失败：$($_.Exception.Message)"
+            Show-MessageBox -Owner $window -Message "无法打开导出配置对话框：$($_.Exception.Message)" -Title '导出配置失败' -Button 'OK' -Icon 'Error' | Out-Null
         }
     })
 
@@ -185,8 +185,8 @@ function Show-MainWindow {
             }
         }
         catch {
-            Write-Warning "Import configuration failed: $($_.Exception.Message)"
-            Show-MessageBox -Owner $window -Message "Unable to open import configuration dialog: $($_.Exception.Message)" -Title 'Import Configuration Failed' -Button 'OK' -Icon 'Error' | Out-Null
+            Write-Warning "导入配置失败：$($_.Exception.Message)"
+            Show-MessageBox -Owner $window -Message "无法打开导入配置对话框：$($_.Exception.Message)" -Title '导入配置失败' -Button 'OK' -Icon 'Error' | Out-Null
         }
     })
 
@@ -205,8 +205,8 @@ function Show-MainWindow {
                 }
             }
             catch {
-                Write-Warning "Restore backup action failed: $($_.Exception.Message)"
-                Show-MessageBox -Owner $window -Message "Unable to open restore backup dialog: $($_.Exception.Message)" -Title 'Restore Backup Failed' -Button 'OK' -Icon 'Error' | Out-Null
+                Write-Warning "恢复备份操作失败：$($_.Exception.Message)"
+                Show-MessageBox -Owner $window -Message "无法打开恢复备份对话框：$($_.Exception.Message)" -Title '恢复备份失败' -Button 'OK' -Icon 'Error' | Out-Null
             }
         })
     }
@@ -600,7 +600,7 @@ function Show-MainWindow {
             else {
                 "Please enter a valid username."
             }
-            Show-MessageBox -Message $validationMessage -Title "Invalid Username" -Button 'OK' -Icon 'Warning' | Out-Null
+            Show-MessageBox -Message $validationMessage -Title "无效的用户名" -Button 'OK' -Icon 'Warning' | Out-Null
             return $false
         }
         return $true
@@ -693,7 +693,7 @@ function Show-MainWindow {
         }
 
         if (-not $hasAppSelection -and $selectedForwardFeatureIds.Count -eq 0 -and $script:UndoParams.Count -eq 0) {
-            Show-MessageBox -Message 'No changes have been selected, please select at least one option to proceed.' -Title 'No Changes Selected' -Button 'OK' -Icon 'Information'
+            Show-MessageBox -Message '尚未选择任何更改，请至少选择一个选项以继续。' -Title '未选择更改' -Button 'OK' -Icon 'Information'
             return
         }
 
@@ -708,13 +708,13 @@ function Show-MainWindow {
         }
 
         switch ($userSelectionCombo.SelectedIndex) {
-            0 { Write-Host "Selected user mode: current user ($(Get-UserName))" }
+            0 { Write-Host "已选择用户模式：当前用户 ($(Get-UserName))" }
             1 {
-                Write-Host "Selected user mode: $($otherUsernameTextBox.Text.Trim())"
+                Write-Host "已选择用户模式：$($otherUsernameTextBox.Text.Trim())"
                 Add-Parameter User ($otherUsernameTextBox.Text.Trim())
             }
             2 {
-                Write-Host "Selected user mode: default user profile (Sysprep)"
+                Write-Host "已选择用户模式：默认用户配置文件 (Sysprep)"
                 Add-Parameter Sysprep
             }
         }
@@ -809,9 +809,9 @@ function Show-MainWindow {
             Invoke-NavigationUpdate
         }
         catch {
-            Write-Warning "Error during GUI initialization: $($_.Exception.Message)"
-            Write-Warning "Stack trace: $($_.Exception.StackTrace)"
-            Show-MessageBox -Message "An error occurred during initialization: $($_.Exception.Message)" -Title "Initialization Error" -Button 'OK' -Icon 'Error' | Out-Null
+            Write-Warning "GUI 初始化期间出错：$($_.Exception.Message)"
+            Write-Warning "堆栈跟踪：$($_.Exception.StackTrace)"
+            Show-MessageBox -Message "初始化期间发生错误：$($_.Exception.Message)" -Title "初始化错误" -Button 'OK' -Icon 'Error' | Out-Null
         }
     })
 
@@ -887,7 +887,7 @@ function Show-MainWindow {
         $script:PreloadedAppData = Import-AppDetailsFromJson -OnlyInstalled:$false -InstalledList $null -InitialCheckedFromJson:$false
     }
     catch {
-        Write-Warning "Failed to preload apps list: $_"
+        Write-Warning "预加载应用列表失败：$_"
     }
 
     # ---- Show window ----
@@ -901,7 +901,7 @@ function Show-MainWindow {
     # If WhatIf mode is enabled, notify the user that no changes will be made
     if ($script:Params.ContainsKey("WhatIf")) {
         $window.Dispatcher.BeginInvoke([System.Windows.Threading.DispatcherPriority]::Loaded, [action]{
-            Show-MessageBox -Message "WhatIf mode is enabled. The script will not make any changes to your system in this mode.`n`nYou can observe the actions that would be taken by the script in the console output." -Title 'WhatIf Mode' -Button 'OK' -Icon 'Information' -Owner $window
+            Show-MessageBox -Message "WhatIf 模式已启用。在此模式下脚本不会对您的系统进行任何更改。`n`n您可以在控制台输出中查看脚本将执行的操作。" -Title 'WhatIf 模式' -Button 'OK' -Icon 'Information' -Owner $window
         }) | Out-Null
     }
 

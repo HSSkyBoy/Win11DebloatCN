@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
     Replaces the start menu layout for all user profiles.
 
@@ -28,7 +28,7 @@ function Replace-StartMenuForAllUsers {
 
     # Check if template bin file exists
     if (-not (Test-Path $startMenuTemplate)) {
-        Write-Host "Error: Unable to clear start menu, start2.bin file missing from script folder" -ForegroundColor Red
+        Write-Host "错误：无法清除开始菜单，脚本文件夹中缺少 start2.bin 文件" -ForegroundColor Red
         Write-Host ""
         return
     }
@@ -53,12 +53,12 @@ function Replace-StartMenuForAllUsers {
     # Create folder if it doesn't exist
     if (-not (Test-Path $defaultStartMenuPath)) {
         new-item $defaultStartMenuPath -ItemType Directory -Force | Out-Null
-        Write-Host "Created LocalState folder for default user profile"
+        Write-Host "已为默认用户配置文件创建 LocalState 文件夹"
     }
 
     # Copy template to default profile
     Replace-StartMenu -startMenuBinFile "$($defaultStartMenuPath)\start2.bin" -startMenuTemplate $startMenuTemplate
-    Write-Host "Replaced start menu for the default user profile"
+    Write-Host "已替换默认用户配置文件的开始菜单"
     Write-Host ""
 }
 
@@ -97,12 +97,12 @@ function Replace-StartMenu {
 
     # Check if template bin file exists
     if (-not (Test-Path $startMenuTemplate)) {
-        Write-Host "Error: Unable to replace start menu, template file not found" -ForegroundColor Red
+        Write-Host "错误：无法替换开始菜单，找不到模板文件" -ForegroundColor Red
         return
     }
 
     if ([IO.Path]::GetExtension($startMenuTemplate) -ne ".bin") {
-        Write-Host "Error: Unable to replace start menu, template file is not a valid .bin file" -ForegroundColor Red
+        Write-Host "错误：无法替换开始菜单，模板文件不是有效的 .bin 文件" -ForegroundColor Red
         return
     }
 
@@ -124,14 +124,14 @@ function Replace-StartMenu {
         Write-Verbose "Start menu backup for user $userName saved to $backupFileName"
     }
     else {
-        Write-Host "Unable to find original start2.bin file for user $userName, no backup was created for this user" -ForegroundColor Yellow
+        Write-Host "找不到用户 $userName 的原始 start2.bin 文件，未为此用户创建备份" -ForegroundColor Yellow
         New-Item -ItemType File -Path $startMenuBinFile -Force
     }
 
     # Copy template file
     Copy-Item -Path $startMenuTemplate -Destination $startMenuBinFile -Force
 
-    Write-Host "Replaced start menu for user $userName"
+    Write-Host "已替换用户  的开始菜单$userName"
 }
 
 <#
@@ -362,7 +362,7 @@ function Restore-StartMenu {
     $targetUserName = $env:USERNAME
     $startMenuBinFile = "$env:LOCALAPPDATA\Packages\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\LocalState\start2.bin"
 
-    Write-Host "Restoring start menu for user $targetUserName from backup..."
+    Write-Host "正在从备份恢复用户 $targetUserName 的开始菜单..."
 
     return Restore-StartMenuFromBackup -StartMenuBinFile $startMenuBinFile -BackupFilePath $BackupFilePath
 }
@@ -398,7 +398,7 @@ function Restore-StartMenuForAllUsers {
     $usersStartMenuPaths = Get-ChildItem -Path $userPathString -ErrorAction SilentlyContinue
     $results = @()
 
-    Write-Host "Restoring start menu for all users from backup..."
+    Write-Host "正在从备份恢复所有用户的开始菜单..."
 
     foreach ($startMenuPath in $usersStartMenuPaths) {
         $startMenuBinFile = Join-Path $startMenuPath.FullName 'start2.bin'

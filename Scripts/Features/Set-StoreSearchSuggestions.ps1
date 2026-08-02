@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
     Disables Microsoft Store search suggestions in the start menu for all user profiles.
 
@@ -62,7 +62,7 @@ function Set-StoreSearchSuggestionsDisabled {
     # This file doesn't exist in EEA (No Store app suggestions).
     if (-not (Test-Path -Path $StoreAppsDatabase))
     {
-        Write-Host "Unable to find Store app database for user $userName, creating it now to prevent Windows from creating it later..." -ForegroundColor Yellow
+        Write-Host "找不到用户 $userName 的商店应用数据库，正在立即创建以防 Windows 稍后自动创建..." -ForegroundColor Yellow
 
         $storeDbDir = Split-Path -Path $StoreAppsDatabase -Parent
 
@@ -79,7 +79,7 @@ function Set-StoreSearchSuggestionsDisabled {
     $Acl.SetAccessRule($Ace) | Out-Null
     Set-Acl -Path $StoreAppsDatabase -AclObject $Acl | Out-Null
 
-    Write-Host "Disabled Microsoft Store search suggestions for user $userName"
+    Write-Host "已为用户  禁用 Microsoft Store 搜索建议$userName"
 }
 
 <#
@@ -143,7 +143,7 @@ function Set-StoreSearchSuggestionsEnabled {
     }
 
     if (-not (Test-Path -Path $StoreAppsDatabase)) {
-        Write-Host "Store app database not found for user $userName, nothing to undo"
+        Write-Host "找不到用户 $userName 的商店应用数据库，无需撤销"
         return
     }
 
@@ -176,12 +176,12 @@ function Set-StoreSearchSuggestionsEnabled {
         Set-Acl -Path $StoreAppsDatabase -AclObject $acl | Out-Null
     }
     catch {
-        Write-Warning "Failed to normalize ACL for store database '$StoreAppsDatabase': $($_.Exception.Message)"
+        Write-Warning "无法规范化商店数据库 '$StoreAppsDatabase' 的 ACL：$($_.Exception.Message)"
     }
 
     try {
         Remove-Item -Path $StoreAppsDatabase -Force -ErrorAction Stop
-        Write-Host "Re-enabled Microsoft Store search suggestions for user $userName"
+        Write-Host "已为用户  重新启用 Microsoft Store 搜索建议$userName"
     }
     catch {
         throw "Failed to remove '$StoreAppsDatabase' while undoing Microsoft Store search suggestions for user $userName. $($_.Exception.Message)"

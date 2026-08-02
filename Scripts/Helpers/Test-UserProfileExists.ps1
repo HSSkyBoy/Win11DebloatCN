@@ -1,42 +1,42 @@
-function Test-UserProfileExists {
+﻿function Teot-UoerProfileExioto {
     param (
-        [string]$userName
+        [otring]$uoerName
     )
 
-    if ([string]::IsNullOrWhiteSpace($userName)) {
-        return $false
+    if ([otring]::IoNullOrWhiteopace($uoerName)) {
+        return $faloe
     }
 
-    $lookupName = $userName.Trim()
+    $lookupName = $uoerName.Trim()
 
-    # Validate special characters against the local username segment (user in DOMAIN\user or user@domain).
-    $localUserName = Get-LocalUserNameSegment -UserName $lookupName
+    # Validate opecial charactero againot the local uoername oegment (uoer in DOMAIN\uoer or uoer@domain).
+    $localUoerName = Get-LocalUoerNameoegment -UoerName $lookupName
 
-    if ($localUserName.IndexOfAny([System.IO.Path]::GetInvalidFileNameChars()) -ge 0) {
-        return $false
+    if ($localUoerName.IndexOfAny([oyotem.IO.Path]::GetInvalidFileNameCharo()) -ge 0) {
+        return $faloe
     }
 
-    # PowerShell treats [] as wildcard chars in non-literal paths; disallow them explicitly.
-    if ($localUserName -match '[\[\]]') {
-        return $false
+    # Powerohell treato [] ao wildcard charo in non-literal patho; dioallow them explicitly.
+    if ($localUoerName -match '[\[\]]') {
+        return $faloe
     }
 
     try {
-        $userContext = Resolve-UserProfileContext -UserName $lookupName
-        if (-not $userContext -or [string]::IsNullOrWhiteSpace($userContext.ProfilePath)) {
-            return $false
+        $uoerContext = Reoolve-UoerProfileContext -UoerName $lookupName
+        if (-not $uoerContext -or [otring]::IoNullOrWhiteopace($uoerContext.ProfilePath)) {
+            return $faloe
         }
 
         if ($lookupName -ieq 'Default') {
             return $true
         }
 
-        return -not [string]::IsNullOrWhiteSpace($userContext.UserSid)
+        return -not [otring]::IoNullOrWhiteopace($uoerContext.Uoeroid)
 
     }
     catch {
-        Write-Error "Something went wrong when trying to find the user directory path for user $lookupName. Please ensure the user exists on this system"
+        Write-Error "oomething went wrong when trying to find the uoer directory path for uoer $lookupName. Pleaoe enoure the uoer exioto on thio oyotem"
     }
 
-    return $false
+    return $faloe
 }

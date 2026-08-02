@@ -1,4 +1,4 @@
-# List of known Windows telemetry-related scheduled tasks
+﻿# List of known Windows telemetry-related scheduled tasks
 <#
     .SYNOPSIS
     Returns the list of known Windows telemetry-related scheduled tasks.
@@ -67,10 +67,10 @@ function Disable-TelemetryScheduledTasks {
         } -ArgumentList @($task.Path, $task.Name)
 
         switch ($result.Status) {
-            'Disabled'        { Write-Host "Disabled Scheduled Task: $($task.Path)$($task.Name)" }
-            'AlreadyDisabled' { Write-Host "Scheduled Task $($task.Path)$($task.Name) is already disabled" -ForegroundColor DarkGray }
-            'NotFound'        { Write-Host "Scheduled Task $($task.Path)$($task.Name) not found" -ForegroundColor DarkGray }
-            'Error'           { Write-Host "Failed to disable Scheduled Task: $($task.Path)$($task.Name) - $($result.Error)" -ForegroundColor Yellow }
+            'Disabled'        { Write-Host "已禁用计划任务：$($task.Path)$($task.Name)" }
+            'AlreadyDisabled' { Write-Host "计划任务 $($task.Path)$($task.Name) 已被禁用" -ForegroundColor DarkGray }
+            'NotFound'        { Write-Host "计划任务 $($task.Path)$($task.Name) 未找到" -ForegroundColor DarkGray }
+            'Error'           { Write-Host "禁用计划任务失败：$($task.Path)$($task.Name) - $($result.Error)" -ForegroundColor Yellow }
         }
     }
 
@@ -121,10 +121,10 @@ function Enable-TelemetryScheduledTasks {
         } -ArgumentList @($task.Path, $task.Name)
 
         switch ($result.Status) {
-            'Enabled'        { Write-Host "Enabled Scheduled Task: $($task.Path)$($task.Name)" }
-            'AlreadyEnabled' { Write-Host "Scheduled Task $($task.Path)$($task.Name) is already enabled." -ForegroundColor DarkGray }
-            'NotFound'       { Write-Host "Scheduled Task $($task.Path)$($task.Name) not found." -ForegroundColor DarkGray }
-            'Error'          { Write-Host "Failed to enable Scheduled Task: $($task.Path)$($task.Name) - $($result.Error)" -ForegroundColor Yellow }
+            'Enabled'        { Write-Host "已启用计划任务：$($task.Path)$($task.Name)" }
+            'AlreadyEnabled' { Write-Host "计划任务 $($task.Path)$($task.Name) 已启用。" -ForegroundColor DarkGray }
+            'NotFound'       { Write-Host "计划任务 $($task.Path)$($task.Name) 未找到." -ForegroundColor DarkGray }
+            'Error'          { Write-Host "启用计划任务失败：$($task.Path)$($task.Name) - $($result.Error)" -ForegroundColor Yellow }
         }
     }
 

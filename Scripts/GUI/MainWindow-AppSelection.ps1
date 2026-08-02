@@ -1,4 +1,4 @@
-# MainWindow-AppSelection.ps1
+﻿# MainWindow-AppSelection.ps1
 # App-selection panel functions: tri-state helpers, sorting, search/highlight, app loading, preset management, and removal scope.
 
 function Add-TriStateClickBehavior {
@@ -559,12 +559,12 @@ function Initialize-MainWindowApps {
                 $listOfApps = $null
 
                 if ($OnlyInstalledAppsBox.IsChecked -and ($script:WingetInstalled -eq $true)) {
-                    Write-Host "Retrieving installed apps via winget..."
+                    Write-Host "正在通过 winget 获取已安装应用..."
                     $listOfApps = Get-WingetInstalledApps -TimeOut 20 -NonBlocking
 
                     if ($null -eq $listOfApps) {
-                        Write-Warning "WinGet returned no data (command timed out or failed)"
-                        Show-MessageBox -Message 'Unable to load list of installed apps via WinGet.' -Title 'Error' -Button 'OK' -Icon 'Error' | Out-Null
+                        Write-Warning "WinGet 未返回数据（命令超时或失败）"
+                        Show-MessageBox -Message '无法通过 WinGet 加载已安装应用列表。' -Title '错误' -Button 'OK' -Icon '错误' | Out-Null
                         $OnlyInstalledAppsBox.IsChecked = $false
                     }
                 }
@@ -573,7 +573,7 @@ function Initialize-MainWindowApps {
                     -LoadingAppsIndicator $LoadingAppsIndicator -ImportConfigBtn $ImportConfigBtn -ListOfApps $listOfApps
             }
             catch {
-                Write-Warning "Failed to load apps list: $($_.Exception.Message)"
+                Write-Warning "无法加载应用列表：$($_.Exception.Message)"
                 $LoadingAppsIndicator.Visibility = 'Collapsed'
                 $OnlyInstalledAppsBox.IsHitTestVisible = $true
                 $Window.FindName('DeploymentApplyBtn').IsEnabled = $true

@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Displays the Restore Backup wizard dialog.
 
@@ -46,7 +46,7 @@ function Show-RestoreBackupDialog {
 
     $schemaPath = $script:RestoreBackupWindowSchema
     if (-not $schemaPath -or -not (Test-Path $schemaPath)) {
-        throw 'Restore backup window schema file could not be found.'
+        throw '找不到恢复备份窗口架构文件。'
     }
 
     $xaml = Get-Content -Path $schemaPath -Raw
@@ -107,7 +107,7 @@ function Show-RestoreBackupDialog {
     $getStartMenuScopeInfo = {
         $isAllUsersScope = ($startMenuScopeCombo.SelectedItem.Tag -eq 'AllUsers')
         $scopeValue = if ($isAllUsersScope) { 'AllUsers' } else { 'CurrentUser' }
-        $summaryScopeText = if ($isAllUsersScope) { 'all users' } else { 'the current user' }
+        $summaryScopeText = if ($isAllUsersScope) { '所有用户' } else { '当前用户' }
 
         return [PSCustomObject]@{
             Scope = $scopeValue
@@ -117,8 +117,8 @@ function Show-RestoreBackupDialog {
     }
 
     $showStartMenuIntroState = {
-        $backupFileText.Text = 'Not selected'
-        $backupCreatedText.Text = 'N/A'
+        $backupFileText.Text = '未选择'
+        $backupCreatedText.Text = '无'
         $overviewSummaryText.Visibility = 'Collapsed'
         $overviewPanel.Visibility = 'Collapsed'
         $startMenuIntroPanel.Visibility = 'Visible'
@@ -130,10 +130,10 @@ function Show-RestoreBackupDialog {
 
         $scopeInfo = & $getStartMenuScopeInfo
         $backupTargetText.Text = Get-FriendlyRegistryBackupTarget -Target $scopeInfo.Target
-        $overviewSummaryText.Text = "This will replace the current Start Menu pinned apps layout for $($scopeInfo.SummaryText) with the selected backup."
+        $overviewSummaryText.Text = "这将使用所选备份替换 $($scopeInfo.SummaryText) 当前的开始菜单固定应用布局。"
         $backupFileText.Text = Split-Path -Path $BackupFilePath -Leaf
 
-        $createdText = 'Unknown'
+        $createdText = '未知'
         try {
             $createdText = (Get-Item -LiteralPath $BackupFilePath -ErrorAction Stop).LastWriteTime.ToString('yyyy-MM-dd HH:mm')
         }
@@ -172,10 +172,10 @@ function Show-RestoreBackupDialog {
         $isAutoBackupEnabled = ($startMenuAutoBackupCheck.IsChecked -eq $true)
         $hasSelectedManualFile = -not [string]::IsNullOrWhiteSpace($state.SelectedStartMenuBackupFilePath)
         if ($isAutoBackupEnabled -or $hasSelectedManualFile) {
-            $primaryActionBtn.Content = 'Restore backup'
+            $primaryActionBtn.Content = '恢复备份'
         }
         else {
-            $primaryActionBtn.Content = 'Select backup file'
+            $primaryActionBtn.Content = '选择备份文件'
         }
     }
 
@@ -185,35 +185,35 @@ function Show-RestoreBackupDialog {
     }
 
     $enterSelectTypeStep = {
-        $titleText.Text = 'Restore Backup'
+        $titleText.Text = '恢复备份'
         $restoreModeTabs.SelectedIndex = 0
         $backBtn.Visibility = 'Visible'
-        $backBtn.Content = 'Cancel'
+        $backBtn.Content = '取消'
         $primaryActionBtn.Visibility = 'Collapsed'
         $chooseRegistryBtn.IsDefault = $true
         $primaryActionBtn.IsDefault = $false
     }
 
     $enterRegistryStep = {
-        $titleText.Text = 'Restore Registry Backup'
+        $titleText.Text = '恢复注册表备份'
         $restoreModeTabs.SelectedIndex = 1
         $introInfoPanel.Visibility = 'Visible'
         $overviewPanel.Visibility = 'Collapsed'
         $overviewFeaturesSection.Visibility = 'Visible'
         $overviewSummaryText.Visibility = 'Collapsed'
         $backBtn.Visibility = 'Visible'
-        $backBtn.Content = 'Back'
+        $backBtn.Content = '返回'
         $primaryActionBtn.Visibility = 'Visible'
-        $primaryActionBtn.Content = 'Select backup file'
+        $primaryActionBtn.Content = '选择备份文件'
         $primaryActionBtn.IsDefault = $true
         $chooseRegistryBtn.IsDefault = $false
     }
 
     $enterStartMenuStep = {
-        $titleText.Text = 'Restore Start Menu Backup'
+        $titleText.Text = '恢复开始菜单备份'
         $restoreModeTabs.SelectedIndex = 2
         $backBtn.Visibility = 'Visible'
-        $backBtn.Content = 'Back'
+        $backBtn.Content = '返回'
         $primaryActionBtn.Visibility = 'Visible'
         $primaryActionBtn.IsDefault = $true
         $chooseRegistryBtn.IsDefault = $false
@@ -233,7 +233,7 @@ function Show-RestoreBackupDialog {
         )
 
         $createdText = if ([string]::IsNullOrWhiteSpace($SelectedBackup.CreatedAt)) {
-            'Unknown'
+            '未知'
         }
         else {
             try {
@@ -268,10 +268,10 @@ function Show-RestoreBackupDialog {
         $revertibleFeaturesList = @($forwardFeatureLists.Revertible)
         $reappliedFeaturesList = @($undoFeatureLists.Revertible)
         $nonRevertibleFeaturesList = @($combinedFeatureLists.NonRevertible)
-        Write-Host "Backup overview prepared. Reverted=$($revertibleFeaturesList.Count), ReApplied=$($reappliedFeaturesList.Count), NonRevertible=$($nonRevertibleFeaturesList.Count)"
+        Write-Host "备份概览已准备。已恢复=$($revertibleFeaturesList.Count)，已重新应用=$($reappliedFeaturesList.Count)，不可恢复=$($nonRevertibleFeaturesList.Count)"
 
         if ($revertibleFeaturesList.Count -eq 0 -and $reappliedFeaturesList.Count -eq 0) {
-            throw 'The selected backup does not contain any changes that can be restored.'
+            throw '所选备份不包含任何可以恢复的更改。'
         }
 
         $backupFileText.Text = Split-Path $SelectedBackupFilePath -Leaf
@@ -306,8 +306,8 @@ function Show-RestoreBackupDialog {
         }
 
         $openDialog = New-Object Microsoft.Win32.OpenFileDialog
-        $openDialog.Title = 'Select Registry Backup File'
-        $openDialog.Filter = 'Registry backup (*.json)|*.json'
+        $openDialog.Title = '选择注册表备份文件'
+        $openDialog.Filter = '注册表备份 (*.json)|*.json'
         $openDialog.DefaultExt = '.json'
         $openDialog.InitialDirectory = $script:RegistryBackupsPath
 
@@ -315,7 +315,7 @@ function Show-RestoreBackupDialog {
             return
         }
 
-        Write-Host "Backup file selected: $($openDialog.FileName)"
+        Write-Host "已选择备份文件：$($openDialog.FileName)"
 
         try {
             $selectedBackup = Import-RegistryBackup -FilePath $openDialog.FileName
@@ -325,12 +325,12 @@ function Show-RestoreBackupDialog {
             }
         }
         catch {
-            Show-MessageBox -Owner $window -Title 'Invalid Backup File' -Message "The selected file could not be loaded:`n$($_.Exception.Message)" -Button 'OK' -Icon 'Error' | Out-Null
+            Show-MessageBox -Owner $window -Title '无效的备份文件' -Message "无法加载所选文件：`n$($_.Exception.Message)" -Button 'OK' -Icon 'Error' | Out-Null
             return
         }
 
         $state.SelectedRegistryBackup = $selectedBackup
-        $primaryActionBtn.Content = 'Restore from backup'
+        $primaryActionBtn.Content = '从备份恢复'
     }
 
     $handleStartMenuPrimaryAction = {
@@ -339,8 +339,8 @@ function Show-RestoreBackupDialog {
 
         if ($useManualBackupFile -and [string]::IsNullOrWhiteSpace($state.SelectedStartMenuBackupFilePath)) {
             $openDialog = New-Object Microsoft.Win32.OpenFileDialog
-            $openDialog.Title = 'Select Start Menu Backup File'
-            $openDialog.Filter = 'Start Menu backup (*.bak)|*.bak'
+            $openDialog.Title = '选择开始菜单备份文件'
+            $openDialog.Filter = '开始菜单备份 (*.bak)|*.bak'
             $openDialog.InitialDirectory = "$env:LOCALAPPDATA\Packages\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\LocalState"
             $openDialog.DefaultExt = '.bak'
 
@@ -349,7 +349,7 @@ function Show-RestoreBackupDialog {
             }
 
             $state.SelectedStartMenuBackupFilePath = $openDialog.FileName
-            Write-Host "Selected Start Menu backup file: $($state.SelectedStartMenuBackupFilePath)"
+            Write-Host "已选择开始菜单备份文件：$($state.SelectedStartMenuBackupFilePath)"
             & $refreshStartMenuUi
             return
         }
@@ -359,7 +359,7 @@ function Show-RestoreBackupDialog {
             $autoBackupPath = Get-StartMenuBackupPath -Scope $scopeInfo.Scope
             if ($null -eq $autoBackupPath) {
                 $scopeText = $scopeInfo.SummaryText
-                Show-MessageBox -Owner $window -Title 'No Backup Found' -Message "No Start Menu backup file was found for $scopeText. Uncheck 'Automatically find Start Menu backup' to select a backup file manually." -Button 'OK' -Icon 'Warning' | Out-Null
+                Show-MessageBox -Owner $window -Title '未找到备份' -Message "未找到 $scopeText 的开始菜单备份文件。取消勾选"自动查找开始菜单备份"以手动选择备份文件。" -Button 'OK' -Icon 'Warning' | Out-Null
                 return
             }
             $state.SelectedStartMenuBackupFilePath = if ($scopeInfo.Scope -eq 'CurrentUser') { $autoBackupPath } else { $null }
@@ -458,8 +458,8 @@ function Show-RestoreBackupDialog {
         $null = $window.ShowDialog()
     }
     catch {
-        $innerMessage = if ($_.Exception.InnerException) { $_.Exception.InnerException.Message } else { 'None' }
-        throw "Failed to show restore backup dialog. Error: $($_.Exception.Message) Inner: $innerMessage"
+        $innerMessage = if ($_.Exception.InnerException) { $_.Exception.InnerException.Message } else { '无' }
+        throw "显示恢复备份对话框失败。错误：$($_.Exception.Message) 内部错误：$innerMessage"
     }
     finally {
         if ($overlay -and -not $overlayWasAlreadyVisible) {
