@@ -2,10 +2,10 @@
 
 [![上游发布](https://img.shields.io/github/v/release/Raphire/Win11Debloat?style=for-the-badge&label=上游发布)](https://github.com/Raphire/Win11Debloat/releases/latest)
 [![本库发布](https://img.shields.io/github/v/release/HSSkyBoy/Win11DebloatCN?style=for-the-badge&label=本库发布)](https://github.com/HSSkyBoy/Win11DebloatCN/releases/latest)
-[![加入讨论](https://img.shields.io/badge/加入讨论-2D9F2D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Raphire/Win11Debloat/discussions)
+[![提交问题](https://img.shields.io/badge/提交问题-2D9F2D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/HSSkyBoy/Win11DebloatCN/issues)
 [![文档](https://img.shields.io/badge/文档-_?style=for-the-badge&logo=bookstack&color=grey)](https://github.com/Raphire/Win11Debloat/wiki/)
 
-> **这是 [Raphire/Win11Debloat](https://github.com/Raphire/Win11Debloat) 的第三方中文镜像。** 脚本代码与上游完全一致，仅提供简体中文 README。
+> **这是 [Raphire/Win11Debloat](https://github.com/Raphire/Win11Debloat) 的第三方简体中文维护版。** 本仓库提供简体中文界面、文档与启动器，并持续同步上游功能更新。
 >
 > For English, please visit the upstream repository: [Raphire/Win11Debloat](https://github.com/Raphire/Win11Debloat)
 
@@ -22,7 +22,7 @@ Win11Debloat 是一个轻量级、易于使用的 PowerShell 脚本，无需安�
 ## 使用方法
 
 > [!Warning]
-> 我们在确保此脚本不会无意中破坏任何操作系统功能方面付出了极大的努力，但使用风险自负！如果您遇到任何问题，请在[上游仓库](https://github.com/Raphire/Win11Debloat/issues)报告。
+> 我们在确保此脚本不会无意中破坏任何操作系统功能方面付出了极大的努力，但使用风险自负！中文版本的问题请在[本仓库](https://github.com/HSSkyBoy/Win11DebloatCN/issues)报告；上游功能问题也可在[上游仓库](https://github.com/Raphire/Win11Debloat/issues)提交。
 
 ### 快速方法
 
@@ -172,7 +172,7 @@ Win11Debloat 是一个轻量级、易于使用的 PowerShell 脚本，无需安�
 
 ## 参与贡献
 
-我们欢迎各种形式的贡献！请参阅[贡献指南](https://github.com/Raphire/Win11Debloat/blob/master/.github/CONTRIBUTING.md)了解如何开始以及贡献的最佳实践。
+我们欢迎各种形式的贡献！请在[本仓库](https://github.com/HSSkyBoy/Win11DebloatCN/issues)提交中文翻译、文档或功能建议；通用代码贡献请参阅[上游贡献指南](https://github.com/Raphire/Win11Debloat/blob/master/.github/CONTRIBUTING.md)。
 
 ## 许可证
 
