@@ -1,19 +1,17 @@
-<#
+﻿<#
     .SYNOPSIS
-        Prints a summary of all pending changes to the console for the user to review.
+        将待处理的更改摘要打印到控制台供用户查看。
 
     .DESCRIPTION
-        Iterates over every non-control parameter in $script:Params and emits a
-        human-readable line for each change that will be applied. For the
-        'RemoveApps' parameter the list of targeted app names is displayed
-        inline. Feature labels are resolved from Features.json when available;
-        otherwise the raw parameter name is used as a fallback.
+        遍历 $script:Params 中的每个非控制参数，并为每个即将应用的更改为
+        用户生成一行可读的说明。对于 'RemoveApps' 参数，会以内联方式显示
+        目标应用名称列表。功能标签在可用时从 Features.json 解析，
+        否则使用原始参数名作为后备。
 
-        After printing the summary the function pauses until the user presses
-        Enter, giving them an opportunity to review and cancel via Ctrl+C.
+        打印摘要后，函数暂停直到用户按回车键，让用户有机会通过 Ctrl+C 取消。
 #>
 function Write-PendingChanges {
-    Write-Output "Win11Debloat will make the following changes:"
+    Write-Output "Win11Debloat 将进行以下更改："
 
     if ($script:Params['CreateRestorePoint']) {
         Write-Output "- $($script:Features['CreateRestorePoint'].Label)"
@@ -23,7 +21,7 @@ function Write-PendingChanges {
             continue
         }
 
-        # Print parameter description
+        # 打印参数描述
         switch ($parameterName) {
             'Apps' {
                 continue
@@ -35,12 +33,12 @@ function Write-PendingChanges {
                 $appsList = Generate-AppsList
 
                 if ($appsList.Count -eq 0) {
-                    Write-Host "No valid apps were selected for removal" -ForegroundColor Yellow
+                    Write-Host "没有选择有效的应用进行移除" -ForegroundColor Yellow
                     Write-Output ""
                     continue
                 }
 
-                Write-Output "- Remove $($appsList.Count) apps:"
+                Write-Output "- 移除 $($appsList.Count) 个应用："
                 Write-Host $appsList -ForegroundColor DarkGray
                 continue
             }
@@ -54,6 +52,6 @@ function Write-PendingChanges {
 
     Write-Output ""
     Write-Output ""
-    Write-Output "Press enter to execute the script or press CTRL+C to quit..."
+    Write-Output "按回车键执行脚本，或按 CTRL+C 退出..."
     Read-Host | Out-Null
 }

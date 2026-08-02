@@ -1,83 +1,83 @@
-{
+﻿{
   "Version": "1.0",
   "Categories": [
     {
-      "Name": "Privacy & Suggested Content",
+      "Name": "隐私与推荐内容",
       "Icon": "&#xE72E;"
     },
     {
-      "Name": "System",
+      "Name": "系统",
       "Icon": "&#xe770;"
     },
     {
-      "Name": "Start Menu & Search",
+      "Name": "开始菜单与搜索",
       "Icon": "&#xe8fc;"
     },
     {
-      "Name": "AI",
+      "Name": "AI 功能",
       "Icon": "&#xe794;"
     },
     {
-      "Name": "Windows Update",
+      "Name": "Windows 更新",
       "Icon": "&#xe895;"
     },
     {
-      "Name": "Taskbar",
+      "Name": "任务栏",
       "Icon": "&#xe75b;"
     },
     {
-      "Name": "Appearance",
+      "Name": "外观",
       "Icon": "&#xE771;"
     },
     {
-      "Name": "File Explorer",
+      "Name": "文件资源管理器",
       "Icon": "&#xec50;"
     },
     {
-      "Name": "Gaming",
+      "Name": "游戏",
       "Icon": "&#xE7FC;"
     },
     {
-      "Name": "Multi-tasking",
+      "Name": "多任务处理",
       "Icon": "&#xE7C4;"
     },
     {
-      "Name": "Optional Windows Features",
+      "Name": "可选 Windows 功能",
       "Icon": "&#xefda;"
     },
     {
-      "Name": "Other",
+      "Name": "其他",
       "Icon": "&#xE713;"
     }
   ],
   "UiGroups": [
     {
       "GroupId": "SearchIcon",
-      "Label": "Taskbar search style",
-      "ToolTip": "This setting allows you to customize the appearance of the search box on the taskbar.",
+      "Label": "任务栏搜索样式",
+      "ToolTip": "自定义任务栏上搜索框的外观。",
       "Category": "Taskbar",
       "Priority": 2,
       "Values": [
         {
-          "Label": "Show search box (Default)",
+          "Label": "显示搜索框（默认）",
           "FeatureIds": [
             "ShowSearchBoxTb"
           ]
         },
         {
-          "Label": "Show search icon and label",
+          "Label": "显示搜索图标和标签",
           "FeatureIds": [
             "ShowSearchLabelTb"
           ]
         },
         {
-          "Label": "Show search icon only",
+          "Label": "仅显示搜索图标",
           "FeatureIds": [
             "ShowSearchIconTb"
           ]
         },
         {
-          "Label": "Hide",
+          "Label": "隐藏",
           "FeatureIds": [
             "HideSearchTb"
           ]
@@ -86,24 +86,24 @@
     },
     {
       "GroupId": "MultiMon",
-      "Label": "Show taskbar apps on",
-      "ToolTip": "This setting allows you to choose where taskbar app buttons are shown when using multiple monitors.",
+      "Label": "在以下位置显示任务栏应用",
+      "ToolTip": "选择使用多个显示器时任务栏应用按钮的显示位置。",
       "Category": "Taskbar",
       "Values": [
         {
-          "Label": "All taskbars (Default)",
+          "Label": "所有任务栏（默认）",
           "FeatureIds": [
             "MMTaskbarModeAll"
           ]
         },
         {
-          "Label": "Main taskbar and taskbar where window is open",
+          "Label": "主任务栏和窗口所在的任务栏",
           "FeatureIds": [
             "MMTaskbarModeMainActive"
           ]
         },
         {
-          "Label": "Taskbar where window is open",
+          "Label": "窗口所在的任务栏",
           "FeatureIds": [
             "MMTaskbarModeActive"
           ]
@@ -112,24 +112,24 @@
     },
     {
       "GroupId": "CombineButtons",
-      "Label": "Combine taskbar buttons on the main display",
-      "ToolTip": "This setting allows you to choose how taskbar buttons are combined on the main display.",
+      "Label": "主显示器上的任务栏按钮合并方式",
+      "ToolTip": "选择主显示器上任务栏按钮的合并方式。",
       "Category": "Taskbar",
       "Values": [
         {
-          "Label": "Always (Default)",
+          "Label": "始终合并（默认）",
           "FeatureIds": [
             "CombineTaskbarAlways"
           ]
         },
         {
-          "Label": "When taskbar is full",
+          "Label": "任务栏满时合并",
           "FeatureIds": [
             "CombineTaskbarWhenFull"
           ]
         },
         {
-          "Label": "Never",
+          "Label": "从不合并",
           "FeatureIds": [
             "CombineTaskbarNever"
           ]
@@ -138,24 +138,24 @@
     },
     {
       "GroupId": "CombineMMButtons",
-      "Label": "Combine taskbar buttons on secondary displays",
-      "ToolTip": "This setting allows you to choose how taskbar buttons are combined on secondary displays.",
+      "Label": "副显示器上的任务栏按钮合并方式",
+      "ToolTip": "选择副显示器上任务栏按钮的合并方式。",
       "Category": "Taskbar",
       "Values": [
         {
-          "Label": "Always (Default)",
+          "Label": "始终合并（默认）",
           "FeatureIds": [
             "CombineMMTaskbarAlways"
           ]
         },
         {
-          "Label": "When taskbar is full",
+          "Label": "任务栏满时合并",
           "FeatureIds": [
             "CombineMMTaskbarWhenFull"
           ]
         },
         {
-          "Label": "Never",
+          "Label": "从不合并",
           "FeatureIds": [
             "CombineMMTaskbarNever"
           ]
@@ -164,18 +164,18 @@
     },
     {
       "GroupId": "ClearStart",
-      "Label": "Remove pinned apps from the start menu",
-      "ToolTip": "This setting allows you to quickly remove all pinned apps from the start menu.",
+      "Label": "从开始菜单移除固定应用",
+      "ToolTip": "快速移除开始菜单中的所有固定应用。",
       "Category": "Start Menu & Search",
       "Values": [
         {
-          "Label": "Remove for the selected user",
+          "Label": "为所选用户移除",
           "FeatureIds": [
             "ClearStart"
           ]
         },
         {
-          "Label": "Remove for all users",
+          "Label": "为所有用户移除",
           "FeatureIds": [
             "ClearStartAllUsers"
           ]
@@ -184,25 +184,25 @@
     },
     {
       "GroupId": "ExplorerLocation",
-      "Label": "Open File Explorer to",
-      "ToolTip": "This setting allows you to choose the default location that File Explorer opens to.",
+      "Label": "打开文件资源管理器时显示",
+      "ToolTip": "选择文件资源管理器打开的默认位置。",
       "Category": "File Explorer",
       "Priority": 1,
       "Values": [
         {
-          "Label": "Home (Default)",
+          "Label": "主页（默认）",
           "FeatureIds": [
             "ExplorerToHome"
           ]
         },
         {
-          "Label": "This PC",
+          "Label": "此电脑",
           "FeatureIds": [
             "ExplorerToThisPC"
           ]
         },
         {
-          "Label": "Downloads",
+          "Label": "下载",
           "FeatureIds": [
             "ExplorerToDownloads"
           ]
@@ -217,31 +217,31 @@
     },
     {
       "GroupId": "DriveLetterPosition",
-      "Label": "Drive letter position",
-      "ToolTip": "This setting allows you to choose where drive letters are shown in File Explorer.",
+      "Label": "驱动器号位置",
+      "ToolTip": "选择驱动器号在文件资源管理器中的显示位置。",
       "Category": "File Explorer",
       "Priority": 20,
       "Values": [
         {
-          "Label": "Show drive letters after drive label (Default)",
+          "Label": "驱动器号显示在标签之后（默认）",
           "FeatureIds": [
             "ShowDriveLettersLast"
           ]
         },
         {
-          "Label": "Show drive letters before drive label",
+          "Label": "驱动器号显示在标签之前",
           "FeatureIds": [
             "ShowDriveLettersFirst"
           ]
         },
         {
-          "Label": "Show network drive letters before drive label",
+          "Label": "网络驱动器号显示在标签之前",
           "FeatureIds": [
             "ShowNetworkDriveLettersFirst"
           ]
         },
         {
-          "Label": "Hide all drive letters",
+          "Label": "隐藏所有驱动器号",
           "FeatureIds": [
             "HideDriveLetters"
           ]
@@ -250,31 +250,31 @@
     },
     {
       "GroupId": "ShowTabsInAltTab",
-      "Label": "Show tabs from apps when snapping or pressing Alt+Tab",
-      "ToolTip": "This setting allows you to choose whether to show tabs from apps (such as Edge browser tabs) when snapping windows or pressing Alt+Tab.",
+      "Label": "贴靠窗口或按 Alt+Tab 时显示应用标签页",
+      "ToolTip": "选择在贴靠窗口或按 Alt+Tab 时是否显示应用的标签页（如 Edge 浏览器标签页）。",
       "Category": "Multi-tasking",
       "Priority": 10,
       "Values": [
         {
-          "Label": "Don't show tabs",
+          "Label": "不显示标签页",
           "FeatureIds": [
             "HideTabsInAltTab"
           ]
         },
         {
-          "Label": "Show 3 most recent tabs (Default)",
+          "Label": "显示最近 3 个标签页（默认）",
           "FeatureIds": [
             "Show3TabsInAltTab"
           ]
         },
         {
-          "Label": "Show 5 most recent tabs",
+          "Label": "显示最近 5 个标签页",
           "FeatureIds": [
             "Show5TabsInAltTab"
           ]
         },
         {
-          "Label": "Show 20 most recent tabs",
+          "Label": "显示最近 20 个标签页",
           "FeatureIds": [
             "Show20TabsInAltTab"
           ]
@@ -283,30 +283,30 @@
     },
     {
       "GroupId": "StartAllAppsView",
-      "Label": "Start menu 'All Apps' view",
-      "ToolTip": "This setting allows you to change the layout of the 'All Apps' section in the start menu, or hide it entirely. Hiding this section may make it harder to find installed apps on your system. This feature uses policies, which will lock down certain settings.",
+      "Label": "开始菜单"所有应用"视图",
+      "ToolTip": "更改开始菜单中"所有应用"部分的布局，或完全隐藏它。隐藏此部分可能会使在系统中查找已安装应用变得更加困难。此功能使用策略，会锁定某些设置。",
       "Category": "Start Menu & Search",
       "Values": [
         {
-          "Label": "Hide",
+          "Label": "隐藏",
           "FeatureIds": [
             "DisableStartAllApps"
           ]
         },
         {
-          "Label": "Category (Default)",
+          "Label": "类别（默认）",
           "FeatureIds": [
             "StartAllAppsCategory"
           ]
         },
         {
-          "Label": "Grid",
+          "Label": "网格",
           "FeatureIds": [
             "StartAllAppsGrid"
           ]
         },
         {
-          "Label": "List",
+          "Label": "列表",
           "FeatureIds": [
             "StartAllAppsList"
           ]
@@ -317,10 +317,10 @@
   "Features": [
     {
       "FeatureId": "RemoveApps",
-      "Label": "Remove the apps specified with the 'Apps' parameter",
+      "Label": "移除通过 Apps 参数指定的应用",
       "Category": null,
       "RegistryKey": null,
-      "ApplyText": "Removing selected apps",
+      "ApplyText": "正在移除选中的应用",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -329,10 +329,10 @@
     },
     {
       "FeatureId": "Apps",
-      "Label": "The selection of apps to remove, specified as a comma separated list. Use 'Default' (or omit) to use the default apps list",
+      "Label": "要移除的应用列表，以逗号分隔。使用 Default（或留空）将使用默认应用列表",
       "Category": null,
       "RegistryKey": null,
-      "ApplyText": "Removing selected apps",
+      "ApplyText": "正在移除选中的应用",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -341,10 +341,10 @@
     },
     {
       "FeatureId": "RemoveGamingApps",
-      "Label": "Remove the Xbox App and Xbox Gamebar",
+      "Label": "移除 Xbox 应用和 Xbox Gamebar",
       "Category": null,
       "RegistryKey": null,
-      "ApplyText": "Removing gaming related apps",
+      "ApplyText": "正在移除游戏相关应用",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -353,10 +353,10 @@
     },
     {
       "FeatureId": "RemoveHPApps",
-      "Label": "Remove HP OEM applications",
+      "Label": "移除 HP OEM 应用程序",
       "Category": null,
       "RegistryKey": null,
-      "ApplyText": "Removing HP apps",
+      "ApplyText": "正在移除 HP 应用",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -365,10 +365,10 @@
     },
     {
       "FeatureId": "CreateRestorePoint",
-      "Label": "Create a system restore point",
+      "Label": "创建系统还原点",
       "Category": null,
       "RegistryKey": null,
-      "ApplyText": "Creating system restore point",
+      "ApplyText": "正在创建系统还原点",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -377,192 +377,192 @@
     },
     {
       "FeatureId": "DisableTelemetry",
-      "Label": "Disable telemetry, tracking & targeted ads",
-      "ToolTip": "This setting disables telemetry, diagnostic data collection, activity history, app-launch tracking, targeted ads and more. It limits the data that is sent to Microsoft about your device and usage. If you are a Windows Insider, updates may be blocked until optional diagnostic data collection is turned back on.",
+      "Label": "禁用遥测、追踪和定向广告",
+      "ToolTip": "禁用遥测、诊断数据收集、活动历史、应用启动追踪、定向广告等。限制发送给 Microsoft 的有关您设备和使用情况的数据。如果您是 Windows 预览体验成员，在重新启用可选诊断数据收集之前，更新可能会被阻止。",
       "Category": "Privacy & Suggested Content",
       "RegistryKey": "Disable_Telemetry.reg",
-      "ApplyText": "Disabling telemetry and diagnostic data collection",
-      "UndoLabel": "Enable telemetry, tracking & targeted ads",
-      "ApplyUndoText": "Enabling telemetry and diagnostic data collection",
+      "ApplyText": "正在禁用遥测和诊断数据收集",
+      "UndoLabel": "启用遥测、追踪和定向广告",
+      "ApplyUndoText": "正在启用遥测和诊断数据收集",
       "RegistryUndoKey": "Enable_Telemetry.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableSuggestions",
-      "Label": "Disable tips, tricks & suggested content throughout Windows",
-      "ToolTip": "This setting removes many annoying distractions from Windows. This includes things like notifications, reminders and sync provider ads. It also prevents automated installation of suggested apps.",
+      "Label": "禁用 Windows 中的提示、技巧和推荐内容",
+      "ToolTip": "移除 Windows 中许多恼人的干扰内容，包括通知、提醒和同步提供程序广告。同时阻止自动安装推荐的应用。",
       "Category": "Privacy & Suggested Content",
       "RegistryKey": "Disable_Windows_Suggestions.reg",
-      "ApplyText": "Disabling tips, tricks, suggestions and ads throughout Windows",
-      "UndoLabel": "Enable tips, tricks & suggested content throughout Windows",
-      "ApplyUndoText": "Enabling tips, tricks, suggestions and ads throughout Windows",
+      "ApplyText": "正在禁用 Windows 中的提示、技巧、建议和广告",
+      "UndoLabel": "启用 Windows 中的提示、技巧和推荐内容",
+      "ApplyUndoText": "正在启用 Windows 中的提示、技巧、建议和广告",
       "RegistryUndoKey": "Enable_Windows_Suggestions.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableNotifications",
-      "Label": "Disable Windows Notifications (From apps and other senders)",
-      "ToolTip": "Disables native Windows notifications from apps and other senders, this includes notifications from apps like Discord, WhatsApp, Teams, and Slack.",
+      "Label": "禁用 Windows 通知（来自应用和其他发送者）",
+      "ToolTip": "禁用来自应用和其他发送者的原生 Windows 通知，包括来自 Discord、WhatsApp、Teams 和 Slack 等应用的通知。",
       "Category": "Privacy & Suggested Content",
       "RegistryKey": "Disable_Notifications.reg",
-      "ApplyText": "Disabling Windows notifications and reminders",
-      "UndoLabel": "Enable Windows notifications and reminders",
-      "ApplyUndoText": "Enabling Windows notifications and reminders",
+      "ApplyText": "正在禁用 Windows 通知和提醒",
+      "UndoLabel": "启用 Windows 通知和提醒",
+      "ApplyUndoText": "正在启用 Windows 通知和提醒",
       "RegistryUndoKey": "Enable_Notifications.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableLocationServices",
-      "Label": "Disable Windows location services & app location access",
-      "ToolTip": "This will turn off Windows Location Services and deny apps access to your location. This feature uses policies, which will lock down certain settings.",
+      "Label": "禁用 Windows 位置服务和应用位置访问",
+      "ToolTip": "关闭 Windows 位置服务并拒绝应用访问您的位置。此功能使用策略，会锁定某些设置。",
       "Category": "Privacy & Suggested Content",
       "RegistryKey": "Disable_Location_Services.reg",
-      "ApplyText": "Disabling Windows location services and app location access",
-      "UndoLabel": "Enable Windows location services & app location access",
-      "ApplyUndoText": "Enabling Windows location services and app location access",
+      "ApplyText": "正在禁用 Windows 位置服务和应用位置访问",
+      "UndoLabel": "启用 Windows 位置服务和应用位置访问",
+      "ApplyUndoText": "正在启用 Windows 位置服务和应用位置访问",
       "RegistryUndoKey": "Enable_Location_Services.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableFindMyDevice",
-      "Label": "Disable Find My Device location tracking",
-      "ToolTip": "This will turn off the 'Find My Device' feature, which periodically sends your device's location to Microsoft. This feature uses policies, which will lock down certain settings.",
+      "Label": "禁用"查找我的设备"位置追踪",
+      "ToolTip": "关闭"查找我的设备"功能，该功能会定期将您设备的位置发送给 Microsoft。此功能使用策略，会锁定某些设置。",
       "Category": "Privacy & Suggested Content",
       "RegistryKey": "Disable_Find_My_Device.reg",
-      "ApplyText": "Disabling Find My Device location tracking",
-      "UndoLabel": "Enable Find My Device location tracking",
-      "ApplyUndoText": "Enabling Find My Device location tracking",
+      "ApplyText": "正在禁用"查找我的设备"位置追踪",
+      "UndoLabel": "启用"查找我的设备"位置追踪",
+      "ApplyUndoText": "正在启用"查找我的设备"位置追踪",
       "RegistryUndoKey": "Enable_Find_My_Device.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableLockscreenTips",
-      "Label": "Disable tips & tricks on the lock screen",
-      "ToolTip": "This will turn off the lockscreen spotlight option and disable the tips, tricks and fun facts that appear on the lock screen.",
+      "Label": "禁用锁屏提示和技巧",
+      "ToolTip": "关闭锁屏聚焦选项，并禁用锁屏上显示的提示、技巧和趣味知识。",
       "Category": "Privacy & Suggested Content",
       "RegistryKey": "Disable_Lockscreen_Tips.reg",
-      "ApplyText": "Disabling tips & tricks on the lock screen",
-      "UndoLabel": "Enable tips & tricks on the lock screen",
-      "ApplyUndoText": "Enabling tips & tricks on the lock screen",
+      "ApplyText": "正在禁用锁屏提示和技巧",
+      "UndoLabel": "启用锁屏提示和技巧",
+      "ApplyUndoText": "正在启用锁屏提示和技巧",
       "RegistryUndoKey": "Enable_Lockscreen_Tips.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableDesktopSpotlight",
-      "Label": "Disable Windows Spotlight for desktop",
-      "ToolTip": "This will turn off the 'Windows Spotlight' feature for the desktop background, which shows different background images and occasionally tips and fun facts on the desktop. This feature uses policies, which will lock down certain settings.",
+      "Label": "禁用桌面 Windows 聚焦",
+      "ToolTip": "关闭桌面背景的"Windows 聚焦"功能，该功能会显示不同的背景图片，偶尔还会在桌面上显示提示和趣味知识。此功能使用策略，会锁定某些设置。",
       "Category": "Privacy & Suggested Content",
       "RegistryKey": "Disable_Desktop_Spotlight.reg",
-      "ApplyText": "Disabling the 'Windows Spotlight' desktop background option",
-      "UndoLabel": "Enable Windows Spotlight for desktop",
-      "ApplyUndoText": "Enabling the 'Windows Spotlight' desktop background option",
+      "ApplyText": "正在禁用"Windows 聚焦"桌面背景选项",
+      "UndoLabel": "启用桌面 Windows 聚焦",
+      "ApplyUndoText": "正在启用"Windows 聚焦"桌面背景选项",
       "RegistryUndoKey": "Enable_Desktop_Spotlight.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableEdgeAds",
-      "Label": "Disable ads, suggestions and newsfeed in Edge",
-      "ToolTip": "This will turn off various distractions from Microsoft Edge such as ads, suggestions and the MSN news feed. This feature uses policies, which will lock down certain settings.",
+      "Label": "禁用 Edge 中的广告、建议和新闻推送",
+      "ToolTip": "关闭 Microsoft Edge 中的各种干扰内容，如广告、建议和 MSN 新闻推送。此功能使用策略，会锁定某些设置。",
       "Category": "Privacy & Suggested Content",
       "RegistryKey": "Disable_Edge_Ads_And_Suggestions.reg",
-      "ApplyText": "Disabling ads, suggestions and the MSN news feed in Microsoft Edge",
-      "UndoLabel": "Enable ads, suggestions and newsfeed in Edge",
-      "ApplyUndoText": "Enabling ads, suggestions and the MSN news feed in Microsoft Edge",
+      "ApplyText": "正在禁用 Microsoft Edge 中的广告、建议和 MSN 新闻推送",
+      "UndoLabel": "启用 Edge 中的广告、建议和新闻推送",
+      "ApplyUndoText": "正在启用 Microsoft Edge 中的广告、建议和 MSN 新闻推送",
       "RegistryUndoKey": "Enable_Edge_Ads_And_Suggestions.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableCopilot",
-      "Label": "Disable Microsoft Copilot",
+      "Label": "禁用 Microsoft Copilot",
       "ToolTip": "This will disable and uninstall Microsoft Copilot, Windows' built-in AI assistant.",
       "Category": "AI",
       "RegistryKey": "Disable_Copilot.reg",
-      "ApplyText": "Disabling Microsoft Copilot",
-      "UndoLabel": "Enable Microsoft Copilot",
-      "ApplyUndoText": "Enabling Microsoft Copilot",
+      "ApplyText": "正在禁用 Microsoft Copilot",
+      "UndoLabel": "启用 Microsoft Copilot",
+      "ApplyUndoText": "正在启用 Microsoft Copilot",
       "RegistryUndoKey": "Enable_Copilot.reg",
       "MinVersion": 22621,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableRecall",
-      "Label": "Disable Windows Recall",
+      "Label": "禁用 Windows 回想（Recall）",
       "ToolTip": "This will disable Windows Recall, an AI-powered feature that provides quick access to recently used files, apps and activities. This feature uses policies, which will lock down certain settings.",
       "Category": "AI",
       "RegistryKey": "Disable_AI_Recall.reg",
-      "ApplyText": "Disabling Windows Recall",
-      "UndoLabel": "Enable Windows Recall",
-      "ApplyUndoText": "Enabling Windows Recall",
+      "ApplyText": "正在禁用 Windows 回想（Recall）",
+      "UndoLabel": "启用 Windows 回想（Recall）",
+      "ApplyUndoText": "正在启用 Windows 回想（Recall）",
       "RegistryUndoKey": "Enable_AI_Recall.reg",
       "MinVersion": 22621,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableClickToDo",
-      "Label": "Disable Click To Do, AI text & image analysis",
+      "Label": "禁用 Click To Do、AI 文本和图像分析",
       "ToolTip": "This will disable Click To Do, which provides AI-powered text and image analysis features in Windows. This feature uses policies, which will lock down certain settings.",
       "Category": "AI",
       "RegistryKey": "Disable_Click_to_Do.reg",
-      "ApplyText": "Disabling Click to Do",
-      "UndoLabel": "Enable Click To Do, AI text & image analysis",
-      "ApplyUndoText": "Enabling Click to Do",
+      "ApplyText": "正在禁用 Click To Do",
+      "UndoLabel": "启用 Click To Do、AI 文本和图像分析",
+      "ApplyUndoText": "正在启用 Click To Do",
       "RegistryUndoKey": "Enable_Click_to_Do.reg",
       "MinVersion": 22621,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableAISvcAutoStart",
-      "Label": "Prevent AI service from starting automatically",
+      "Label": "阻止 AI 服务自动启动",
       "ToolTip": "This will set the WSAIFabricSvc service to manual startup, preventing the service from starting automatically with Windows.",
       "Category": "AI",
       "RegistryKey": "Disable_AI_Service_Auto_Start.reg",
-      "ApplyText": "Preventing AI service from starting automatically",
-      "UndoLabel": "Allow AI service to start automatically",
-      "ApplyUndoText": "Allowing AI service to start automatically",
+      "ApplyText": "正在阻止 AI 服务自动启动",
+      "UndoLabel": "允许 AI 服务自动启动",
+      "ApplyUndoText": "正在允许 AI 服务自动启动",
       "RegistryUndoKey": "Enable_AI_Service_Auto_Start.reg",
       "MinVersion": 22621,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableDVR",
-      "Label": "Disable Xbox game/screen recording",
+      "Label": "禁用 Xbox 游戏/屏幕录制",
       "ToolTip": "This will disable the Xbox game/screen recording features included with the Game Bar app. This feature uses policies, which will lock down certain settings.",
       "Category": "Gaming",
       "RegistryKey": "Disable_DVR.reg",
-      "ApplyText": "Disabling Xbox game/screen recording",
-      "UndoLabel": "Enable Xbox game/screen recording",
-      "ApplyUndoText": "Enabling Xbox game/screen recording",
+      "ApplyText": "正在禁用 Xbox 游戏/屏幕录制",
+      "UndoLabel": "启用 Xbox 游戏/屏幕录制",
+      "ApplyUndoText": "正在启用 Xbox 游戏/屏幕录制",
       "RegistryUndoKey": "Enable_DVR.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableGameBarIntegration",
-      "Label": "Disable Game Bar integration",
+      "Label": "禁用 Game Bar 集成",
       "ToolTip": "This will disable the Game Bar integration with games and controllers. This stops annoying ms-gamebar popups when launching games or connecting a controller.",
       "Category": "Gaming",
       "RegistryKey": "Disable_Game_Bar_Integration.reg",
-      "ApplyText": "Disabling Game Bar integration",
-      "UndoLabel": "Enable Game Bar integration",
-      "ApplyUndoText": "Enabling Game Bar integration",
+      "ApplyText": "正在禁用 Game Bar 集成",
+      "UndoLabel": "启用 Game Bar 集成",
+      "ApplyUndoText": "正在启用 Game Bar 集成",
       "RegistryUndoKey": "Enable_Game_Bar_Integration.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "ClearStart",
-      "Label": "Remove all pinned apps from the start menu for this user only",
+      "Label": "仅为此用户移除开始菜单中的所有固定应用",
       "Category": "Start Menu & Search",
       "RegistryKey": null,
-      "ApplyText": "Removing all pinned apps from the start menu",
+      "ApplyText": "正在移除开始菜单中的所有固定应用",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -571,10 +571,10 @@
     },
     {
       "FeatureId": "ClearStartAllUsers",
-      "Label": "Remove all pinned apps from the start menu for all existing and new users",
+      "Label": "为所有现有用户和新用户移除开始菜单中的所有固定应用",
       "Category": "Start Menu & Search",
       "RegistryKey": null,
-      "ApplyText": "Removing all pinned apps from the start menu for all users",
+      "ApplyText": "正在为所有用户移除开始菜单中的所有固定应用",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -583,10 +583,10 @@
     },
     {
       "FeatureId": "ReplaceStart",
-      "Label": "Replace the start menu layout for this user only with the provided template file",
+      "Label": "仅为此用户使用提供的模板文件替换开始菜单布局",
       "Category": null,
       "RegistryKey": null,
-      "ApplyText": "Replacing the start menu",
+      "ApplyText": "正在替换开始菜单",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -595,10 +595,10 @@
     },
     {
       "FeatureId": "ReplaceStartAllUsers",
-      "Label": "Replace the start menu layout for all existing and new users with the provided template file",
+      "Label": "为所有现有用户和新用户使用提供的模板文件替换开始菜单布局",
       "Category": null,
       "RegistryKey": null,
-      "ApplyText": "Replacing the start menu for all users",
+      "ApplyText": "正在为所有用户替换开始菜单",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -607,182 +607,182 @@
     },
     {
       "FeatureId": "DisableStartRecommended",
-      "Label": "Hide recommended section in the start menu",
+      "Label": "隐藏开始菜单中的推荐部分",
       "ToolTip": "This will hide the recommended section in the start menu, which shows recently added apps, recently opened files and app recommendations. This feature uses policies, which will lock down certain settings.",
       "Category": "Start Menu & Search",
       "RegistryKey": "Disable_Start_Recommended.reg",
-      "ApplyText": "Disabling the start menu recommended section",
-      "UndoLabel": "Show recommended section in the start menu",
-      "ApplyUndoText": "Enabling the start menu recommended section",
+      "ApplyText": "正在禁用开始菜单推荐部分",
+      "UndoLabel": "显示开始菜单中的推荐部分",
+      "ApplyUndoText": "正在启用开始菜单推荐部分",
       "RegistryUndoKey": "Enable_Start_Recommended.reg",
       "MinVersion": 22621,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableStartAllApps",
-      "Label": "Hide 'All Apps' section in the start menu",
+      "Label": "隐藏开始菜单中的"所有应用"部分",
       "ToolTip": "This will hide the 'All Apps' section in the start menu, which shows all installed apps. WARNING: Hiding this section may make it harder to find installed apps on your system. This feature uses policies, which will lock down certain settings.",
       "Category": "Start Menu & Search",
       "RegistryKey": "Disable_Start_All_Apps.reg",
-      "ApplyText": "Disabling the 'All Apps' section in the start menu",
-      "UndoLabel": "Show 'All Apps' section in the start menu",
-      "ApplyUndoText": "Enabling the 'All Apps' section in the start menu",
+      "ApplyText": "正在禁用开始菜单中的"所有应用"部分",
+      "UndoLabel": "显示开始菜单中的"所有应用"部分",
+      "ApplyUndoText": "正在启用开始菜单中的"所有应用"部分",
       "RegistryUndoKey": "Enable_Start_All_Apps.reg",
       "MinVersion": 26200,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableStartPhoneLink",
-      "Label": "Disable Phone Link integration in the start menu",
+      "Label": "禁用开始菜单中的 Phone Link 集成",
       "ToolTip": "This will remove the Phone Link integration in the start menu when you have a mobile device linked to your PC.",
       "Category": "Start Menu & Search",
       "RegistryKey": "Disable_Phone_Link_In_Start.reg",
-      "ApplyText": "Disabling the Phone Link mobile devices integration in the start menu",
-      "UndoLabel": "Enable Phone Link integration in the start menu",
-      "ApplyUndoText": "Enabling the Phone Link mobile devices integration in the start menu",
+      "ApplyText": "正在禁用开始菜单中的 Phone Link 移动设备集成",
+      "UndoLabel": "启用开始菜单中的 Phone Link 集成",
+      "ApplyUndoText": "正在启用开始菜单中的 Phone Link 移动设备集成",
       "RegistryUndoKey": "Enable_Phone_Link_In_Start.reg",
       "MinVersion": 22621,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableBing",
-      "Label": "Disable Bing web search & Copilot integration in search",
+      "Label": "禁用 Windows 搜索中的 Bing 网页搜索和 Copilot 集成",
       "ToolTip": "This will turn off Bing web search results and Copilot integration in the Windows search experience. This feature uses policies, which will lock down certain settings.",
       "Category": "Start Menu & Search",
       "RegistryKey": "Disable_Bing_Cortana_In_Search.reg",
-      "ApplyText": "Disabling Bing web search & Copilot integration in Windows search",
-      "UndoLabel": "Enable Bing web search & Copilot integration in search",
-      "ApplyUndoText": "Enabling Bing web search & Copilot integration in Windows search",
+      "ApplyText": "正在禁用 Windows 搜索中的 Bing 网页搜索和 Copilot 集成",
+      "UndoLabel": "启用 Windows 搜索中的 Bing 网页搜索和 Copilot 集成",
+      "ApplyUndoText": "正在启用 Windows 搜索中的 Bing 网页搜索和 Copilot 集成",
       "RegistryUndoKey": "Enable_Bing_Cortana_In_Search.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableStoreSearchSuggestions",
-      "Label": "Disable Microsoft Store app suggestions in search",
+      "Label": "禁用搜索中的 Microsoft Store 应用建议",
       "ToolTip": "This will disable the Microsoft Store app suggestions in Windows search.",
       "Category": "Start Menu & Search",
       "RegistryKey": null,
-      "ApplyText": "Disabling Microsoft Store app suggestions in search",
-      "UndoLabel": "Enable Microsoft Store app suggestions in search",
-      "ApplyUndoText": "Enabling Microsoft Store app suggestions in search",
+      "ApplyText": "正在禁用搜索中的 Microsoft Store 应用建议",
+      "UndoLabel": "启用搜索中的 Microsoft Store 应用建议",
+      "ApplyUndoText": "正在启用搜索中的 Microsoft Store 应用建议",
       "RegistryUndoKey": null,
       "MinVersion": 22621,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableSettings365Ads",
-      "Label": "Hide Microsoft 365 Copilot ads in Settings Home",
+      "Label": "隐藏设置主页中的 Microsoft 365 Copilot 广告",
       "ToolTip": "This will turn off the Microsoft 365 Copilot ads that appear in the Settings Home page.",
       "Category": "Privacy & Suggested Content",
       "RegistryKey": "Disable_Settings_365_Ads.reg",
-      "ApplyText": "Disabling Microsoft 365 Copilot ads in Settings Home",
-      "UndoLabel": "Show Microsoft 365 Copilot ads in Settings Home",
-      "ApplyUndoText": "Enabling Microsoft 365 Copilot ads in Settings Home",
+      "ApplyText": "正在禁用设置主页中的 Microsoft 365 Copilot 广告",
+      "UndoLabel": "显示设置主页中的 Microsoft 365 Copilot 广告",
+      "ApplyUndoText": "正在启用设置主页中的 Microsoft 365 Copilot 广告",
       "RegistryUndoKey": "Enable_Settings_365_Ads.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableSettingsHome",
-      "Label": "Hide Settings 'Home' page",
+      "Label": "隐藏设置"主页"",
       "ToolTip": "Removes the 'Home' page from the Settings app.",
       "Category": "Other",
       "RegistryKey": "Disable_Settings_Home.reg",
-      "ApplyText": "Disabling the Settings Home page",
-      "UndoLabel": "Show Settings 'Home' page",
-      "ApplyUndoText": "Enabling the Settings Home page",
+      "ApplyText": "正在禁用设置主页",
+      "UndoLabel": "显示设置"主页"",
+      "ApplyUndoText": "正在启用设置主页",
       "RegistryUndoKey": "Enable_Settings_Home.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableEdgeAI",
-      "Label": "Disable AI features in Microsoft Edge",
+      "Label": "禁用 Microsoft Edge 中的 AI 功能",
       "ToolTip": "This will turn off AI features in Microsoft Edge, such as the AI-powered sidebar and Copilot features. This feature uses policies, which will lock down certain settings.",
       "Category": "AI",
       "RegistryKey": "Disable_Edge_AI_Features.reg",
-      "ApplyText": "Disabling AI features in Microsoft Edge",
-      "UndoLabel": "Enable AI features in Microsoft Edge",
-      "ApplyUndoText": "Enabling AI features in Microsoft Edge",
+      "ApplyText": "正在禁用 Microsoft Edge 中的 AI 功能",
+      "UndoLabel": "启用 Microsoft Edge 中的 AI 功能",
+      "ApplyUndoText": "正在启用 Microsoft Edge 中的 AI 功能",
       "RegistryUndoKey": "Enable_Edge_AI_Features.reg",
       "MinVersion": 22621,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisablePaintAI",
-      "Label": "Disable AI features in Paint",
+      "Label": "禁用画图中的 AI 功能",
       "ToolTip": "This will turn off AI features in Paint, such as the AI-powered image generation and editing tools. This feature uses policies, which will lock down certain settings.",
       "Category": "AI",
       "RegistryKey": "Disable_Paint_AI_Features.reg",
-      "ApplyText": "Disabling AI features in Paint",
-      "UndoLabel": "Enable AI features in Paint",
-      "ApplyUndoText": "Enabling AI features in Paint",
+      "ApplyText": "正在禁用画图中的 AI 功能",
+      "UndoLabel": "启用画图中的 AI 功能",
+      "ApplyUndoText": "正在启用画图中的 AI 功能",
       "RegistryUndoKey": "Enable_Paint_AI_Features.reg",
       "MinVersion": 22621,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableNotepadAI",
-      "Label": "Disable AI features in Notepad",
+      "Label": "禁用记事本中的 AI 功能",
       "ToolTip": "This will turn off AI features in Notepad, such as the AI-powered writing suggestions. This feature uses policies, which will lock down certain settings.",
       "Category": "AI",
       "RegistryKey": "Disable_Notepad_AI_Features.reg",
-      "ApplyText": "Disabling AI features in Notepad",
-      "UndoLabel": "Enable AI features in Notepad",
-      "ApplyUndoText": "Enabling AI features in Notepad",
+      "ApplyText": "正在禁用记事本中的 AI 功能",
+      "UndoLabel": "启用记事本中的 AI 功能",
+      "ApplyUndoText": "正在启用记事本中的 AI 功能",
       "RegistryUndoKey": "Enable_Notepad_AI_Features.reg",
       "MinVersion": 22621,
       "MaxVersion": null
     },
     {
       "FeatureId": "EnableDarkMode",
-      "Label": "Enable dark theme for system and apps",
+      "Label": "为系统和应用启用暗黑主题",
       "ToolTip": "This will set the app and system theme to dark mode.",
       "Category": "Appearance",
       "RegistryKey": "Enable_Dark_Mode.reg",
-      "ApplyText": "Enabling dark mode for system and apps",
-      "UndoLabel": "Disable dark theme for system and apps",
-      "ApplyUndoText": "Disabling dark mode for system and apps",
+      "ApplyText": "正在为系统和应用启用暗黑模式",
+      "UndoLabel": "为系统和应用禁用暗黑主题",
+      "ApplyUndoText": "正在为系统和应用禁用暗黑模式",
       "RegistryUndoKey": "Enable_Light_Mode.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableDragTray",
-      "Label": "Disable 'Drag Tray' for sharing & moving files",
+      "Label": "禁用用于分享和移动文件的拖拽托盘",
       "ToolTip": "The Drag Tray is a new feature for sharing & moving files in Windows 11, it appears at the top of the screen when dragging files.",
       "Category": "System",
       "RegistryKey": "Disable_Share_Drag_Tray.reg",
-      "ApplyText": "Disabling Drag Tray",
-      "UndoLabel": "Enable 'Drag Tray' for sharing & moving files",
-      "ApplyUndoText": "Enabling Drag Tray",
+      "ApplyText": "正在禁用拖拽托盘",
+      "UndoLabel": "启用用于分享和移动文件的拖拽托盘",
+      "ApplyUndoText": "正在启用拖拽托盘",
       "RegistryUndoKey": "Enable_Share_Drag_Tray.reg",
       "MinVersion": 26200,
       "MaxVersion": null
     },
     {
       "FeatureId": "RevertContextMenu",
-      "Label": "Use classic Windows 10 context menu style",
+      "Label": "使用经典 Windows 10 风格上下文菜单",
       "ToolTip": "This will restore the classic Windows 10 style context menu, which is normally hidden behind the 'Show more options' entry in the new Windows 11 context menu.",
       "Category": "System",
       "RegistryKey": "Disable_Show_More_Options_Context_Menu.reg",
-      "ApplyText": "Restoring the classic Windows 10 style context menu",
-      "UndoLabel": "Use Windows 11 context menu style",
-      "ApplyUndoText": "Restoring the Windows 11 style context menu",
+      "ApplyText": "正在恢复经典 Windows 10 风格上下文菜单",
+      "UndoLabel": "使用 Windows 11 风格上下文菜单",
+      "ApplyUndoText": "正在恢复 Windows 11 风格上下文菜单",
       "RegistryUndoKey": "Enable_W11_Style_Context_Menu.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableMouseAcceleration",
-      "Label": "Disable Enhance Pointer Precision (mouse acceleration)",
+      "Label": "禁用增强指针精度（鼠标加速）",
       "ToolTip": "This will disable mouse acceleration which is enabled by default in Windows. This makes mouse movement more consistent and predictable.",
       "Category": "System",
       "RegistryKey": "Disable_Enhance_Pointer_Precision.reg",
-      "ApplyText": "Turning off Enhanced Pointer Precision",
-      "UndoLabel": "Enable Enhance Pointer Precision (mouse acceleration)",
-      "ApplyUndoText": "Turning on Enhanced Pointer Precision",
+      "ApplyText": "正在关闭增强指针精度",
+      "UndoLabel": "启用增强指针精度（鼠标加速）",
+      "ApplyUndoText": "正在开启增强指针精度",
       "RegistryUndoKey": "Enable_Enhance_Pointer_Precision.reg",
       "RequiresReboot": true,
       "MinVersion": null,
@@ -790,13 +790,13 @@
     },
     {
       "FeatureId": "DisableStickyKeys",
-      "Label": "Disable Sticky Keys keyboard shortcut (5x shift)",
+      "Label": "禁用粘滞键键盘快捷键（连按 5 次 Shift）",
       "ToolTip": "This will prevent the Sticky Keys dialog from appearing when you press the Shift key 5 times in a row.",
       "Category": "System",
       "RegistryKey": "Disable_Sticky_Keys_Shortcut.reg",
-      "ApplyText": "Disabling the Sticky Keys keyboard shortcut",
-      "UndoLabel": "Enable Sticky Keys keyboard shortcut (5x shift)",
-      "ApplyUndoText": "Enabling the Sticky Keys keyboard shortcut",
+      "ApplyText": "正在禁用粘滞键键盘快捷键",
+      "UndoLabel": "启用粘滞键键盘快捷键（连按 5 次 Shift）",
+      "ApplyUndoText": "正在启用粘滞键键盘快捷键",
       "RegistryUndoKey": "Enable_Sticky_Keys_Shortcut.reg",
       "RequiresReboot": true,
       "MinVersion": 26100,
@@ -804,14 +804,14 @@
     },
     {
       "FeatureId": "DisableWindowSnapping",
-      "Label": "Disable window snapping",
+      "Label": "禁用窗口贴靠",
       "ToolTip": "This will turn off the ability to snap windows to the sides or corners of the screen.",
       "Category": "Multi-tasking",
       "Priority": 1,
       "RegistryKey": "Disable_Window_Snapping.reg",
-      "ApplyText": "Disabling window snapping",
-      "UndoLabel": "Enable window snapping",
-      "ApplyUndoText": "Enabling window snapping",
+      "ApplyText": "正在禁用窗口贴靠",
+      "UndoLabel": "启用窗口贴靠",
+      "ApplyUndoText": "正在启用窗口贴靠",
       "RegistryUndoKey": "Enable_Window_Snapping.reg",
       "RequiresReboot": true,
       "MinVersion": null,
@@ -819,38 +819,38 @@
     },
     {
       "FeatureId": "DisableSnapAssist",
-      "Label": "Disable showing app suggestions when snapping windows",
+      "Label": "禁用贴靠窗口时显示应用建议",
       "ToolTip": "This will turn off app suggestions when you snap windows to the sides or corners of the screen.",
       "Category": "Multi-tasking",
       "Priority": 2,
       "RegistryKey": "Disable_Snap_Assist.reg",
-      "ApplyText": "Disabling the Snap Assist suggestions",
-      "UndoLabel": "Enable showing app suggestions when snapping windows",
-      "ApplyUndoText": "Enabling the Snap Assist suggestions",
+      "ApplyText": "正在禁用贴靠辅助建议",
+      "UndoLabel": "启用贴靠窗口时显示应用建议",
+      "ApplyUndoText": "正在启用贴靠辅助建议",
       "RegistryUndoKey": "Enable_Snap_Assist.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableSnapLayouts",
-      "Label": "Hide snap layout flyout at top of screen and on maximize button",
+      "Label": "隐藏屏幕顶部和最大化按钮上的贴靠布局弹窗",
       "ToolTip": "This will turn off the snap layout flyout that appears when you hover over the maximize button or drag windows to the top of the screen.",
       "Category": "Multi-tasking",
       "Priority": 3,
       "RegistryKey": "Disable_Snap_Layouts.reg",
-      "ApplyText": "Hiding snap layouts when dragging windows to top of the screen and on maximize button",
-      "UndoLabel": "Show snap layout flyout at top of screen and on maximize button",
-      "ApplyUndoText": "Showing snap layouts when dragging windows to top of the screen and on maximize button",
+      "ApplyText": "正在隐藏贴靠布局",
+      "UndoLabel": "显示屏幕顶部和最大化按钮上的贴靠布局弹窗",
+      "ApplyUndoText": "正在显示贴靠布局",
       "RegistryUndoKey": "Enable_Snap_Layouts.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "HideTabsInAltTab",
-      "Label": "Hide tabs from apps when snapping or pressing Alt+Tab",
+      "Label": "贴靠窗口或按 Alt+Tab 时不显示标签页",
       "Category": "Multi-tasking",
       "RegistryKey": "Hide_Tabs_In_Alt_Tab.reg",
-      "ApplyText": "Disable showing tabs from apps when snapping or pressing Alt+Tab",
+      "ApplyText": "贴靠窗口或按 Alt+Tab 时不显示标签页",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -859,10 +859,10 @@
     },
     {
       "FeatureId": "Show3TabsInAltTab",
-      "Label": "Show 3 tabs from apps when snapping or pressing Alt+Tab",
+      "Label": "贴靠窗口或按 Alt+Tab 时显示 3 个标签页",
       "Category": "Multi-tasking",
       "RegistryKey": "Show_3_Tabs_In_Alt_Tab.reg",
-      "ApplyText": "Enable showing 3 tabs from apps when snapping or pressing Alt+Tab",
+      "ApplyText": "贴靠窗口或按 Alt+Tab 时显示 3 个标签页",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -871,10 +871,10 @@
     },
     {
       "FeatureId": "Show5TabsInAltTab",
-      "Label": "Show 5 tabs from apps when snapping or pressing Alt+Tab",
+      "Label": "贴靠窗口或按 Alt+Tab 时显示 5 个标签页",
       "Category": "Multi-tasking",
       "RegistryKey": "Show_5_Tabs_In_Alt_Tab.reg",
-      "ApplyText": "Enable showing 5 tabs from apps when snapping or pressing Alt+Tab",
+      "ApplyText": "贴靠窗口或按 Alt+Tab 时显示 5 个标签页",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -883,10 +883,10 @@
     },
     {
       "FeatureId": "Show20TabsInAltTab",
-      "Label": "Show 20 tabs from apps when snapping or pressing Alt+Tab",
+      "Label": "贴靠窗口或按 Alt+Tab 时显示 20 个标签页",
       "Category": "Multi-tasking",
       "RegistryKey": "Show_20_Tabs_In_Alt_Tab.reg",
-      "ApplyText": "Enable showing 20 tabs from apps when snapping or pressing Alt+Tab",
+      "ApplyText": "贴靠窗口或按 Alt+Tab 时显示 20 个标签页",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -895,60 +895,60 @@
     },
     {
       "FeatureId": "TaskbarAlignLeft",
-      "Label": "Align taskbar to the left",
+      "Label": "将任务栏对齐到左侧",
       "ToolTip": "By default, Windows 11 has the taskbar buttons centered. Enabling this setting will move the taskbar buttons to the left, similar to previous versions of Windows.",
       "Category": "Taskbar",
       "Priority": 1,
       "RegistryKey": "Align_Taskbar_Left.reg",
-      "ApplyText": "Aligning taskbar buttons to the left",
-      "UndoLabel": "Align taskbar to the center",
-      "ApplyUndoText": "Aligning taskbar buttons to the center",
+      "ApplyText": "正在将任务栏按钮对齐到左侧",
+      "UndoLabel": "将任务栏对齐到居中",
+      "ApplyUndoText": "正在将任务栏按钮对齐到居中",
       "RegistryUndoKey": "Align_Taskbar_Center.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "HideSearchTb",
-      "Label": "Hide search icon from the taskbar",
+      "Label": "从任务栏隐藏搜索图标",
       "Category": "Taskbar",
       "RegistryKey": "Hide_Search_Taskbar.reg",
-      "ApplyText": "Hiding the search icon from the taskbar",
-      "UndoLabel": "Show search box on the taskbar",
-      "ApplyUndoText": "Changing taskbar search to search box",
+      "ApplyText": "正在从任务栏隐藏搜索图标",
+      "UndoLabel": "在任务栏上显示搜索框",
+      "ApplyUndoText": "正在将任务栏搜索更改为搜索框",
       "RegistryUndoKey": "Show_Search_Box.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "ShowSearchIconTb",
-      "Label": "Show search icon on the taskbar",
+      "Label": "在任务栏上显示搜索图标",
       "Category": "Taskbar",
       "RegistryKey": "Show_Search_Icon.reg",
-      "ApplyText": "Changing taskbar search to icon only",
-      "UndoLabel": "Show search box on the taskbar",
-      "ApplyUndoText": "Changing taskbar search to search box",
+      "ApplyText": "正在将任务栏搜索更改为仅图标",
+      "UndoLabel": "在任务栏上显示搜索框",
+      "ApplyUndoText": "正在将任务栏搜索更改为搜索框",
       "RegistryUndoKey": "Show_Search_Box.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "ShowSearchLabelTb",
-      "Label": "Show search icon with label on the taskbar",
+      "Label": "在任务栏上显示搜索图标和标签",
       "Category": "Taskbar",
       "RegistryKey": "Show_Search_Icon_And_Label.reg",
-      "ApplyText": "Changing taskbar search to icon with label",
-      "UndoLabel": "Show search box on the taskbar",
-      "ApplyUndoText": "Changing taskbar search to search box",
+      "ApplyText": "正在将任务栏搜索更改为图标和标签",
+      "UndoLabel": "在任务栏上显示搜索框",
+      "ApplyUndoText": "正在将任务栏搜索更改为搜索框",
       "RegistryUndoKey": "Show_Search_Box.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "ShowSearchBoxTb",
-      "Label": "Show search box on the taskbar",
+      "Label": "在任务栏上显示搜索框",
       "Category": "Taskbar",
       "RegistryKey": "Show_Search_Box.reg",
-      "ApplyText": "Changing taskbar search to search box",
+      "ApplyText": "正在将任务栏搜索更改为搜索框",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -957,26 +957,26 @@
     },
     {
       "FeatureId": "HideTaskview",
-      "Label": "Hide 'Task view' button on the taskbar",
+      "Label": "隐藏任务栏上的"任务视图"按钮",
       "ToolTip": "This will disable the 'Task view' button on the taskbar, which allows you to see all your open windows and virtual desktops.",
       "Category": "Taskbar",
       "Priority": 3,
       "RegistryKey": "Hide_Taskview_Taskbar.reg",
-      "ApplyText": "Hiding the taskview button from the taskbar",
-      "UndoLabel": "Show 'Task view' button on the taskbar",
-      "ApplyUndoText": "Showing the taskview button from the taskbar",
+      "ApplyText": "正在从任务栏隐藏任务视图按钮",
+      "UndoLabel": "在任务栏上显示"任务视图"按钮",
+      "ApplyUndoText": "正在从任务栏显示任务视图按钮",
       "RegistryUndoKey": "Show_Taskview_Taskbar.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableWidgets",
-      "Label": "Disable widgets on the taskbar & lock screen",
+      "Label": "禁用任务栏和锁屏上的小组件",
       "ToolTip": "This will disable the widgets features in Windows, including the widgets button on the taskbar and the widgets that can appear on the lock screen.",
       "Category": "Taskbar",
       "Priority": 4,
       "RegistryKey": null,
-      "ApplyText": "Disabling widgets on the taskbar & lock screen",
+      "ApplyText": "正在禁用任务栏和锁屏上的小组件",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -986,104 +986,104 @@
     },
     {
       "FeatureId": "HideChat",
-      "Label": "Hide Chat (meet now) icon on the taskbar",
+      "Label": "隐藏任务栏上的聊天（立即会议）图标",
       "ToolTip": "This will disable the Chat (meet now) icon on the taskbar.",
       "Category": "Taskbar",
       "Priority": 5,
       "RegistryKey": "Disable_Chat_Taskbar.reg",
-      "ApplyText": "Hiding the chat icon from the taskbar",
-      "UndoLabel": "Show Chat (meet now) icon on the taskbar",
-      "ApplyUndoText": "Showing the chat icon from the taskbar",
+      "ApplyText": "正在从任务栏隐藏聊天图标",
+      "UndoLabel": "在任务栏上显示聊天（立即会议）图标",
+      "ApplyUndoText": "正在从任务栏显示聊天图标",
       "RegistryUndoKey": "Enable_Chat_Taskbar.reg",
       "MinVersion": null,
       "MaxVersion": 22621
     },
     {
       "FeatureId": "DisableStorageSense",
-      "Label": "Disable Storage Sense automatic disk cleanup",
+      "Label": "禁用存储感知自动磁盘清理",
       "ToolTip": "This will disable Storage Sense, which automatically frees up disk space by deleting temporary files, emptying the recycle bin and cleaning up files in the Downloads folder.",
       "Category": "System",
       "RegistryKey": "Disable_Storage_Sense.reg",
-      "ApplyText": "Disabling Storage Sense automatic disk cleanup",
-      "UndoLabel": "Enable Storage Sense automatic disk cleanup",
-      "ApplyUndoText": "Enabling Storage Sense automatic disk cleanup",
+      "ApplyText": "正在禁用存储感知自动磁盘清理",
+      "UndoLabel": "启用存储感知自动磁盘清理",
+      "ApplyUndoText": "正在启用存储感知自动磁盘清理",
       "RegistryUndoKey": "Enable_Storage_Sense.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableFastStartup",
-      "Label": "Disable fast start-up",
+      "Label": "禁用快速启动",
       "ToolTip": "Fast Start-up helps your PC start faster after shutdown by saving a system image to disk. Disabling Fast Start-up can help with certain issues, but may result in slightly longer boot times.",
       "Category": "System",
       "RegistryKey": "Disable_Fast_Startup.reg",
-      "ApplyText": "Disabling Fast Start-up",
-      "UndoLabel": "Enable fast start-up",
-      "ApplyUndoText": "Enabling Fast Start-up",
+      "ApplyText": "正在禁用快速启动",
+      "UndoLabel": "启用快速启动",
+      "ApplyUndoText": "正在启用快速启动",
       "RegistryUndoKey": "Enable_Fast_Startup.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableBitlockerAutoEncryption",
-      "Label": "Disable BitLocker automatic device encryption",
+      "Label": "禁用 BitLocker 自动设备加密",
       "ToolTip": "For devices that support it, Windows 11 automatically enables BitLocker device encryption. Disabling this will turn off automatic encryption of the device, but you can still manually enable BitLocker encryption if desired. Drives that are already encrypted with BitLocker will remain encrypted when this setting is applied.",
       "Category": "System",
       "RegistryKey": "Disable_Bitlocker_Auto_Encryption.reg",
-      "ApplyText": "Disabling BitLocker automatic device encryption",
-      "UndoLabel": "Enable BitLocker automatic device encryption",
-      "ApplyUndoText": "Enabling BitLocker automatic device encryption",
+      "ApplyText": "正在禁用 BitLocker 自动设备加密",
+      "UndoLabel": "启用 BitLocker 自动设备加密",
+      "ApplyUndoText": "正在启用 BitLocker 自动设备加密",
       "RegistryUndoKey": "Enable_Bitlocker_Auto_Encryption.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableModernStandbyNetworking",
-      "Label": "Disable Modern Standby network connectivity",
+      "Label": "禁用现代待机期间的网络连接",
       "ToolTip": "By default, devices that support Modern Standby maintain network connectivity while in sleep mode. Disabling network connectivity during Modern Standby can help save battery life.",
       "Category": "System",
       "RegistryKey": "Disable_Modern_Standby_Networking.reg",
-      "ApplyText": "Disabling network connectivity during Modern Standby",
-      "UndoLabel": "Enable Modern Standby network connectivity",
-      "ApplyUndoText": "Enabling network connectivity during Modern Standby",
+      "ApplyText": "正在禁用现代待机期间的网络连接",
+      "UndoLabel": "启用现代待机期间的网络连接",
+      "ApplyUndoText": "正在启用现代待机期间的网络连接",
       "RegistryUndoKey": "Enable_Modern_Standby_Networking.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "EnableEndTask",
-      "Label": "Show 'End Task' option in taskbar context menu",
+      "Label": "在任务栏右键菜单中显示"结束任务"选项",
       "ToolTip": "When enabled, adds an 'End Task' option to the right-click context menu for apps in the taskbar, allowing you to quickly force close apps.",
       "Category": "Taskbar",
       "Priority": 6,
       "RegistryKey": "Enable_End_Task.reg",
-      "ApplyText": "Enabling the 'End Task' option in the taskbar right click menu",
-      "UndoLabel": "Hide 'End Task' option in taskbar context menu",
-      "ApplyUndoText": "Disabling the 'End Task' option in the taskbar right click menu",
+      "ApplyText": "正在启用任务栏右键菜单中的"结束任务"选项",
+      "UndoLabel": "隐藏任务栏右键菜单中的"结束任务"选项",
+      "ApplyUndoText": "正在禁用任务栏右键菜单中的"结束任务"选项",
       "RegistryUndoKey": "Disable_End_Task.reg",
       "MinVersion": 22631,
       "MaxVersion": null
     },
     {
       "FeatureId": "EnableLastActiveClick",
-      "Label": "Enable 'Last Active Click' behavior for taskbar apps",
+      "Label": "启用任务栏应用的"上次活动点击"行为",
       "ToolTip": "When enabled, clicking on an app in the taskbar will switch to the last active window of that app, instead of only showing the thumbnail preview.",
       "Category": "Taskbar",
       "Priority": 7,
       "RegistryKey": "Enable_Last_Active_Click.reg",
-      "ApplyText": "Enabling the 'Last Active Click' behavior in the taskbar app area",
-      "UndoLabel": "Disable 'Last Active Click' behavior for taskbar apps",
-      "ApplyUndoText": "Disabling the 'Last Active Click' behavior in the taskbar app area",
+      "ApplyText": "正在启用任务栏应用区域的"上次活动点击"行为",
+      "UndoLabel": "禁用任务栏应用的"上次活动点击"行为",
+      "ApplyUndoText": "正在禁用任务栏应用区域的"上次活动点击"行为",
       "RegistryUndoKey": "Disable_Last_Active_Click.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "CombineTaskbarAlways",
-      "Label": "Always combine taskbar buttons and hide labels for the main display",
+      "Label": "主显示器始终合并任务栏按钮并隐藏标签",
       "Category": "Taskbar",
       "RegistryKey": "Combine_Taskbar_Always.reg",
-      "ApplyText": "Setting the taskbar on the main display to always combine buttons and hide labels",
+      "ApplyText": "正在设置主显示器任务栏始终合并按钮并隐藏标签",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -1092,10 +1092,10 @@
     },
     {
       "FeatureId": "CombineMMTaskbarAlways",
-      "Label": "Always combine taskbar buttons and hide labels for secondary displays",
+      "Label": "副显示器始终合并任务栏按钮并隐藏标签",
       "Category": "Taskbar",
       "RegistryKey": "Combine_MMTaskbar_Always.reg",
-      "ApplyText": "Setting the taskbar on secondary displays to always combine buttons and hide labels",
+      "ApplyText": "正在设置副显示器任务栏始终合并按钮并隐藏标签",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -1104,58 +1104,58 @@
     },
     {
       "FeatureId": "CombineTaskbarWhenFull",
-      "Label": "Combine taskbar buttons and hide labels when taskbar is full for the main display",
+      "Label": "主显示器任务栏满时合并按钮并隐藏标签",
       "Category": "Taskbar",
       "RegistryKey": "Combine_Taskbar_When_Full.reg",
-      "ApplyText": "Setting the taskbar on the main display to only combine buttons and hide labels when the taskbar is full",
-      "UndoLabel": "Always combine taskbar buttons and hide labels for the main display",
-      "ApplyUndoText": "Setting the taskbar on the main display to always combine buttons and hide labels",
+      "ApplyText": "正在设置主显示器任务栏满时合并按钮并隐藏标签",
+      "UndoLabel": "主显示器始终合并任务栏按钮并隐藏标签",
+      "ApplyUndoText": "正在设置主显示器任务栏始终合并按钮并隐藏标签",
       "RegistryUndoKey": "Combine_Taskbar_Always.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "CombineMMTaskbarWhenFull",
-      "Label": "Combine taskbar buttons and hide labels when taskbar is full for secondary displays",
+      "Label": "副显示器任务栏满时合并按钮并隐藏标签",
       "Category": "Taskbar",
       "RegistryKey": "Combine_MMTaskbar_When_Full.reg",
-      "ApplyText": "Setting the taskbar on secondary displays to only combine buttons and hide labels when the taskbar is full",
-      "UndoLabel": "Always combine taskbar buttons and hide labels for secondary displays",
-      "ApplyUndoText": "Setting the taskbar on secondary displays to always combine buttons and hide labels",
+      "ApplyText": "正在设置副显示器任务栏满时合并按钮并隐藏标签",
+      "UndoLabel": "副显示器始终合并任务栏按钮并隐藏标签",
+      "ApplyUndoText": "正在设置副显示器任务栏始终合并按钮并隐藏标签",
       "RegistryUndoKey": "Combine_MMTaskbar_Always.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "CombineTaskbarNever",
-      "Label": "Never combine taskbar buttons and show labels for the main display",
+      "Label": "主显示器从不合并任务栏按钮并始终显示标签",
       "Category": "Taskbar",
       "RegistryKey": "Combine_Taskbar_Never.reg",
-      "ApplyText": "Setting the taskbar on the main display to never combine buttons or hide labels",
-      "UndoLabel": "Always combine taskbar buttons and hide labels for the main display",
-      "ApplyUndoText": "Setting the taskbar on the main display to always combine buttons and hide labels",
+      "ApplyText": "正在设置主显示器任务栏从不合并按钮且始终显示标签",
+      "UndoLabel": "主显示器始终合并任务栏按钮并隐藏标签",
+      "ApplyUndoText": "正在设置主显示器任务栏始终合并按钮并隐藏标签",
       "RegistryUndoKey": "Combine_Taskbar_Always.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "CombineMMTaskbarNever",
-      "Label": "Never combine taskbar buttons and show labels for secondary displays",
+      "Label": "副显示器从不合并任务栏按钮并始终显示标签",
       "Category": "Taskbar",
       "RegistryKey": "Combine_MMTaskbar_Never.reg",
-      "ApplyText": "Setting the taskbar on secondary displays to never combine buttons or hide labels",
-      "UndoLabel": "Always combine taskbar buttons and hide labels for secondary displays",
-      "ApplyUndoText": "Setting the taskbar on secondary displays to always combine buttons and hide labels",
+      "ApplyText": "正在设置副显示器任务栏从不合并按钮且始终显示标签",
+      "UndoLabel": "副显示器始终合并任务栏按钮并隐藏标签",
+      "ApplyUndoText": "正在设置副显示器任务栏始终合并按钮并隐藏标签",
       "RegistryUndoKey": "Combine_MMTaskbar_Always.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "MMTaskbarModeAll",
-      "Label": "Show app icons on all taskbars",
+      "Label": "在所有任务栏上显示应用图标",
       "Category": "Taskbar",
       "RegistryKey": "MMTaskbarMode_All.reg",
-      "ApplyText": "Setting the taskbar to show app icons on all taskbars",
+      "ApplyText": "正在设置任务栏在所有任务栏上显示应用图标",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -1164,34 +1164,34 @@
     },
     {
       "FeatureId": "MMTaskbarModeMainActive",
-      "Label": "Show app icons on main taskbar and on taskbar where the windows is open",
+      "Label": "在主任务栏和窗口所在的任务栏上显示应用图标",
       "Category": "Taskbar",
       "RegistryKey": "MMTaskbarMode_Main_Active.reg",
-      "ApplyText": "Setting the taskbar to show app icons on main taskbar and on taskbar where the windows is open",
-      "UndoLabel": "Show app icons on all taskbars",
-      "ApplyUndoText": "Setting the taskbar to show app icons on all taskbars",
+      "ApplyText": "正在设置任务栏在主任务栏和窗口所在的任务栏上显示应用图标",
+      "UndoLabel": "在所有任务栏上显示应用图标",
+      "ApplyUndoText": "正在设置任务栏在所有任务栏上显示应用图标",
       "RegistryUndoKey": "MMTaskbarMode_All.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "MMTaskbarModeActive",
-      "Label": "Show app icons only on taskbar where the window is open",
+      "Label": "仅在窗口所在的任务栏上显示应用图标",
       "Category": "Taskbar",
       "RegistryKey": "MMTaskbarMode_Active.reg",
-      "ApplyText": "Setting the taskbar to only show app icons on the taskbar where the window is open",
-      "UndoLabel": "Show app icons on all taskbars",
-      "ApplyUndoText": "Setting the taskbar to show app icons on all taskbars",
+      "ApplyText": "正在设置任务栏仅在窗口所在的任务栏上显示应用图标",
+      "UndoLabel": "在所有任务栏上显示应用图标",
+      "ApplyUndoText": "正在设置任务栏在所有任务栏上显示应用图标",
       "RegistryUndoKey": "MMTaskbarMode_All.reg",
       "MinVersion": 22000,
       "MaxVersion": null
     },
     {
       "FeatureId": "ExplorerToHome",
-      "Label": "Change the default location that File Explorer opens to 'Home'",
+      "Label": "将文件资源管理器默认打开位置更改为"主页"",
       "Category": "File Explorer",
       "RegistryKey": "Launch_File_Explorer_To_Home.reg",
-      "ApplyText": "Changing the default location that File Explorer opens to, to 'Home'",
+      "ApplyText": "正在将文件资源管理器默认打开位置更改为"主页"",
       "UndoLabel": null,
       "ApplyUndoText": null,
       "RegistryUndoKey": null,
@@ -1200,10 +1200,10 @@
     },
     {
       "FeatureId": "ExplorerToThisPC",
-      "Label": "Change the default location that File Explorer opens to 'This PC'",
+      "Label": "将文件资源管理器默认打开位置更改为"此电脑"",
       "Category": "File Explorer",
       "RegistryKey": "Launch_File_Explorer_To_This_PC.reg",
-      "ApplyText": "Changing the default location that File Explorer opens to, to 'This PC'",
+      "ApplyText": "正在将文件资源管理器默认打开位置更改为"此电脑"",
       "UndoLabel": "Change the default location that File Explorer opens to 'Home'",
       "ApplyUndoText": "Changing the default location that File Explorer opens to, to 'Home'",
       "RegistryUndoKey": "Launch_File_Explorer_To_Home.reg",
@@ -1212,10 +1212,10 @@
     },
     {
       "FeatureId": "ExplorerToDownloads",
-      "Label": "Change the default location that File Explorer opens to 'Downloads'",
+      "Label": "将文件资源管理器默认打开位置更改为"下载"",
       "Category": "File Explorer",
       "RegistryKey": "Launch_File_Explorer_To_Downloads.reg",
-      "ApplyText": "Changing the default location that File Explorer opens to, to 'Downloads'",
+      "ApplyText": "正在将文件资源管理器默认打开位置更改为"下载"",
       "UndoLabel": "Change the default location that File Explorer opens to 'Home'",
       "ApplyUndoText": "Changing the default location that File Explorer opens to, to 'Home'",
       "RegistryUndoKey": "Launch_File_Explorer_To_Home.reg",
@@ -1224,10 +1224,10 @@
     },
     {
       "FeatureId": "ExplorerToOneDrive",
-      "Label": "Change the default location that File Explorer opens to 'OneDrive'",
+      "Label": "将文件资源管理器默认打开位置更改为 OneDrive",
       "Category": "File Explorer",
       "RegistryKey": "Launch_File_Explorer_To_OneDrive.reg",
-      "ApplyText": "Changing the default location that File Explorer opens to, to 'OneDrive'",
+      "ApplyText": "正在将文件资源管理器默认打开位置更改为 OneDrive",
       "UndoLabel": "Change the default location that File Explorer opens to 'Home'",
       "ApplyUndoText": "Changing the default location that File Explorer opens to, to 'Home'",
       "RegistryUndoKey": "Launch_File_Explorer_To_Home.reg",
@@ -1236,13 +1236,13 @@
     },
     {
       "FeatureId": "ShowKnownFileExt",
-      "Label": "Show file extensions for known file types",
+      "Label": "显示已知文件类型的文件扩展名",
       "ToolTip": "This will show file extensions for known file types. By default, Windows hides file extensions for known file types which can lead to confusion and security risks.",
       "Category": "File Explorer",
       "Priority": 2,
       "RegistryKey": "Show_Extensions_For_Known_File_Types.reg",
       "ApplyText": "Enabling file extensions for known file types",
-      "UndoLabel": "Hide file extensions for known file types",
+      "UndoLabel": "隐藏已知文件类型的文件扩展名",
       "ApplyUndoText": "Disabling file extensions for known file types",
       "RegistryUndoKey": "Hide_Extensions_For_Known_File_Types.reg",
       "MinVersion": null,
@@ -1306,26 +1306,26 @@
     },
     {
       "FeatureId": "DisableTransparency",
-      "Label": "Disable transparency effects",
+      "Label": "禁用透明效果",
       "ToolTip": "This will disable transparency effects on Windows and interfaces. Which can help improve performance on older hardware.",
       "Category": "Appearance",
       "RegistryKey": "Disable_Transparency.reg",
-      "ApplyText": "Disabling transparency effects",
-      "UndoLabel": "Enable transparency effects",
-      "ApplyUndoText": "Enabling transparency effects",
+      "ApplyText": "正在禁用透明效果",
+      "UndoLabel": "启用透明效果",
+      "ApplyUndoText": "正在启用透明效果",
       "RegistryUndoKey": "Enable_Transparency.reg",
       "MinVersion": null,
       "MaxVersion": null
     },
     {
       "FeatureId": "DisableAnimations",
-      "Label": "Disable animations and visual effects",
+      "Label": "禁用动画和视觉效果",
       "ToolTip": "This will disable animations and some visual effects in Windows, which can make the interface feel snappier, especially on older hardware.",
       "Category": "Appearance",
       "RegistryKey": "Disable_Animations.reg",
-      "ApplyText": "Disabling animations and visual effects",
-      "UndoLabel": "Enable animations and visual effects",
-      "ApplyUndoText": "Enabling animations and visual effects",
+      "ApplyText": "正在禁用动画和视觉效果",
+      "UndoLabel": "启用动画和视觉效果",
+      "ApplyUndoText": "正在启用动画和视觉效果",
       "RegistryUndoKey": "Enable_Animations.reg",
       "RequiresReboot": true,
       "MinVersion": null,
@@ -1346,12 +1346,12 @@
     },
     {
       "FeatureId": "PreventUpdateAutoReboot",
-      "Label": "Prevent automatic restarts after updates while signed in",
+      "Label": "防止登录状态下更新后自动重启",
       "ToolTip": "This will prevent your PC from automatically restarting after updates while any user is signed in.",
       "Category": "Windows Update",
       "RegistryKey": "Prevent_Auto_Reboot.reg",
       "ApplyText": "Preventing automatic restarts after updates while signed in",
-      "UndoLabel": "Allow automatic restarts after updates while signed in",
+      "UndoLabel": "允许登录状态下更新后自动重启",
       "ApplyUndoText": "Allowing automatic restarts after updates while signed in",
       "RegistryUndoKey": "Allow_Auto_Reboot.reg",
       "MinVersion": null,
@@ -1508,13 +1508,13 @@
     },
     {
       "FeatureId": "EnableWindowsSandbox",
-      "Label": "Enable Windows Sandbox",
+      "Label": "启用 Windows 沙盒",
       "ToolTip": "Windows Sandbox is a lightweight desktop environment for safely running applications in isolation. Software installed inside the Windows Sandbox environment remains 'sandboxed' and runs separately from the host machine. Only supported on Windows 11 Pro, Workstation, and Enterprise editions.",
       "Category": "Optional Windows Features",
       "RegistryKey": null,
-      "ApplyText": "Enabling Windows Sandbox",
+      "ApplyText": "正在启用 Windows 沙盒",
       "UndoLabel": "Disable Windows Sandbox",
-      "ApplyUndoText": "Disabling Windows Sandbox",
+      "ApplyUndoText": "正在禁用 Windows 沙盒",
       "RegistryUndoKey": null,
       "RequiresReboot": true,
       "MinVersion": 22483,
@@ -1522,13 +1522,13 @@
     },
     {
       "FeatureId": "EnableWindowsSubsystemForLinux",
-      "Label": "Enable Windows Subsystem for Linux",
+      "Label": "启用适用于 Linux 的 Windows 子系统",
       "ToolTip": "Windows Subsystem for Linux allows you to run a Linux environment directly on Windows without the need for a virtual machine.",
       "Category": "Optional Windows Features",
       "RegistryKey": null,
-      "ApplyText": "Enabling Windows Subsystem for Linux",
+      "ApplyText": "正在启用适用于 Linux 的 Windows 子系统",
       "UndoLabel": "Disable Windows Subsystem for Linux",
-      "ApplyUndoText": "Disabling Windows Subsystem for Linux",
+      "ApplyUndoText": "正在禁用适用于 Linux 的 Windows 子系统",
       "RegistryUndoKey": null,
       "RequiresReboot": true,
       "MinVersion": 22000,
@@ -1536,7 +1536,7 @@
     },
     {
       "FeatureId": "ShowDriveLettersFirst",
-      "Label": "Show drive letters before drive label",
+      "Label": "驱动器号显示在标签之前",
       "ToolTip": "This setting will show drive letters before the drive label in File Explorer.",
       "Category": "File Explorer",
       "RegistryKey": "Show_Drive_Letters_First.reg",
@@ -1562,7 +1562,7 @@
     },
     {
       "FeatureId": "ShowNetworkDriveLettersFirst",
-      "Label": "Show network drive letters before drive label",
+      "Label": "网络驱动器号显示在标签之前",
       "ToolTip": "This setting will show only network drive letters before the drive label in File Explorer.",
       "Category": "File Explorer",
       "RegistryKey": "Show_Network_Drive_Letters_First.reg",
@@ -1575,7 +1575,7 @@
     },
     {
       "FeatureId": "HideDriveLetters",
-      "Label": "Hide all drive letters",
+      "Label": "隐藏所有驱动器号",
       "ToolTip": "This setting will hide all drive letters from the File Explorer navigation pane and 'This PC'.",
       "Category": "File Explorer",
       "RegistryKey": "Hide_Drive_Letters.reg",

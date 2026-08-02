@@ -1,18 +1,18 @@
-# Shows the CLI menu options and prompts the user to select one. Loops until a valid option is selected.
+﻿# 显示 CLI 菜单选项并提示用户选择。循环直到选择有效选项。
 function Show-CliMenuOptions {
-    Do { 
-        $ModeSelectionMessage = "Please select an option (1/2)" 
+    Do {
+        $ModeSelectionMessage = "请选择一个选项 (1/2)"
 
-        Write-CliHeader 'Menu'
+        Write-CliHeader '菜单'
 
-        Write-Host "(1) Default mode: Quickly apply the recommended changes"
-        Write-Host "(2) App removal mode: Select & remove apps, without making other changes"
+        Write-Host "(1) 默认模式：快速应用推荐的更改"
+        Write-Host "(2) 应用移除模式：选择并移除应用，不进行其他更改"
 
-        # Only show this option if SavedSettings file exists
+        # 仅当存在已保存设置文件时显示此选项
         if (Test-Path $script:SavedSettingsFilePath) {
-            Write-Host "(3) Quickly apply your last used settings"
-            
-            $ModeSelectionMessage = "Please select an option (1/2/3)" 
+            Write-Host "(3) 快速应用上次使用的设置"
+
+            $ModeSelectionMessage = "请选择一个选项 (1/2/3)"
         }
 
         Write-Host ""

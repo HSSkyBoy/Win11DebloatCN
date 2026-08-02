@@ -1,10 +1,10 @@
-function Invoke-SystemRestorePoint {
+﻿function Invoke-SystemRestorePoint {
     $SysRestore = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" -Name "RPSessionInterval"
     $failed = $false
 
     if ($SysRestore.RPSessionInterval -eq 0) {
         # In GUI mode, skip the prompt and just try to enable it
-        if ($script:GuiWindow -or $Silent -or $( Read-Host -Prompt "System restore is disabled, would you like to enable it and create a restore point? (y/n)") -eq 'y') {
+        if ($script:GuiWindow -or $Silent -or $( Read-Host -Prompt "系统还原已禁用，是否要启用它并创建还原点？(y/n)") -eq 'y') {
             try {
                 $enableResult = Invoke-NonBlocking -TimeoutSeconds 90 -ScriptBlock {
                     try {
@@ -12,12 +12,12 @@ function Invoke-SystemRestorePoint {
                         return $null
                     }
                     catch {
-                        return "Error: Failed to enable System Restore: $_"
+                        return "错误：启用系统还原失败：$_"
                     }
                 }
             }
             catch {
-                $enableResult = "Error: Failed to enable System Restore: $_"
+                $enableResult = "错误：启用系统还原失败：$_"
             }
 
             if ($enableResult) {
@@ -38,25 +38,25 @@ function Invoke-SystemRestorePoint {
                     $recentRestorePoints = Get-ComputerRestorePoint | Where-Object { (Get-Date) - [System.Management.ManagementDateTimeConverter]::ToDateTime($_.CreationTime) -le (New-TimeSpan -Hours 24) }
                 }
                 catch {
-                    return [PSCustomObject]@{ Success = $false; Message = "Error: Unable to retrieve existing restore points: $_" }
+                    return [PSCustomObject]@{ Success = $false; Message = "错误：无法检索现有还原点：$_" }
                 }
 
                 if ($recentRestorePoints.Count -eq 0) {
                     try {
-                        Checkpoint-Computer -Description "Restore point created by Win11Debloat" -RestorePointType "MODIFY_SETTINGS"
-                        return [PSCustomObject]@{ Success = $true; Message = "System restore point created successfully" }
+                        Checkpoint-Computer -Description "由 Win11Debloat 创建的还原点" -RestorePointType "MODIFY_SETTINGS"
+                        return [PSCustomObject]@{ Success = $true; Message = "系统还原点创建成功" }
                     }
                     catch {
-                        return [PSCustomObject]@{ Success = $false; Message = "Error: Unable to create restore point: $_" }
+                        return [PSCustomObject]@{ Success = $false; Message = "错误：无法创建还原点：$_" }
                     }
                 }
                 else {
-                    return [PSCustomObject]@{ Success = $true; Message = "A recent restore point already exists, no new restore point was created" }
+                    return [PSCustomObject]@{ Success = $true; Message = "已存在最近的还原点，未创建新的还原点" }
                 }
             }
         }
         catch {
-            $result = [PSCustomObject]@{ Success = $false; Message = "Error: Failed to create system restore point: $_" }
+            $result = [PSCustomObject]@{ Success = $false; Message = "错误：创建系统还原点失败：$_" }
         }
 
         if ($result -and $result.Success) {
@@ -67,7 +67,7 @@ function Invoke-SystemRestorePoint {
             $failed = $true
         }
         else {
-            Write-Host "Error: Failed to create system restore point" -ForegroundColor Red
+            Write-Host "错误：创建系统还原点失败" -ForegroundColor Red
             $failed = $true
         }
     }
@@ -75,7 +75,7 @@ function Invoke-SystemRestorePoint {
     # Ensure that the user is aware if creating a restore point failed, and give them the option to continue without a restore point or cancel the script
     if ($failed) {
         if ($script:GuiWindow) {
-            $result = Show-MessageBox "Failed to create a system restore point. Do you want to continue without a restore point?" "Restore Point Creation Failed" "YesNo" "Warning"
+            $result = Show-MessageBox "创建系统还原点失败。是否要在没有还原点的情况下继续？" "创建还原点失败" "YesNo" "Warning"
 
             if ($result -ne "Yes") {
                 $script:CancelRequested = $true
@@ -83,13 +83,13 @@ function Invoke-SystemRestorePoint {
             }
         }
         elseif (-not $Silent) {
-            Write-Host "Failed to create a system restore point. Do you want to continue without a restore point? (y/n)" -ForegroundColor Yellow
+            Write-Host "创建系统还原点失败。是否要在没有还原点的情况下继续？(y/n)" -ForegroundColor Yellow
             if ($( Read-Host ) -ne 'y') {
                 $script:CancelRequested = $true
                 return
             }
         }
 
-        Write-Host "Warning: Continuing without restore point" -ForegroundColor Yellow
+        Write-Host "警告：在没有还原点的情况下继续" -ForegroundColor Yellow
     }
 }

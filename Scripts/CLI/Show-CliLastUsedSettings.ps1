@@ -1,20 +1,20 @@
-# Shows the CLI last used settings from LastUsedSettings.json file, displays pending changes and prompts the user to apply them.
+﻿# 显示 CLI 上次使用的设置，展示待处理的更改并提示用户应用。
 function Show-CliLastUsedSettings {
-    Write-CliHeader 'Custom Mode'
+    Write-CliHeader '自定义模式'
 
     try {
         Import-Settings -filePath $script:SavedSettingsFilePath -expectedVersion "1.0"
     }
     catch {
-        Write-Error "Failed to load settings from LastUsedSettings.json file: $_"
+        Write-Error "无法加载 LastUsedSettings.json 文件中的设置：$_"
         Wait-ForKeyPress
     }
 
     if ($Silent) {
-        # Skip change summary and confirmation prompt
+        # 跳过更改摘要和确认提示
         return
     }
 
     Write-PendingChanges
-    Write-CliHeader 'Custom Mode'
+    Write-CliHeader '自定义模式'
 }

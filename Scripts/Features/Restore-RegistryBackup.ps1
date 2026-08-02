@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Loads a registry backup from a JSON file and normalizes its contents.
 
@@ -21,14 +21,14 @@ function Import-RegistryBackup {
     )
 
     if (-not (Test-Path -LiteralPath $FilePath)) {
-        throw "Backup file was not found: $FilePath"
+        throw "未找到备份文件：$FilePath"
     }
 
     try {
         $rawBackup = Get-Content -LiteralPath $FilePath -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop
     }
     catch {
-        throw "Failed to read backup file '$FilePath'. The file is not valid JSON."
+        throw "读取备份文件 '$FilePath' 失败。该文件不是有效的 JSON。"
     }
 
     return ConvertTo-NormalizedRegistryBackup -Backup $rawBackup
@@ -61,22 +61,22 @@ function ConvertTo-NormalizedRegistryBackup {
     $errors = New-Object System.Collections.Generic.List[string]
 
     if (-not $Backup.PSObject.Properties['Version']) {
-        $errors.Add('Missing property: Version')
+        $errors.Add('缺少属性：Version')
     }
     elseif ([string]$Backup.Version -ne '1.0') {
-        $errors.Add("Unsupported backup version '$($Backup.Version)'.")
+        $errors.Add("不支持的备份版本 '$($Backup.Version)'。")
     }
 
     if (-not $Backup.PSObject.Properties['BackupType']) {
-        $errors.Add('Missing property: BackupType')
+        $errors.Add('缺少属性：BackupType')
     }
     elseif ([string]$Backup.BackupType -ne 'RegistryState') {
-        $errors.Add("Unsupported BackupType '$($Backup.BackupType)'.")
+        $errors.Add("不支持的 BackupType '$($Backup.BackupType)'。")
     }
 
     $normalizedTarget = ''
     if (-not $Backup.PSObject.Properties['Target'] -or [string]::IsNullOrWhiteSpace([string]$Backup.Target)) {
-        $errors.Add('Missing property: Target')
+        $errors.Add('缺少属性：Target')
     }
     else {
         $normalizedTarget = [string]$Backup.Target
@@ -88,27 +88,27 @@ function ConvertTo-NormalizedRegistryBackup {
             $targetUserName = $normalizedTarget.Substring(5)
             $targetValidation = Test-TargetUserName -UserName $targetUserName
             if (-not $targetValidation.IsValid) {
-                $errors.Add("Invalid user '$normalizedTarget'")
+                $errors.Add("无效的用户 '$normalizedTarget'")
             }
         }
         elseif ($normalizedTarget -like 'CurrentUser:*') {
             $targetCurrentUserName = $normalizedTarget.Substring(12)
             if (Test-RunningAsSystem) {
-                $errors.Add("Backup was made for '$targetCurrentUserName' and is user-scoped. Re-run as that user; SYSTEM cannot restore a CurrentUser backup.")
+                $errors.Add("备份是为 '$targetCurrentUserName' 创建且作用域限定为该用户。请以该用户身份重新运行；SYSTEM 无法还原 CurrentUser 备份。")
             }
             elseif ([string]::IsNullOrWhiteSpace($targetCurrentUserName) -or
                 -not (Test-UserNameMatch -UserNameA $targetCurrentUserName -UserNameB $env:USERNAME)) {
-                 $errors.Add("Backup was made for '$targetCurrentUserName', this does not match current user '$env:USERNAME'.")
+                 $errors.Add("备份是为 '$targetCurrentUserName' 创建的，这与当前用户 '$env:USERNAME' 不匹配。")
             }
         }
         else {
-            $errors.Add("Unsupported Target '$normalizedTarget'.")
+            $errors.Add("不支持的目标 '$normalizedTarget'。")
         }
     }
 
     $registryKeys = @()
     if (-not $Backup.PSObject.Properties['RegistryKeys']) {
-        $errors.Add('Missing property: RegistryKeys')
+        $errors.Add('缺少属性：RegistryKeys')
     }
     else {
         $registryKeys = @($Backup.RegistryKeys)
@@ -133,7 +133,7 @@ function ConvertTo-NormalizedRegistryBackup {
 
     $allSelectedFeatures = @($selectedFeatures) + @($selectedUndoFeatures)
     if ($allSelectedFeatures.Count -eq 0) {
-        $errors.Add('Backup must contain at least one feature ID in SelectedFeatures or SelectedUndoFeatures.')
+        $errors.Add('备份必须至少包含一个位于 SelectedFeatures 或 SelectedUndoFeatures 中的功能 ID。')
     }
     else {
         try {
@@ -143,17 +143,17 @@ function ConvertTo-NormalizedRegistryBackup {
             }
         }
         catch {
-            $errors.Add("Failed to validate backup: $($_.Exception.Message)")
+            $errors.Add("验证备份失败：$($_.Exception.Message)")
         }
     }
 
     if ($errors.Count -gt 0) {
-        Write-Error "Backup validation failed: $($errors -join ' ')"
+        Write-Error "备份验证失败：$($errors -join ' ')"
         if ($errors.Count -eq 1) {
-            throw ("Validation failed: $($errors[0])")
+            throw ("验证失败：$($errors[0])")
         }
         else {
-            throw ("Validation failed with $($errors.Count) errors. See console output for details.")
+            throw ("验证失败，共 $($errors.Count) 个错误。有关详细信息，请查看控制台输出。")
         }
     }
 
@@ -196,29 +196,29 @@ function Restore-RegistryBackupState {
     $friendlyTarget = Get-FriendlyRegistryBackupTarget -Target ([string]$Backup.Target)
 
     if ($script:Params.ContainsKey("WhatIf")) {
-        Write-Host "[WhatIf] Restore registry backup for $friendlyTarget" -ForegroundColor Cyan
+        Write-Host "[WhatIf] 为 $friendlyTarget 还原 registry 备份" -ForegroundColor Cyan
         return [PSCustomObject]@{ Result = $true }
     }
 
     $restoreAction = {
         param($normalizedBackup)
 
-        Write-Host "Applying registry restore from $(@($normalizedBackup.RegistryKeys).Count) root snapshot(s)."
+        Write-Host "正在从 $(@($normalizedBackup.RegistryKeys).Count) 个根快照应用 registry 还原。"
         foreach ($rootSnapshot in @($normalizedBackup.RegistryKeys)) {
             Restore-RegistryKeySnapshot -Snapshot $rootSnapshot
         }
     }
 
-    Write-Host "Starting restore for $friendlyTarget."
+    Write-Host "正在为 $friendlyTarget 开始还原。"
 
     if ($Backup.Target -eq 'DefaultUserProfile' -or $Backup.Target -like 'User:*') {
-        Write-Host "Restore requires loading target user hive."
+        Write-Host "还原需要加载目标用户配置单元。"
         Invoke-WithLoadedRestoreHive -Target $Backup.Target -ScriptBlock $restoreAction -ArgumentObject $Backup
-        Write-Host "Restore completed for $friendlyTarget."
+        Write-Host "已为 $friendlyTarget 完成还原。"
         return [PSCustomObject]@{ Result = $true }
     }
 
     & $restoreAction $Backup
-    Write-Host "Restore completed for $friendlyTarget."
+    Write-Host "已为 $friendlyTarget 完成还原。"
     return [PSCustomObject]@{ Result = $true }
 }

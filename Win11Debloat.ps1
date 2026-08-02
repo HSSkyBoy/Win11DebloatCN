@@ -1,4 +1,4 @@
-[CmdletBinding(SupportsShouldProcess)]
+﻿[CmdletBinding(SupportsShouldProcess)]
 param (
     [switch]$CLI,
     [switch]$Silent,
@@ -108,9 +108,9 @@ param (
 # Appx module fails with "Operation is not supported on this platform" (0x80131539). Without this guard
 # the run continues and silently fails to remove any apps while still reporting success. See issue #675.
 if ($PSVersionTable.PSEdition -eq 'Core') {
-    Write-Host "Win11Debloat requires Windows PowerShell 5.1, but it is running under PowerShell $($PSVersionTable.PSVersion) (pwsh / Core edition)." -ForegroundColor Red
-    Write-Host "App removal and system restore points rely on modules that are not available in PowerShell 7, so the run cannot complete correctly here." -ForegroundColor Red
-    Write-Host "Please re-run this script with Windows PowerShell instead (powershell.exe)." -ForegroundColor Yellow
+    Write-Host "Win11Debloat 需要 Windows PowerShell 5.1，但当前运行在 PowerShell $($PSVersionTable.PSVersion)（pwsh / Core 版本）下。" -ForegroundColor Red
+    Write-Host "应用移除和系统还原点依赖的模块在 PowerShell 7 中不可用，因此脚本无法在此正确完成运行。" -ForegroundColor Red
+    Write-Host "请使用 Windows PowerShell（powershell.exe）重新运行此脚本。" -ForegroundColor Yellow
     exit 1
 }
 
@@ -121,9 +121,9 @@ $isAdmin = ([Security.Principal.WindowsPrincipal] `
 
 # If script is not running as administrator ask user if they want to allow it
 if (-not $isAdmin) {
-    Write-Host "Win11Debloat must be run as Administrator." -ForegroundColor Red
+    Write-Host "Win11Debloat 必须以管理员身份运行。" -ForegroundColor Red
 
-    $choice = Read-Host "Restart as Administrator? (y/n)"
+    $choice = Read-Host "是否以管理员身份重新启动？(y/n)"
 
     if ($choice -match '^[Yy]$') {
         # Win32-safe escaping for arguments to pass to elevated process
@@ -161,7 +161,7 @@ if (-not $isAdmin) {
 }
 
 # Define script-level variables & paths
-$script:Version = "2026.07.11"
+$script:Version = "2026.08.02"
 $configPath = Join-Path $PSScriptRoot 'Config'
 $logsPath = Join-Path $PSScriptRoot 'Logs'
 $schemasPath = Join-Path $PSScriptRoot 'Schemas'
@@ -197,8 +197,8 @@ $script:ApplySubStepCallback = $null
 
 # Check if current powershell environment is limited by security policies
 if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage") {
-    Write-Error "Win11Debloat is unable to run on your system, powershell execution is restricted by security policies"
-    Write-Output "Press any key to exit..."
+    Write-Error "Win11Debloat 无法在您的系统上运行，PowerShell 执行受到安全策略限制"
+    Write-Output "按任意键退出..."
     $null = [System.Console]::ReadKey()
     Exit
 }
@@ -209,7 +209,7 @@ Clear-Host
 $system32Path = "$env:SystemRoot\System32"
 if ($env:PATH -notmatch "(?i)(^|;)$([regex]::Escape($system32Path))(?=;|$)") {
     $env:PATH = "$env:SystemRoot\System32;$env:SystemRoot;" + $env:PATH
-    Write-Warning "System32 path was missing from PATH environment variable, it has been added for this session."
+    Write-Warning "System32 路径在 PATH 环境变量中缺失，已为此会话添加。"
 }
 
 # Display ASCII art launch logo in CLI
@@ -230,8 +230,8 @@ Write-Host "                   " -NoNewline; Write-Host "  |  " -ForegroundColor
 Write-Host "                   " -NoNewline; Write-Host "    (" -ForegroundColor Yellow -NoNewline; Write-Host "'''" -ForegroundColor Red -NoNewline; Write-Host ") " -ForegroundColor Yellow -NoNewline; Write-Host "   *  *" -ForegroundColor DarkYellow
 Write-Host "                   " -NoNewline; Write-Host "    ( " -ForegroundColor DarkYellow -NoNewline; Write-Host "'" -ForegroundColor Red -NoNewline; Write-Host " )   " -ForegroundColor DarkYellow -NoNewline; Write-Host "*" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "             Win11Debloat is launching..." -ForegroundColor White
-Write-Host "                Keep this window open" -ForegroundColor DarkGray
+Write-Host "             Win11Debloat 正在启动..." -ForegroundColor White
+Write-Host "                请保持此窗口打开" -ForegroundColor DarkGray
 Write-Host ""
 Write-Host ""
 
@@ -247,16 +247,16 @@ else {
 try {
     $computerSystem = Get-CimInstance Win32_ComputerSystem -ErrorAction SilentlyContinue
     if ($null -ne $computerSystem -and $computerSystem.PartOfDomain) {
-        Write-Warning "This machine is domain-joined. Group Policy may override changes made by Win11Debloat."
+        Write-Warning "此计算机已加入域。组策略可能会覆盖 Win11Debloat 所做的更改。"
     }
 }
 catch { }
 
 # Check if script has all required files
 if (-not ((Test-Path $script:DefaultSettingsFilePath) -and (Test-Path $script:AppsListFilePath) -and (Test-Path $script:RegfilesPath) -and (Test-Path $script:AssetsPath) -and (Test-Path $script:AppSelectionSchema) -and (Test-Path $script:ApplyChangesWindowSchema) -and (Test-Path $script:SharedStylesSchema) -and (Test-Path $script:BubbleHintSchema) -and (Test-Path $script:RestoreBackupWindowSchema) -and (Test-Path $script:FeaturesFilePath))) {
-    Write-Error "Win11Debloat is unable to find required files, please ensure all script files are present"
+    Write-Error "Win11Debloat 找不到必需的文件，请确保所有脚本文件均已存在"
     Write-Output ""
-    Write-Output "Press any key to exit..."
+    Write-Output "按任意键退出..."
     $null = [System.Console]::ReadKey()
     Exit
 }
@@ -267,16 +267,16 @@ try {
     $featuresData = Get-Content -Path $script:FeaturesFilePath -Raw | ConvertFrom-Json
     foreach ($feature in $featuresData.Features) {
         if ([string]::IsNullOrWhiteSpace([string]$feature.FeatureId) -or [string]::IsNullOrWhiteSpace([string]$feature.Label) -or [string]::IsNullOrWhiteSpace([string]$feature.ApplyText)) {
-            Write-Warning "Feature '$($feature.FeatureId)' is missing a FeatureId, Label, or ApplyText in Features.json and will be skipped."
+            Write-Warning "功能 '$($feature.FeatureId)' 在 Features.json 中缺少 FeatureId、Label 或 ApplyText，将被跳过。"
             continue
         }
         $script:Features[$feature.FeatureId] = $feature
     }
 }
 catch {
-    Write-Error "Failed to load feature info from Features.json file"
+    Write-Error "无法加载 Features.json 文件中的功能信息"
     Write-Output ""
-    Write-Output "Press any key to exit..."
+    Write-Output "按任意键退出..."
     $null = [System.Console]::ReadKey()
     Exit
 }
@@ -291,15 +291,15 @@ try {
     }
 }
 catch {
-    Write-Error "Unable to determine if WinGet is installed, winget command failed: $_"
+    Write-Error "无法确定 WinGet 是否已安装，winget 命令执行失败：$_"
     $script:WingetInstalled = $false
 }
 
 # Show WinGet warning that requires user confirmation, Suppress confirmation if Silent parameter was passed
 if (-not $script:WingetInstalled -and -not $Silent) {
-    Write-Warning "WinGet is not installed or outdated, this may prevent Win11Debloat from removing certain apps"
+    Write-Warning "WinGet 未安装或版本过旧，这可能会导致 Win11Debloat 无法移除某些应用"
     Write-Output ""
-    Write-Output "Press any key to continue anyway..."
+    Write-Output "按任意键继续..."
     $null = [System.Console]::ReadKey()
 }
 
@@ -437,9 +437,9 @@ if (-not ($script:Params.ContainsKey("Verbose"))) {
     $ProgressPreference = 'SilentlyContinue'
 }
 else {
-    Write-Host "Verbose mode is enabled"
+    Write-Host "已启用详细模式"
     Write-Output ""
-    Write-Output "Press any key to continue..."
+    Write-Output "按任意键继续..."
     $null = [System.Console]::ReadKey()
 
     $ProgressPreference = 'Continue'
@@ -450,7 +450,7 @@ if ($script:Params.ContainsKey("Sysprep")) {
 
     # Exit script if run in Sysprep mode on Windows 10
     if ($WinVersion -lt 22000) {
-        Write-Error "Win11Debloat Sysprep mode is not supported on Windows 10"
+        Write-Error "Windows 10 不支持 Win11Debloat 的 Sysprep 模式"
         Wait-ForKeyPress
     }
 }
@@ -482,8 +482,8 @@ if ((-not $script:Params.Count) -or $RunDefaults -or $RunDefaultsLite -or $RunSa
     }
     elseif ($RunSavedSettings) {
         if (-not (Test-Path $script:SavedSettingsFilePath)) {
-            Write-CliHeader 'Custom Mode'
-            Write-Error "Unable to find LastUsedSettings.json file, no changes were made"
+            Write-CliHeader '自定义模式'
+            Write-Error "找不到 LastUsedSettings.json 文件，未进行任何更改"
             Wait-ForKeyPress
         }
 
@@ -499,9 +499,9 @@ if ((-not $script:Params.Count) -or $RunDefaults -or $RunDefaultsLite -or $RunSa
         }
 
         if (-not $Silent) {
-            Write-CliHeader 'Custom Mode'
+            Write-CliHeader '自定义模式'
             Write-PendingChanges
-            Write-CliHeader 'Custom Mode'
+            Write-CliHeader '自定义模式'
         }
     }
     else {
@@ -520,10 +520,10 @@ if ((-not $script:Params.Count) -or $RunDefaults -or $RunDefaultsLite -or $RunSa
                 Exit
             }
             catch {
-                Write-Warning "Unable to load WPF GUI (not supported in this environment), falling back to CLI mode"
+                Write-Warning "无法加载 WPF 图形界面（当前环境不支持），将回退到命令行模式"
                 if (-not $Silent) {
                     Write-Host ""
-                    Write-Host "Press any key to continue..."
+                    Write-Host "按任意键继续..."
                     $null = [System.Console]::ReadKey()
                 }
 
@@ -551,13 +551,13 @@ if ((-not $script:Params.Count) -or $RunDefaults -or $RunDefaultsLite -or $RunSa
     }
 }
 else {
-    Write-CliHeader 'Configuration'
+    Write-CliHeader '配置'
 }
 
 # If the number of keys in ControlParams equals the number of keys in Params then no modifications/changes were selected
 #  or added by the user, and the script can exit without making any changes.
 if (($controlParamsCount -eq $script:Params.Keys.Count) -or ($script:Params.Keys.Count -eq 1 -and ($script:Params.Keys -contains 'CreateRestorePoint' -or $script:Params.Keys -contains 'Apps'))) {
-    Write-Output "The script completed without making any changes."
+    Write-Output "脚本已完成，未进行任何更改。"
     Wait-ForKeyPress
 }
 
@@ -566,7 +566,7 @@ if (($controlParamsCount -eq $script:Params.Keys.Count) -or ($script:Params.Keys
 Invoke-AllChanges
 
 if ($script:CancelRequested) {
-    Write-Warning "Script execution was cancelled by the user. Any remaining changes were not applied."
+    Write-Warning "脚本执行已被用户取消。其余更改未应用。"
     Wait-ForKeyPress
 }
 
@@ -578,6 +578,6 @@ if (-not ($script:Params.ContainsKey("Sysprep") -or $script:Params.ContainsKey("
 Write-Output ""
 Write-Output ""
 Write-Output ""
-Write-Output "Script completed! Please check above for any errors."
+Write-Output "脚本已完成！请检查上方是否有错误。"
 
 Wait-ForKeyPress

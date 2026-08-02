@@ -1,4 +1,4 @@
-<#
+﻿<#
     .SYNOPSIS
         Applies a single feature/debloat operation.
 
@@ -44,16 +44,16 @@ function Invoke-FeatureApply {
     # ---- Custom features (no registry backing, or special handling required) ----
     switch ($FeatureId) {
         'RemoveApps' {
-            Write-Host "> $applyText for $(Get-FriendlyTargetUserName)..."
+            Write-Host "> $applyText 为 $(Get-FriendlyTargetUserName)..."
             $appsList = Generate-AppsList
 
             if ($appsList.Count -eq 0) {
-                Write-Host "No valid apps were selected for removal" -ForegroundColor Yellow
+                Write-Host "未选择要移除的有效应用" -ForegroundColor Yellow
                 Write-Host ""
                 return
             }
 
-            Write-Host "$($appsList.Count) apps selected for removal"
+            Write-Host "已选择 $($appsList.Count) 个应用进行移除"
             Remove-SelectedApps $appsList
             return
         }
@@ -93,7 +93,7 @@ function Invoke-FeatureApply {
             return
         }
         'ClearStart' {
-            Write-Host "> $applyText for user $(Get-UserName)..."
+            Write-Host "> $applyText 为用户 $(Get-UserName)..."
             $startMenuBinFile = Get-StartMenuBinPathForUser -UserName (Get-UserName)
             if (-not [string]::IsNullOrWhiteSpace($startMenuBinFile)) {
                 Replace-StartMenu -startMenuBinFile $startMenuBinFile
@@ -102,7 +102,7 @@ function Invoke-FeatureApply {
             return
         }
         'ReplaceStart' {
-            Write-Host "> $applyText for user $(Get-UserName)..."
+            Write-Host "> $applyText 为用户 $(Get-UserName)..."
             $startMenuBinFile = Get-StartMenuBinPathForUser -UserName (Get-UserName)
             if (-not [string]::IsNullOrWhiteSpace($startMenuBinFile)) {
                 Replace-StartMenu -startMenuBinFile $startMenuBinFile -startMenuTemplate $script:Params.Item("ReplaceStart")
@@ -120,13 +120,13 @@ function Invoke-FeatureApply {
         }
         'DisableStoreSearchSuggestions' {
             if ($script:Params.ContainsKey("Sysprep")) {
-                Write-Host "> Disabling Microsoft Store search suggestions in the start menu for all users..."
+                Write-Host "> 正在为所有用户禁用开始菜单中的 Microsoft Store 搜索建议..."
                 Set-StoreSearchSuggestionsDisabledForAllUsers
                 Write-Host ""
                 return
             }
 
-            Write-Host "> Disabling Microsoft Store search suggestions for user $(Get-UserName)..."
+            Write-Host "> 正在为用户 $(Get-UserName) 禁用 Microsoft Store 搜索建议..."
             $storeDb = Get-StoreAppsDatabasePathForUser -UserName (Get-UserName)
             if ($storeDb) {
                 Set-StoreSearchSuggestionsDisabled -StoreAppsDatabase $storeDb
@@ -158,13 +158,13 @@ function Invoke-FeatureUndo {
     switch ($FeatureId) {
         'DisableStoreSearchSuggestions' {
             if ($script:Params.ContainsKey('Sysprep')) {
-                Write-Host "> Re-enabling Microsoft Store search suggestions in the start menu for all users..."
+                Write-Host "> 正在为所有用户重新启用开始菜单中的 Microsoft Store 搜索建议..."
                 Set-StoreSearchSuggestionsEnabledForAllUsers
                 Write-Host ""
                 return
             }
 
-            Write-Host "> Re-enabling Microsoft Store search suggestions for user $(Get-UserName)..."
+            Write-Host "> 正在为用户 $(Get-UserName) 重新启用 Microsoft Store 搜索建议..."
             $storeDb = Get-StoreAppsDatabasePathForUser -UserName (Get-UserName)
             if ($storeDb) {
                 Set-StoreSearchSuggestionsEnabled -StoreAppsDatabase $storeDb
@@ -316,7 +316,7 @@ function Invoke-AllChanges {
     # Guard: prevent running as SYSTEM account without explicit target user
     $isSystem = Test-RunningAsSystem
     if ($isSystem -and -not $script:Params.ContainsKey("User") -and -not $script:Params.ContainsKey("Sysprep")) {
-        throw "Win11Debloat is running as the SYSTEM account. Use the '-User' or '-Sysprep' parameter to target a specific user."
+        throw "Win11Debloat 正在以 SYSTEM 账户运行。请使用 '-User' 或 '-Sysprep' 参数来指定目标用户。"
     }
 
     $script:RegistryImportFailures = 0
@@ -360,11 +360,11 @@ function Invoke-AllChanges {
         if ($script:CancelRequested) { return }
         $step++
         if ($script:ApplyProgressCallback) {
-            & $script:ApplyProgressCallback $step $totalSteps "Creating registry backup..."
+            & $script:ApplyProgressCallback $step $totalSteps "正在创建 registry 备份..."
         }
 
         if ($script:Params.ContainsKey("WhatIf")) {
-            Write-Host "[WhatIf] Create registry backup" -ForegroundColor Cyan
+            Write-Host "[WhatIf] 创建 registry 备份" -ForegroundColor Cyan
         }
         else {
             Write-Host "> Creating registry backup..."
@@ -378,7 +378,7 @@ function Invoke-AllChanges {
                 New-RegistrySettingsBackup -ActionableKeys $applyIds -ExtraFeatures $undoSyntheticFeatures | Out-Null
             }
             catch {
-                throw "Registry backup failed before applying changes. $($_.Exception.Message)"
+                throw "应用更改前 registry 备份失败。$($_.Exception.Message)"
             }
         }
     }
@@ -390,14 +390,14 @@ function Invoke-AllChanges {
         if ($script:CancelRequested) { return }
         $step++
         if ($script:ApplyProgressCallback) {
-            & $script:ApplyProgressCallback $step $totalSteps "Creating system restore point, this may take a moment..."
+            & $script:ApplyProgressCallback $step $totalSteps "正在创建系统还原点，这可能需要一些时间..."
         }
         if ($script:Params.ContainsKey("WhatIf")) {
-            Write-Host "[WhatIf] Create system restore point" -ForegroundColor Cyan
+            Write-Host "[WhatIf] 创建系统还原点" -ForegroundColor Cyan
             Write-Host ""
         }
         else {
-            Write-Host "> Creating a system restore point..."
+            Write-Host "> 正在创建系统还原点..."
             Invoke-SystemRestorePoint
             Write-Host ""
         }
@@ -426,7 +426,7 @@ function Invoke-AllChanges {
     # ================================================================
     if ($script:RegistryImportFailures -gt 0) {
         Write-Host ""
-        Write-Host "$($script:RegistryImportFailures) registry import change(s) failed. See output above for details." -ForegroundColor Yellow
+        Write-Host "$($script:RegistryImportFailures) 项 registry 导入更改失败，详情请查看上方输出。" -ForegroundColor Yellow
     }
 }
 
