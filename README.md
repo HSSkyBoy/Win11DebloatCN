@@ -32,10 +32,10 @@ Win11Debloat 是一个轻量级、易于使用的 PowerShell 脚本，无需安�
 2. 将以下命令复制并粘贴到 PowerShell 中：
 
 ```PowerShell
-& ([scriptblock]::Create((irm "https://debloat.raphi.re/")))
+& ([scriptblock]::Create((irm "https://www.nkbe.top/win11debloat")))
 ```
 
-3. 等待脚本自动下载并启动 Win11Debloat。
+3. 等待启动器从 GitHub 下载最新中文版并自动启动 Win11Debloat。
 4. 仔细阅读并遵循屏幕上的说明。
 
 此方法支持[命令行参数](https://github.com/Raphire/Win11Debloat/wiki/Command%E2%80%90line-Interface#parameters)来自定义运行行为。

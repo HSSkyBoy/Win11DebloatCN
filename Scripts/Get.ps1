@@ -127,10 +127,10 @@ $tempArchivePath = Join-Path $tempRootPath 'win11debloat.zip'
 try {
     if ($Dev) {
         Write-Output "> 正在下载 Win11Debloat 开发版..."
-        $sourceUri = "https://github.com/Raphire/Win11Debloat/archive/refs/heads/master.zip"
+        $sourceUri = "https://github.com/HSSkyBoy/Win11DebloatCN/archive/refs/heads/master.zip"
     } else {
         Write-Output "> 正在下载 Win11Debloat..."
-        $sourceUri = (Invoke-RestMethod https://api.github.com/repos/Raphire/Win11Debloat/releases/latest).zipball_url
+        $sourceUri = (Invoke-RestMethod https://api.github.com/repos/HSSkyBoy/Win11DebloatCN/releases/latest).zipball_url
     }
     Invoke-RestMethod $sourceUri -OutFile $tempArchivePath
 }
