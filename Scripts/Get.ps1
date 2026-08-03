@@ -130,7 +130,9 @@ try {
         $sourceUri = "https://github.com/HSSkyBoy/Win11DebloatCN/archive/refs/heads/master.zip"
     } else {
         Write-Output "> 正在下载 Win11Debloat..."
-        $sourceUri = (Invoke-RestMethod https://api.github.com/repos/HSSkyBoy/Win11DebloatCN/releases/latest).zipball_url
+        $latestRelease = Invoke-RestMethod https://api.github.com/repos/HSSkyBoy/Win11DebloatCN/releases/latest
+        $releaseAsset = $latestRelease.assets | Where-Object { $_.name -like 'Win11DebloatCN-*.zip' } | Select-Object -First 1
+        $sourceUri = if ($null -ne $releaseAsset) { $releaseAsset.browser_download_url } else { $latestRelease.zipball_url }
     }
     Invoke-RestMethod $sourceUri -OutFile $tempArchivePath
 }
@@ -194,15 +196,21 @@ if (Test-Path "$backupDir") {
     Remove-Item "$backupDir" -Recurse -Force
 }
 
+# Ensure the transcript directory exists before launching the GUI.
+New-Item -ItemType Directory -Path (Join-Path $tempWorkPath 'Logs') -Force | Out-Null
+
 # Make list of arguments to pass on to the script (exclude the -Dev switch, which only affects this launcher)
-$arguments = $($PSBoundParameters.GetEnumerator() | Where-Object { $_.Key -ne 'Dev' } | ForEach-Object {
-    if ($_.Value -eq $true) {
-        "-$($_.Key)"
-    } 
-    else {
-         "-$($_.Key) ""$($_.Value)"""
+$arguments = @()
+foreach ($boundParameter in $PSBoundParameters.GetEnumerator()) {
+    if ($boundParameter.Key -eq 'Dev') {
+        continue
     }
-})
+
+    $arguments += "-$($boundParameter.Key)"
+    if ($boundParameter.Value -ne $true) {
+        $arguments += [string]$boundParameter.Value
+    }
+}
 
 Write-Output ""
 Write-Output "> 正在启动 Win11Debloat..."
@@ -223,11 +231,17 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
 
 # Run Win11Debloat script with the provided arguments
 $debloatScriptPath = Join-Path $tempWorkPath 'Win11Debloat.ps1'
-$debloatProcess = Start-Process powershell.exe -WindowStyle $windowStyle -PassThru -ArgumentList "-executionpolicy bypass -File `"$debloatScriptPath`" $arguments" -Verb RunAs
+$argumentList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$debloatScriptPath`"") + $arguments
+$debloatProcess = Start-Process powershell.exe -WindowStyle $windowStyle -PassThru -ArgumentList $argumentList -Verb RunAs
 
 # Wait for the process to finish before continuing
 if ($null -ne $debloatProcess) {
     $debloatProcess.WaitForExit()
+
+    if ($debloatProcess.ExitCode -ne 0) {
+        Write-Host "错误：Win11Debloat GUI 启动失败（退出代码 $($debloatProcess.ExitCode)）。" -ForegroundColor Red
+        Write-Output "> 日志位置：$(Join-Path $tempWorkPath 'Logs/Win11Debloat.log')"
+    }
 }
 
 # Remove all remaining script files, except for configs, logs and backups
