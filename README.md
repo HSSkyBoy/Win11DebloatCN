@@ -13,7 +13,7 @@ Win11Debloat 是一个轻量级、易于使用的 PowerShell 脚本，无需安�
 
 该脚本还包含许多系统管理员和高级用户会喜欢的功能，例如强大的命令行界面、支持 Windows 审核模式以及能够为其他 Windows 用户应用更改。您还可以轻松导出和导入您的偏好设置，以便在所有系统上快速应用相同的设置。请参阅 [wiki](https://github.com/Raphire/Win11Debloat/wiki) 获取更多详细信息。
 
-![Win11Debloat 菜单](/Assets/Images/menu.png)
+![Win11Debloat 正在应用更改](https://github.com/user-attachments/assets/68083de8-ae6f-4857-8156-327d8d242048)
 
 #### 这个脚本帮到了您吗？请考虑买一杯奶茶以支持原作者的工作
 
